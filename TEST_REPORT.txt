@@ -1,16 +1,13 @@
-Cabinet Quiz – Prüfbericht
+CABINET QUIZ — ENGLISH EDITION TEST REPORT
 
-- JavaScript-Syntax von app.js geprüft: OK
-- JavaScript-Syntax von questions.js geprüft: OK
-- Fragenanzahl: 100
-- Eindeutige IDs: 100
-- Vier Antwortmöglichkeiten je Frage: geprüft
-- Gültiger Antwortindex je Frage: geprüft
-- Firebase-Regeln als JSON lesbar: OK
-- Manifest als JSON lesbar: OK
-- GitHub-Pages-Dateistruktur: OK
-- Keine externen Bilder oder Webfonts eingebunden
-- Lokale statische Auslieferung der Hauptdateien: HTTP 200
+Automated checks:
+- Question count: 100
+- Unique question IDs: verified
+- Four answer choices per question: verified
+- Valid answer index per question: verified
+- Interface text: English
+- Questions, choices, categories, and explanations: English
+- Firebase configuration: cabinet-quiz
+- Service worker cache version: v3-all-english
 
-Hinweis: Ein vollständiger Live-Multiplayer-Test benötigt die veröffentlichte
-Firebase-Konfiguration, aktivierte anonyme Anmeldung und die veröffentlichten Regeln.
+Note: A full live multiplayer test requires the published Firebase configuration, enabled anonymous sign-in, and published database rules.

@@ -447,7 +447,7 @@ function renderLobby() {
   if (isHost()) {
     els.hostHint.textContent = onlineCount > MAX_PLAYERS_RECOMMENDED
       ? "Many players are connected. Up to eight players are recommended for the smoothest game."
-      : "Du bist die Host. Starte, sobald alle bereit sind.";
+      : "You are the host. Start when everyone is ready.";
     els.lobbyStatus.textContent = `${onlineCount} player${onlineCount === 1 ? "" : "s"} connected.`;
   } else {
     const hostName = roomState.players?.[roomState.hostUid]?.name || "The host";
