@@ -1,0 +1,45 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$room": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "quizRooms": {
+      "$room": {
+        ".read": "auth != null",
+        ".write": "auth != null && ((!data.exists() && newData.child('hostUid').val() === auth.uid) || data.child('hostUid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['hostUid', 'phase', 'settings', 'players'])",
+        "hostUid": {
+          ".write": "auth != null && ((!data.exists() && newData.val() === auth.uid) || data.val() === auth.uid || ((!root.child('quizRooms').child($room).child('players').child(data.val()).exists() || root.child('quizRooms').child($room).child('players').child(data.val()).child('connected').val() === false) && newData.val() === auth.uid))",
+          ".validate": "newData.isString() && newData.val().length > 5 && newData.val().length < 160"
+        },
+        "phase": {
+          ".validate": "newData.isString() && (newData.val() === 'lobby' || newData.val() === 'question' || newData.val() === 'reveal' || newData.val() === 'roundBreak' || newData.val() === 'finished')"
+        },
+        "settings": {
+          ".validate": "newData.hasChildren(['roundCount', 'questionsPerRound', 'questionSeconds']) && newData.child('roundCount').isNumber() && newData.child('roundCount').val() >= 1 && newData.child('roundCount').val() <= 10 && newData.child('questionsPerRound').val() === 5 && newData.child('questionSeconds').val() === 20"
+        },
+        "players": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "!newData.exists() || (newData.hasChildren(['name', 'connected', 'joinedAt', 'score']) && newData.child('name').isString() && newData.child('name').val().length >= 1 && newData.child('name').val().length <= 20 && newData.child('connected').isBoolean() && newData.child('joinedAt').isNumber() && newData.child('score').isNumber() && newData.child('score').val() >= 0)"
+          }
+        },
+        "answers": {
+          "$gameId": {
+            "$questionIndex": {
+              "$uid": {
+                ".write": "auth != null && auth.uid === $uid && !data.exists()",
+                ".validate": "newData.hasChildren(['choice', 'at', 'correct']) && newData.child('choice').isNumber() && newData.child('choice').val() >= 0 && newData.child('choice').val() <= 3 && newData.child('at').isNumber() && newData.child('correct').isBoolean()"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

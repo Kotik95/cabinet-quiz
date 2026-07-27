@@ -1,0 +1,16 @@
+Cabinet Quiz – Prüfbericht
+
+- JavaScript-Syntax von app.js geprüft: OK
+- JavaScript-Syntax von questions.js geprüft: OK
+- Fragenanzahl: 100
+- Eindeutige IDs: 100
+- Vier Antwortmöglichkeiten je Frage: geprüft
+- Gültiger Antwortindex je Frage: geprüft
+- Firebase-Regeln als JSON lesbar: OK
+- Manifest als JSON lesbar: OK
+- GitHub-Pages-Dateistruktur: OK
+- Keine externen Bilder oder Webfonts eingebunden
+- Lokale statische Auslieferung der Hauptdateien: HTTP 200
+
+Hinweis: Ein vollständiger Live-Multiplayer-Test benötigt die veröffentlichte
+Firebase-Konfiguration, aktivierte anonyme Anmeldung und die veröffentlichten Regeln.
