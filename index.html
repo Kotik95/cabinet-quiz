@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Cabinet Quiz">
-  <meta name="description" content="Ein mobiles Allgemeinwissensquiz für Freunde – online per Raumlink spielbar.">
+  <meta name="description" content="A mobile general knowledge quiz for friends, playable online through a room link.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="stylesheet" href="styles.css">
@@ -20,88 +20,88 @@
     <section id="homeView" class="view home-view">
       <div class="masthead">
         <div class="ornament" aria-hidden="true">❦</div>
-        <p class="eyebrow">Das mobile Wissenskabinett</p>
+        <p class="eyebrow">The Mobile Knowledge Cabinet</p>
         <h1>Cabinet Quiz</h1>
-        <p class="subtitle">Fünf Fragen pro Runde. Spiele allein oder teile einen Raumlink mit Freunden.</p>
+        <p class="subtitle">Five questions per round. Play solo or share a room link with friends.</p>
       </div>
 
       <div class="card name-card">
-        <label for="playerName">Dein Spielername</label>
-        <input id="playerName" maxlength="20" autocomplete="nickname" placeholder="Zum Beispiel Anna">
+        <label for="playerName">Your player name</label>
+        <input id="playerName" maxlength="20" autocomplete="nickname" placeholder="For example, Alex">
       </div>
 
       <div class="home-grid">
         <article class="card action-card">
           <span class="seal" aria-hidden="true">I</span>
-          <h2>Neuen Raum eröffnen</h2>
-          <p>Du bestimmst die Rundenzahl und startest das Spiel.</p>
-          <label for="createRounds">Anzahl der Runden</label>
+          <h2>Create a New Room</h2>
+          <p>Choose the number of rounds and start the game.</p>
+          <label for="createRounds">Number of rounds</label>
           <select id="createRounds">
-            <option value="1">1 Runde · 5 Fragen</option>
-            <option value="2">2 Runden · 10 Fragen</option>
-            <option value="3" selected>3 Runden · 15 Fragen</option>
-            <option value="5">5 Runden · 25 Fragen</option>
-            <option value="10">10 Runden · 50 Fragen</option>
+            <option value="1">1 round · 5 questions</option>
+            <option value="2">2 rounds · 10 questions</option>
+            <option value="3" selected>3 rounds · 15 questions</option>
+            <option value="5">5 rounds · 25 questions</option>
+            <option value="10">10 rounds · 50 questions</option>
           </select>
-          <button id="createRoomBtn" class="primary-btn">Raum erstellen</button>
+          <button id="createRoomBtn" class="primary-btn">Create Room</button>
         </article>
 
         <article class="card action-card">
           <span class="seal" aria-hidden="true">II</span>
-          <h2>Bestehendem Raum beitreten</h2>
-          <p>Raumcode eingeben oder einfach den geteilten Link öffnen.</p>
-          <label for="roomCodeInput">Raumcode</label>
+          <h2>Join an Existing Room</h2>
+          <p>Enter the room code or open the shared link.</p>
+          <label for="roomCodeInput">Room code</label>
           <input id="roomCodeInput" maxlength="6" inputmode="text" autocapitalize="characters" placeholder="ABC123">
-          <button id="joinRoomBtn" class="secondary-btn">Raum beitreten</button>
+          <button id="joinRoomBtn" class="secondary-btn">Join Room</button>
         </article>
       </div>
 
-      <p id="homeStatus" class="status" role="status">Verbindung wird vorbereitet …</p>
+      <p id="homeStatus" class="status" role="status">Preparing connection…</p>
 
       <details class="how-to card compact-card">
-        <summary>So funktioniert das Spiel</summary>
-        <p>Alle sehen dieselbe Frage. Eine richtige Antwort bringt 100 Punkte plus bis zu 50 Zeitbonus-Punkte. Nach jeweils fünf Fragen endet eine Runde.</p>
+        <summary>How to Play</summary>
+        <p>Everyone sees the same question. A correct answer earns 100 points plus up to 50 speed-bonus points. Each round ends after five questions.</p>
       </details>
     </section>
 
     <section id="lobbyView" class="view hidden">
       <header class="top-header">
-        <button id="leaveLobbyBtn" class="icon-btn" aria-label="Raum verlassen">‹</button>
+        <button id="leaveLobbyBtn" class="icon-btn" aria-label="Leave room">‹</button>
         <div>
-          <p class="eyebrow">Warteraum</p>
-          <h1>Die Gesellschaft versammelt sich</h1>
+          <p class="eyebrow">Lobby</p>
+          <h1>The Players Are Gathering</h1>
         </div>
       </header>
 
       <div class="room-banner card">
         <div>
-          <span class="small-label">Raumcode</span>
+          <span class="small-label">Room code</span>
           <strong id="roomCodeDisplay" class="room-code">------</strong>
         </div>
-        <button id="shareRoomBtn" class="primary-btn small-btn">Link teilen</button>
+        <button id="shareRoomBtn" class="primary-btn small-btn">Share Link</button>
       </div>
 
       <div class="lobby-grid">
         <section class="card">
           <div class="section-heading">
-            <h2>Spieler</h2>
+            <h2>Players</h2>
             <span id="playerCountBadge" class="badge">0</span>
           </div>
           <div id="playersList" class="players-list"></div>
         </section>
 
         <section class="card">
-          <h2>Partie</h2>
-          <label for="lobbyRounds">Anzahl der Runden</label>
+          <h2>Game</h2>
+          <label for="lobbyRounds">Number of rounds</label>
           <select id="lobbyRounds">
-            <option value="1">1 Runde · 5 Fragen</option>
-            <option value="2">2 Runden · 10 Fragen</option>
-            <option value="3">3 Runden · 15 Fragen</option>
-            <option value="5">5 Runden · 25 Fragen</option>
-            <option value="10">10 Runden · 50 Fragen</option>
+            <option value="1">1 round · 5 questions</option>
+            <option value="2">2 rounds · 10 questions</option>
+            <option value="3">3 rounds · 15 questions</option>
+            <option value="5">5 rounds · 25 questions</option>
+            <option value="10">10 rounds · 50 questions</option>
           </select>
-          <p class="fine-print">20 Sekunden pro Frage · maximal 8 Spieler empfohlen</p>
-          <button id="startGameBtn" class="primary-btn">Spiel starten</button>
+          <p class="fine-print">20 seconds per question · up to 8 players recommended</p>
+          <button id="startGameBtn" class="primary-btn">Start Game</button>
           <p id="hostHint" class="fine-print"></p>
         </section>
       </div>
@@ -112,33 +112,33 @@
     <section id="gameView" class="view game-view hidden">
       <header class="game-header">
         <div>
-          <span id="roundLabel" class="eyebrow">Runde 1 von 3</span>
-          <strong id="questionLabel">Frage 1 von 5</strong>
+          <span id="roundLabel" class="eyebrow">Round 1 of 3</span>
+          <strong id="questionLabel">Question 1 of 5</strong>
         </div>
-        <button id="leaveGameBtn" class="icon-btn" aria-label="Spiel verlassen">×</button>
+        <button id="leaveGameBtn" class="icon-btn" aria-label="Leave game">×</button>
       </header>
 
-      <div class="timer-track" aria-label="Verbleibende Zeit">
+      <div class="timer-track" aria-label="Time remaining">
         <div id="timerBar" class="timer-bar"></div>
       </div>
 
       <section class="question-card card">
         <div class="question-meta">
-          <span id="categoryLabel" class="category-chip">Geografie</span>
+          <span id="categoryLabel" class="category-chip">Geography</span>
           <span id="timerText" class="timer-text">20</span>
         </div>
-        <h1 id="questionText">Frage wird geladen …</h1>
+        <h1 id="questionText">Loading question…</h1>
         <div id="answersGrid" class="answers-grid" aria-live="polite"></div>
         <p id="answerStatus" class="answer-status" role="status"></p>
       </section>
 
       <section class="score-strip card">
         <div>
-          <span class="small-label">Dein Punktestand</span>
+          <span class="small-label">Your score</span>
           <strong id="myScore">0</strong>
         </div>
         <div>
-          <span class="small-label">Führung</span>
+          <span class="small-label">Leader</span>
           <strong id="leaderName">–</strong>
         </div>
       </section>
@@ -147,8 +147,8 @@
     <section id="breakView" class="view hidden">
       <div class="result-wrap">
         <div class="ornament" aria-hidden="true">❦</div>
-        <p id="breakEyebrow" class="eyebrow">Runde beendet</p>
-        <h1 id="breakTitle">Zwischenstand</h1>
+        <p id="breakEyebrow" class="eyebrow">Round complete</p>
+        <h1 id="breakTitle">Standings</h1>
         <div id="breakLeaderboard" class="leaderboard card"></div>
         <p id="breakMessage" class="status"></p>
       </div>
@@ -157,12 +157,12 @@
     <section id="finalView" class="view hidden">
       <div class="result-wrap">
         <div class="ornament" aria-hidden="true">♛</div>
-        <p class="eyebrow">Die Partie ist beendet</p>
-        <h1 id="winnerTitle">Sieger</h1>
+        <p class="eyebrow">The game is over</p>
+        <h1 id="winnerTitle">Winner</h1>
         <div id="finalLeaderboard" class="leaderboard card"></div>
         <div class="final-actions">
-          <button id="playAgainBtn" class="primary-btn">Noch einmal spielen</button>
-          <button id="leaveFinalBtn" class="secondary-btn">Zum Hauptmenü</button>
+          <button id="playAgainBtn" class="primary-btn">Play Again</button>
+          <button id="leaveFinalBtn" class="secondary-btn">Main Menu</button>
         </div>
         <p id="finalHint" class="status"></p>
       </div>

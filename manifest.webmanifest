@@ -1,24 +1,16 @@
 {
-  "name": "Cabinet Quiz – Das mobile Wissenskabinett",
+  "name": "Cabinet Quiz – The Mobile Knowledge Cabinet",
   "short_name": "Cabinet Quiz",
-  "description": "Ein mobiles Allgemeinwissensquiz für Freunde.",
+  "description": "A mobile general knowledge quiz for friends.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#2d2418",
   "theme_color": "#2d2418",
-  "lang": "de",
+  "lang": "en",
   "orientation": "portrait-primary",
   "icons": [
-    {
-      "src": "icons/icon-180.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    {"src":"icons/icon-180.png","sizes":"180x180","type":"image/png"},
+    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png"}
   ]
 }

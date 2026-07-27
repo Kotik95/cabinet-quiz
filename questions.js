@@ -1,23 +1,23 @@
-// 100 eigenständig formulierte Allgemeinwissensfragen.
-// Keine Texte, Bilder oder Erklärungen wurden aus Wikipedia-Artikeln kopiert.
+// 100 original general-knowledge questions written in English.
+// No question text, images, or explanations were copied from Wikipedia articles.
 export const QUESTIONS = [
   {
     "id": "geo-01",
-    "category": "Geografie",
-    "question": "Welcher Fluss ist der längste, der vollständig innerhalb Europas verläuft?",
+    "category": "Geography",
+    "question": "Which river is the longest river located entirely within Europe?",
     "options": [
-      "Donau",
-      "Wolga",
-      "Rhein",
-      "Dnepr"
+      "Danube",
+      "Volga",
+      "Rhine",
+      "Dnieper"
     ],
     "answer": 1,
-    "explanation": "Die Wolga ist rund 3.500 Kilometer lang und fließt vollständig durch Russland."
+    "explanation": "The Volga is about 3,500 kilometers long and flows entirely through Russia."
   },
   {
     "id": "geo-02",
-    "category": "Geografie",
-    "question": "Welche Stadt ist die Hauptstadt Kanadas?",
+    "category": "Geography",
+    "question": "What is the capital city of Canada?",
     "options": [
       "Toronto",
       "Vancouver",
@@ -25,116 +25,116 @@ export const QUESTIONS = [
       "Montreal"
     ],
     "answer": 2,
-    "explanation": "Ottawa ist die Hauptstadt Kanadas; Toronto ist die größte Stadt des Landes."
+    "explanation": "Ottawa is the capital of Canada, while Toronto is the country’s largest city."
   },
   {
     "id": "geo-03",
-    "category": "Geografie",
-    "question": "Welches Land besitzt nach gängiger geografischer Zählung die meisten natürlichen Seen?",
+    "category": "Geography",
+    "question": "Which country has the greatest number of natural lakes?",
     "options": [
-      "Finnland",
-      "Kanada",
-      "Russland",
-      "Schweden"
+      "Finland",
+      "Canada",
+      "Russia",
+      "Sweden"
     ],
     "answer": 1,
-    "explanation": "Kanada besitzt mehr natürliche Seen als jedes andere Land."
+    "explanation": "Canada has more natural lakes than any other country."
   },
   {
     "id": "geo-04",
-    "category": "Geografie",
-    "question": "Welche Meerenge trennt Asien von Nordamerika?",
+    "category": "Geography",
+    "question": "Which strait separates Asia from North America?",
     "options": [
-      "Straße von Gibraltar",
-      "Beringstraße",
+      "Strait of Gibraltar",
+      "Bering Strait",
       "Bosporus",
-      "Straße von Malakka"
+      "Strait of Malacca"
     ],
     "answer": 1,
-    "explanation": "Die Beringstraße liegt zwischen Russland und Alaska."
+    "explanation": "The Bering Strait lies between Russia and Alaska."
   },
   {
     "id": "geo-05",
-    "category": "Geografie",
-    "question": "Welcher Berg ist der höchste außerhalb Asiens?",
+    "category": "Geography",
+    "question": "Which mountain is the highest outside Asia?",
     "options": [
-      "Kilimandscharo",
+      "Kilimanjaro",
       "Denali",
       "Aconcagua",
-      "Elbrus"
+      "Mount Elbrus"
     ],
     "answer": 2,
-    "explanation": "Der Aconcagua in den Anden erreicht etwa 6.961 Meter."
+    "explanation": "Aconcagua in the Andes rises to about 6,961 meters."
   },
   {
     "id": "geo-06",
-    "category": "Geografie",
-    "question": "Welches Meer liegt zwischen Nordostafrika und der Arabischen Halbinsel?",
+    "category": "Geography",
+    "question": "Which sea lies between northeastern Africa and the Arabian Peninsula?",
     "options": [
-      "Schwarzes Meer",
-      "Arabisches Meer",
-      "Rotes Meer",
-      "Kaspisches Meer"
+      "Black Sea",
+      "Arabian Sea",
+      "Red Sea",
+      "Caspian Sea"
     ],
     "answer": 2,
-    "explanation": "Das Rote Meer trennt Afrika von der Arabischen Halbinsel."
+    "explanation": "The Red Sea separates Africa from the Arabian Peninsula."
   },
   {
     "id": "geo-07",
-    "category": "Geografie",
-    "question": "Welche europäische Hauptstadt liegt am Fluss Tiber?",
+    "category": "Geography",
+    "question": "Which European capital stands on the River Tiber?",
     "options": [
       "Madrid",
-      "Rom",
-      "Lissabon",
-      "Athen"
+      "Rome",
+      "Lisbon",
+      "Athens"
     ],
     "answer": 1,
-    "explanation": "Der Tiber fließt durch Rom und mündet westlich der Stadt ins Tyrrhenische Meer."
+    "explanation": "The Tiber flows through Rome before reaching the Tyrrhenian Sea."
   },
   {
     "id": "geo-08",
-    "category": "Geografie",
-    "question": "Welcher Staat ist flächenmäßig der kleinste der Welt?",
+    "category": "Geography",
+    "question": "What is the smallest country in the world by area?",
     "options": [
       "Monaco",
       "San Marino",
-      "Vatikanstadt",
+      "Vatican City",
       "Liechtenstein"
     ],
     "answer": 2,
-    "explanation": "Vatikanstadt umfasst weniger als einen halben Quadratkilometer."
+    "explanation": "Vatican City is the world’s smallest independent state by area."
   },
   {
     "id": "geo-09",
-    "category": "Geografie",
-    "question": "In welchem Land liegt der größte Teil der Atacama-Wüste?",
+    "category": "Geography",
+    "question": "Most of the Atacama Desert lies in which country?",
     "options": [
       "Chile",
       "Peru",
-      "Argentinien",
-      "Bolivien"
+      "Bolivia",
+      "Argentina"
     ],
     "answer": 0,
-    "explanation": "Die extrem trockene Atacama liegt überwiegend im Norden Chiles."
+    "explanation": "The extremely dry Atacama Desert lies mainly in northern Chile."
   },
   {
     "id": "geo-10",
-    "category": "Geografie",
-    "question": "Welche Insel ist die größte der Erde, wenn Kontinente nicht als Inseln gezählt werden?",
+    "category": "Geography",
+    "question": "What is the world’s largest island, excluding continents?",
     "options": [
-      "Neuguinea",
+      "New Guinea",
       "Borneo",
-      "Madagaskar",
-      "Grönland"
+      "Madagascar",
+      "Greenland"
     ],
     "answer": 3,
-    "explanation": "Grönland ist die größte Insel; Australien wird als Kontinent eingeordnet."
+    "explanation": "Greenland is the largest island; Australia is classified as a continent."
   },
   {
     "id": "his-01",
-    "category": "Geschichte",
-    "question": "In welchem Jahr wurde die Magna Carta in England erstmals besiegelt?",
+    "category": "History",
+    "question": "In what year was the Magna Carta first sealed in England?",
     "options": [
       "1066",
       "1215",
@@ -142,25 +142,25 @@ export const QUESTIONS = [
       "1648"
     ],
     "answer": 1,
-    "explanation": "König Johann besiegelte die Magna Carta im Jahr 1215."
+    "explanation": "King John sealed the Magna Carta in 1215."
   },
   {
     "id": "his-02",
-    "category": "Geschichte",
-    "question": "Welche antike Stadt wurde beim Ausbruch des Vesuvs im Jahr 79 verschüttet?",
+    "category": "History",
+    "question": "Which ancient city was buried by the eruption of Mount Vesuvius in AD 79?",
     "options": [
-      "Pompeji",
+      "Pompeii",
       "Sparta",
-      "Karthago",
+      "Carthage",
       "Delphi"
     ],
     "answer": 0,
-    "explanation": "Pompeji wurde von Asche und vulkanischem Material bedeckt und dadurch außergewöhnlich gut konserviert."
+    "explanation": "Pompeii was covered by ash and volcanic material, preserving much of the city."
   },
   {
     "id": "his-03",
-    "category": "Geschichte",
-    "question": "Wer gilt als erster römischer Kaiser?",
+    "category": "History",
+    "question": "Who is generally regarded as the first Roman emperor?",
     "options": [
       "Julius Caesar",
       "Nero",
@@ -168,64 +168,64 @@ export const QUESTIONS = [
       "Trajan"
     ],
     "answer": 2,
-    "explanation": "Octavian erhielt den Ehrentitel Augustus und begründete das römische Kaisertum."
+    "explanation": "Octavian received the title Augustus and established the Roman imperial system."
   },
   {
     "id": "his-04",
-    "category": "Geschichte",
-    "question": "Welcher Kongress ordnete Europa nach den Napoleonischen Kriegen neu?",
+    "category": "History",
+    "question": "Which congress reorganized Europe after the Napoleonic Wars?",
     "options": [
-      "Wiener Kongress",
-      "Kongress von Berlin",
-      "Westfälischer Kongress",
-      "Kongress von Verona"
+      "Congress of Vienna",
+      "Congress of Berlin",
+      "Congress of Westphalia",
+      "Congress of Verona"
     ],
     "answer": 0,
-    "explanation": "Der Wiener Kongress tagte 1814 und 1815."
+    "explanation": "The Congress of Vienna met in 1814 and 1815."
   },
   {
     "id": "his-05",
-    "category": "Geschichte",
-    "question": "Mit welcher technischen Neuerung wird Johannes Gutenberg besonders verbunden?",
+    "category": "History",
+    "question": "Which invention is Johannes Gutenberg most closely associated with?",
     "options": [
-      "Dampfmaschine",
-      "Buchdruck mit beweglichen Metalllettern",
-      "Fernrohr",
-      "Mechanische Uhr"
+      "Steam engine",
+      "Printing with movable metal type",
+      "Telescope",
+      "Mechanical clock"
     ],
     "answer": 1,
-    "explanation": "Gutenbergs Verfahren machte den Buchdruck in Europa wesentlich schneller und günstiger."
+    "explanation": "Gutenberg’s method made book production in Europe much faster and less expensive."
   },
   {
     "id": "his-06",
-    "category": "Geschichte",
-    "question": "Welcher Vertrag regelte 1919 den Frieden zwischen Deutschland und den alliierten Mächten?",
+    "category": "History",
+    "question": "Which treaty set the peace terms between Germany and the Allied powers in 1919?",
     "options": [
-      "Vertrag von Utrecht",
-      "Versailler Vertrag",
-      "Vertrag von Tordesillas",
-      "Frieden von Brest-Litowsk"
+      "Treaty of Utrecht",
+      "Treaty of Versailles",
+      "Treaty of Tordesillas",
+      "Treaty of Brest-Litovsk"
     ],
     "answer": 1,
-    "explanation": "Der Versailler Vertrag war einer der zentralen Friedensverträge nach dem Ersten Weltkrieg."
+    "explanation": "The Treaty of Versailles was one of the principal peace treaties after World War I."
   },
   {
     "id": "his-07",
-    "category": "Geschichte",
-    "question": "In welchem heutigen Land begann die Renaissance besonders früh?",
+    "category": "History",
+    "question": "In which modern country did the Renaissance begin especially early?",
     "options": [
-      "Italien",
-      "Norwegen",
-      "Irland",
-      "Polen"
+      "Italy",
+      "Norway",
+      "Ireland",
+      "Poland"
     ],
     "answer": 0,
-    "explanation": "Städte wie Florenz, Venedig und Rom wurden zu wichtigen Zentren der Renaissance."
+    "explanation": "Cities such as Florence, Venice, and Rome became major centers of the Renaissance."
   },
   {
     "id": "his-08",
-    "category": "Geschichte",
-    "question": "In welchem Jahr fiel die Berliner Mauer?",
+    "category": "History",
+    "question": "In what year did the Berlin Wall fall?",
     "options": [
       "1975",
       "1983",
@@ -233,25 +233,25 @@ export const QUESTIONS = [
       "1993"
     ],
     "answer": 2,
-    "explanation": "Die Grenzübergänge wurden am 9. November 1989 geöffnet."
+    "explanation": "The border crossings opened on November 9, 1989."
   },
   {
     "id": "his-09",
-    "category": "Geschichte",
-    "question": "Welche frühe Hochkultur entwickelte die Keilschrift?",
+    "category": "History",
+    "question": "Which early civilization developed cuneiform writing?",
     "options": [
-      "Sumerer",
+      "Sumerians",
       "Maya",
-      "Phönizier",
-      "Inka"
+      "Phoenicians",
+      "Inca"
     ],
     "answer": 0,
-    "explanation": "Die Keilschrift entstand im alten Mesopotamien bei den Sumerern."
+    "explanation": "Cuneiform originated among the Sumerians in ancient Mesopotamia."
   },
   {
     "id": "his-10",
-    "category": "Geschichte",
-    "question": "In welchem Jahr landeten Menschen mit Apollo 11 erstmals auf dem Mond?",
+    "category": "History",
+    "question": "In what year did Apollo 11 land the first humans on the Moon?",
     "options": [
       "1957",
       "1965",
@@ -259,38 +259,38 @@ export const QUESTIONS = [
       "1972"
     ],
     "answer": 2,
-    "explanation": "Neil Armstrong und Buzz Aldrin betraten im Juli 1969 den Mond."
+    "explanation": "Neil Armstrong and Buzz Aldrin walked on the Moon in July 1969."
   },
   {
     "id": "sci-01",
-    "category": "Naturwissenschaft",
-    "question": "Welches chemische Element besitzt die Ordnungszahl 26?",
+    "category": "Science",
+    "question": "Which chemical element has atomic number 26?",
     "options": [
-      "Kupfer",
-      "Eisen",
-      "Zink",
+      "Copper",
+      "Iron",
+      "Zinc",
       "Nickel"
     ],
     "answer": 1,
-    "explanation": "Eisen hat das Elementsymbol Fe und die Ordnungszahl 26."
+    "explanation": "Iron has the symbol Fe and atomic number 26."
   },
   {
     "id": "sci-02",
-    "category": "Naturwissenschaft",
-    "question": "Wie wird eine wässrige Lösung mit einem pH-Wert unter 7 bezeichnet?",
+    "category": "Science",
+    "question": "How is a water-based solution with a pH below 7 described?",
     "options": [
-      "Basisch",
+      "Alkaline",
       "Neutral",
-      "Sauer",
-      "Gesättigt"
+      "Acidic",
+      "Saturated"
     ],
     "answer": 2,
-    "explanation": "Ein pH-Wert unter 7 kennzeichnet eine saure Lösung."
+    "explanation": "A pH below 7 indicates an acidic solution."
   },
   {
     "id": "sci-03",
-    "category": "Naturwissenschaft",
-    "question": "In welcher Einheit wird der elektrische Widerstand gemessen?",
+    "category": "Science",
+    "question": "In which unit is electrical resistance measured?",
     "options": [
       "Volt",
       "Watt",
@@ -298,90 +298,90 @@ export const QUESTIONS = [
       "Ohm"
     ],
     "answer": 3,
-    "explanation": "Die SI-Einheit des elektrischen Widerstands ist das Ohm."
+    "explanation": "The SI unit of electrical resistance is the ohm."
   },
   {
     "id": "sci-04",
-    "category": "Naturwissenschaft",
-    "question": "Wie groß ist die Lichtgeschwindigkeit im Vakuum ungefähr?",
+    "category": "Science",
+    "question": "Approximately how fast does light travel in a vacuum?",
     "options": [
-      "30.000 km/s",
-      "300.000 km/s",
-      "3.000.000 km/s",
+      "30,000 km/s",
+      "300,000 km/s",
+      "3,000,000 km/s",
       "300 km/s"
     ],
     "answer": 1,
-    "explanation": "Licht bewegt sich im Vakuum mit knapp 300.000 Kilometern pro Sekunde."
+    "explanation": "Light travels through a vacuum at just under 300,000 kilometers per second."
   },
   {
     "id": "sci-05",
-    "category": "Naturwissenschaft",
-    "question": "Welcher Planet benötigt am wenigsten Zeit für einen Umlauf um die Sonne?",
+    "category": "Science",
+    "question": "Which planet takes the least time to orbit the Sun?",
     "options": [
-      "Merkur",
+      "Mercury",
       "Venus",
       "Mars",
       "Jupiter"
     ],
     "answer": 0,
-    "explanation": "Merkur benötigt für ein Sonnenjahr nur rund 88 Erdentage."
+    "explanation": "Mercury completes one orbit in about 88 Earth days."
   },
   {
     "id": "sci-06",
-    "category": "Naturwissenschaft",
-    "question": "Welches Gas macht den größten Anteil der Erdatmosphäre aus?",
+    "category": "Science",
+    "question": "Which gas makes up the largest share of Earth’s atmosphere?",
     "options": [
-      "Sauerstoff",
-      "Kohlendioxid",
-      "Stickstoff",
+      "Oxygen",
+      "Carbon dioxide",
+      "Nitrogen",
       "Argon"
     ],
     "answer": 2,
-    "explanation": "Die Atmosphäre besteht zu etwa 78 Prozent aus Stickstoff."
+    "explanation": "Earth’s atmosphere is about 78 percent nitrogen."
   },
   {
     "id": "sci-07",
-    "category": "Naturwissenschaft",
-    "question": "Wie heißt der direkte Übergang eines Stoffes vom festen in den gasförmigen Zustand?",
+    "category": "Science",
+    "question": "What is the direct change from a solid to a gas called?",
     "options": [
-      "Kondensation",
+      "Condensation",
       "Sublimation",
-      "Schmelzen",
-      "Resublimation"
+      "Melting",
+      "Deposition"
     ],
     "answer": 1,
-    "explanation": "Bei der Sublimation wird die flüssige Phase übersprungen."
+    "explanation": "During sublimation, the liquid phase is skipped."
   },
   {
     "id": "sci-08",
-    "category": "Naturwissenschaft",
-    "question": "Welche Aussage beschreibt Newtons drittes Bewegungsgesetz?",
+    "category": "Science",
+    "question": "Which statement describes Newton’s third law of motion?",
     "options": [
-      "Kraft ist Masse mal Beschleunigung",
-      "Energie bleibt immer erhalten",
-      "Zu jeder Kraft gibt es eine gleich große Gegenkraft",
-      "Körper fallen unabhängig von ihrer Masse gleich schnell"
+      "Force equals mass times acceleration",
+      "Energy is always conserved",
+      "Every force has an equal and opposite force",
+      "All objects fall at exactly the same speed"
     ],
     "answer": 2,
-    "explanation": "Kräfte treten paarweise auf: actio und reactio."
+    "explanation": "Forces occur in pairs: action and reaction."
   },
   {
     "id": "sci-09",
-    "category": "Naturwissenschaft",
-    "question": "Welcher Zucker ist Bestandteil der DNA?",
+    "category": "Science",
+    "question": "Which sugar is found in DNA?",
     "options": [
       "Ribose",
-      "Glukose",
-      "Fruktose",
-      "Desoxyribose"
+      "Glucose",
+      "Fructose",
+      "Deoxyribose"
     ],
     "answer": 3,
-    "explanation": "DNA steht für Desoxyribonukleinsäure und enthält Desoxyribose."
+    "explanation": "DNA stands for deoxyribonucleic acid and contains deoxyribose."
   },
   {
     "id": "sci-10",
-    "category": "Naturwissenschaft",
-    "question": "Welche SI-Einheit wird für Frequenz verwendet?",
+    "category": "Science",
+    "question": "Which SI unit is used for frequency?",
     "options": [
       "Pascal",
       "Hertz",
@@ -389,142 +389,142 @@ export const QUESTIONS = [
       "Tesla"
     ],
     "answer": 1,
-    "explanation": "Ein Hertz entspricht einer Schwingung pro Sekunde."
+    "explanation": "One hertz equals one cycle per second."
   },
   {
     "id": "bio-01",
-    "category": "Biologie & Natur",
-    "question": "Welches heute lebende Tier erreicht die größte Körpermasse?",
+    "category": "Biology & Nature",
+    "question": "Which living animal can reach the greatest body mass?",
     "options": [
-      "Afrikanischer Elefant",
-      "Blauwal",
-      "Walhai",
-      "Riesenkalmar"
+      "African elephant",
+      "Blue whale",
+      "Whale shark",
+      "Giant squid"
     ],
     "answer": 1,
-    "explanation": "Der Blauwal ist das schwerste heute lebende Tier."
+    "explanation": "The blue whale is the heaviest living animal."
   },
   {
     "id": "bio-02",
-    "category": "Biologie & Natur",
-    "question": "Welche Säugetiergruppe kann aktiv fliegen?",
+    "category": "Biology & Nature",
+    "question": "Which group of mammals is capable of true powered flight?",
     "options": [
-      "Flughörnchen",
-      "Fledertiere",
-      "Gleitbeutler",
-      "Lemuren"
+      "Flying squirrels",
+      "Bats",
+      "Gliding possums",
+      "Lemurs"
     ],
     "answer": 1,
-    "explanation": "Fledermäuse und Flughunde sind die einzigen Säugetiere mit echtem aktivem Flug."
+    "explanation": "Bats are the only mammals capable of sustained powered flight."
   },
   {
     "id": "bio-03",
-    "category": "Biologie & Natur",
-    "question": "Zu welcher Tierklasse gehört der Axolotl?",
+    "category": "Biology & Nature",
+    "question": "To which animal class does the axolotl belong?",
     "options": [
-      "Reptilien",
-      "Amphibien",
-      "Fische",
-      "Säugetiere"
+      "Reptiles",
+      "Amphibians",
+      "Fish",
+      "Mammals"
     ],
     "answer": 1,
-    "explanation": "Der Axolotl ist ein mexikanischer Schwanzlurch und damit ein Amphibium."
+    "explanation": "The axolotl is a Mexican salamander and therefore an amphibian."
   },
   {
     "id": "bio-04",
-    "category": "Biologie & Natur",
-    "question": "In welchem Zellbestandteil von Pflanzen läuft hauptsächlich die Fotosynthese ab?",
+    "category": "Biology & Nature",
+    "question": "Where does most photosynthesis take place in a plant cell?",
     "options": [
-      "Zellkern",
-      "Mitochondrium",
+      "Nucleus",
+      "Mitochondrion",
       "Chloroplast",
-      "Ribosom"
+      "Ribosome"
     ],
     "answer": 2,
-    "explanation": "Chloroplasten enthalten Chlorophyll und wandeln Lichtenergie in chemische Energie um."
+    "explanation": "Chloroplasts contain chlorophyll and convert light energy into chemical energy."
   },
   {
     "id": "bio-05",
-    "category": "Biologie & Natur",
-    "question": "Von welchem Baum stammt die Eichel?",
+    "category": "Biology & Nature",
+    "question": "Which tree produces acorns?",
     "options": [
-      "Buche",
-      "Eiche",
-      "Kastanie",
-      "Ulme"
+      "Beech",
+      "Oak",
+      "Chestnut",
+      "Elm"
     ],
     "answer": 1,
-    "explanation": "Die Eichel ist die Frucht der Eiche."
+    "explanation": "An acorn is the fruit of an oak tree."
   },
   {
     "id": "bio-06",
-    "category": "Biologie & Natur",
-    "question": "Wie viele Herzen besitzt ein gewöhnlicher Oktopus?",
+    "category": "Biology & Nature",
+    "question": "How many hearts does a typical octopus have?",
     "options": [
-      "Eines",
-      "Zwei",
-      "Drei",
-      "Vier"
+      "One",
+      "Two",
+      "Three",
+      "Four"
     ],
     "answer": 2,
-    "explanation": "Zwei Herzen versorgen die Kiemen, eines pumpt Blut durch den übrigen Körper."
+    "explanation": "Two hearts pump blood to the gills, while one pumps it through the body."
   },
   {
     "id": "bio-07",
-    "category": "Biologie & Natur",
-    "question": "Welche Großkatze ist im Durchschnitt die größte heute lebende Art?",
+    "category": "Biology & Nature",
+    "question": "Which big cat is the largest living species on average?",
     "options": [
-      "Löwe",
+      "Lion",
       "Jaguar",
       "Tiger",
       "Leopard"
     ],
     "answer": 2,
-    "explanation": "Tiger erreichen im Mittel und in ihren Maximalmaßen die größte Körpergröße unter den Großkatzen."
+    "explanation": "Tigers are generally the largest of the living big cats."
   },
   {
     "id": "bio-08",
-    "category": "Biologie & Natur",
-    "question": "Wohin kehren viele Lachse zum Laichen zurück?",
+    "category": "Biology & Nature",
+    "question": "Where do many salmon return to spawn?",
     "options": [
-      "In die Tiefsee",
-      "In Süßwasserflüsse",
-      "Auf Korallenriffe",
-      "In Salzwiesen"
+      "The deep ocean",
+      "Freshwater rivers",
+      "Coral reefs",
+      "Salt marshes"
     ],
     "answer": 1,
-    "explanation": "Viele Lachsarten wandern aus dem Meer in ihre Herkunftsflüsse zurück."
+    "explanation": "Many salmon migrate from the sea back to the rivers where they originated."
   },
   {
     "id": "bio-09",
-    "category": "Biologie & Natur",
-    "question": "In welchem Pflanzenteil speichern viele Kakteen den größten Teil ihres Wassers?",
+    "category": "Biology & Nature",
+    "question": "Where do many cacti store most of their water?",
     "options": [
-      "In den Blüten",
-      "Im verdickten Spross",
-      "Nur in den Wurzeln",
-      "In den Dornen"
+      "In their flowers",
+      "In a thickened stem",
+      "Only in their roots",
+      "In their spines"
     ],
     "answer": 1,
-    "explanation": "Der fleischige Spross dient vielen Kakteen als Wasserspeicher."
+    "explanation": "The fleshy stem acts as a water reservoir for many cactus species."
   },
   {
     "id": "bio-10",
-    "category": "Biologie & Natur",
-    "question": "Zu welchem Reich gehören Korallen biologisch?",
+    "category": "Biology & Nature",
+    "question": "To which biological kingdom do corals belong?",
     "options": [
-      "Pflanzen",
-      "Pilze",
-      "Tiere",
-      "Bakterien"
+      "Plants",
+      "Fungi",
+      "Animals",
+      "Bacteria"
     ],
     "answer": 2,
-    "explanation": "Korallen bestehen aus Kolonien kleiner Tiere, den Korallenpolypen."
+    "explanation": "Corals are colonies of small animals called polyps."
   },
   {
     "id": "art-01",
-    "category": "Kunst & Literatur",
-    "question": "Wer malte das Werk „Guernica“?",
+    "category": "Art & Literature",
+    "question": "Who painted “Guernica”?",
     "options": [
       "Salvador Dalí",
       "Pablo Picasso",
@@ -532,12 +532,12 @@ export const QUESTIONS = [
       "Francisco de Goya"
     ],
     "answer": 1,
-    "explanation": "Picasso schuf „Guernica“ 1937 als Reaktion auf die Bombardierung der baskischen Stadt."
+    "explanation": "Picasso created “Guernica” in 1937 in response to the bombing of the Basque town."
   },
   {
     "id": "art-02",
-    "category": "Kunst & Literatur",
-    "question": "Wer schrieb das Drama „Faust“?",
+    "category": "Art & Literature",
+    "question": "Who wrote the drama “Faust”?",
     "options": [
       "Friedrich Schiller",
       "Johann Wolfgang von Goethe",
@@ -545,12 +545,12 @@ export const QUESTIONS = [
       "Gotthold Ephraim Lessing"
     ],
     "answer": 1,
-    "explanation": "Goethe arbeitete über viele Jahre an den beiden Teilen des „Faust“."
+    "explanation": "Goethe worked on the two parts of “Faust” over many years."
   },
   {
     "id": "art-03",
-    "category": "Kunst & Literatur",
-    "question": "Von welchem Autor stammt der Roman „Der Prozess“?",
+    "category": "Art & Literature",
+    "question": "Who wrote the novel “The Trial”?",
     "options": [
       "Franz Kafka",
       "Thomas Mann",
@@ -558,12 +558,12 @@ export const QUESTIONS = [
       "Robert Musil"
     ],
     "answer": 0,
-    "explanation": "Franz Kafkas unvollendeter Roman wurde nach seinem Tod veröffentlicht."
+    "explanation": "Kafka’s unfinished novel was published after his death."
   },
   {
     "id": "art-04",
-    "category": "Kunst & Literatur",
-    "question": "Wer verfasste „Don Quijote“?",
+    "category": "Art & Literature",
+    "question": "Who wrote “Don Quixote”?",
     "options": [
       "Miguel de Cervantes",
       "Federico García Lorca",
@@ -571,25 +571,25 @@ export const QUESTIONS = [
       "Lope de Vega"
     ],
     "answer": 0,
-    "explanation": "Cervantes veröffentlichte den Roman in zwei Teilen im frühen 17. Jahrhundert."
+    "explanation": "Cervantes published the novel in two parts in the early 17th century."
   },
   {
     "id": "art-05",
-    "category": "Kunst & Literatur",
-    "question": "Welcher Künstler gestaltete große Teile der Decke der Sixtinischen Kapelle?",
+    "category": "Art & Literature",
+    "question": "Which artist painted much of the ceiling of the Sistine Chapel?",
     "options": [
-      "Raffael",
+      "Raphael",
       "Leonardo da Vinci",
       "Michelangelo",
-      "Tizian"
+      "Titian"
     ],
     "answer": 2,
-    "explanation": "Michelangelo schuf die berühmten Deckenfresken zwischen 1508 und 1512."
+    "explanation": "Michelangelo created the famous ceiling frescoes between 1508 and 1512."
   },
   {
     "id": "art-06",
-    "category": "Kunst & Literatur",
-    "question": "Wer erfand die Romanfigur Sherlock Holmes?",
+    "category": "Art & Literature",
+    "question": "Who created the fictional detective Sherlock Holmes?",
     "options": [
       "Agatha Christie",
       "Arthur Conan Doyle",
@@ -597,12 +597,12 @@ export const QUESTIONS = [
       "Wilkie Collins"
     ],
     "answer": 1,
-    "explanation": "Arthur Conan Doyle ließ Sherlock Holmes erstmals 1887 auftreten."
+    "explanation": "Arthur Conan Doyle introduced Sherlock Holmes in 1887."
   },
   {
     "id": "art-07",
-    "category": "Kunst & Literatur",
-    "question": "Wer schrieb „Der kleine Prinz“?",
+    "category": "Art & Literature",
+    "question": "Who wrote “The Little Prince”?",
     "options": [
       "Jules Verne",
       "Victor Hugo",
@@ -610,12 +610,12 @@ export const QUESTIONS = [
       "Albert Camus"
     ],
     "answer": 2,
-    "explanation": "Saint-Exupéry veröffentlichte die poetische Erzählung 1943."
+    "explanation": "Saint-Exupéry published the poetic novella in 1943."
   },
   {
     "id": "art-08",
-    "category": "Kunst & Literatur",
-    "question": "Von wem stammt der Roman „Hundert Jahre Einsamkeit“?",
+    "category": "Art & Literature",
+    "question": "Who wrote “One Hundred Years of Solitude”?",
     "options": [
       "Pablo Neruda",
       "Gabriel García Márquez",
@@ -623,12 +623,12 @@ export const QUESTIONS = [
       "Julio Cortázar"
     ],
     "answer": 1,
-    "explanation": "Der Roman von García Márquez gilt als Hauptwerk des magischen Realismus."
+    "explanation": "García Márquez’s novel is a landmark work of magical realism."
   },
   {
     "id": "art-09",
-    "category": "Kunst & Literatur",
-    "question": "Welcher Künstler schuf das Gemälde „Der Schrei“?",
+    "category": "Art & Literature",
+    "question": "Which artist created “The Scream”?",
     "options": [
       "Edvard Munch",
       "Gustav Klimt",
@@ -636,25 +636,25 @@ export const QUESTIONS = [
       "Claude Monet"
     ],
     "answer": 0,
-    "explanation": "Edvard Munch schuf mehrere Fassungen des Motivs."
+    "explanation": "Edvard Munch created several versions of the image."
   },
   {
     "id": "art-10",
-    "category": "Kunst & Literatur",
-    "question": "Prinz welchen Landes ist Hamlet in Shakespeares Drama?",
+    "category": "Art & Literature",
+    "question": "Hamlet is the prince of which country in Shakespeare’s play?",
     "options": [
-      "Schweden",
-      "Dänemark",
+      "Sweden",
+      "Denmark",
       "England",
-      "Schottland"
+      "Scotland"
     ],
     "answer": 1,
-    "explanation": "Hamlet ist der Prinz von Dänemark."
+    "explanation": "Hamlet is the Prince of Denmark."
   },
   {
     "id": "media-01",
-    "category": "Musik & Film",
-    "question": "Wie viele Tasten besitzt ein modernes Standardklavier üblicherweise?",
+    "category": "Music & Film",
+    "question": "How many keys does a modern standard piano usually have?",
     "options": [
       "76",
       "80",
@@ -662,25 +662,25 @@ export const QUESTIONS = [
       "96"
     ],
     "answer": 2,
-    "explanation": "Ein Standardklavier hat 52 weiße und 36 schwarze Tasten, zusammen 88."
+    "explanation": "A standard piano has 52 white keys and 36 black keys, for a total of 88."
   },
   {
     "id": "media-02",
-    "category": "Musik & Film",
-    "question": "Wer komponierte den Konzertzyklus „Die vier Jahreszeiten“?",
+    "category": "Music & Film",
+    "question": "Who composed “The Four Seasons”?",
     "options": [
       "Antonio Vivaldi",
-      "Georg Friedrich Händel",
+      "George Frideric Handel",
       "Johann Sebastian Bach",
       "Joseph Haydn"
     ],
     "answer": 0,
-    "explanation": "Vivaldis vier Violinkonzerte stellen Frühling, Sommer, Herbst und Winter dar."
+    "explanation": "Vivaldi’s four violin concertos portray spring, summer, autumn, and winter."
   },
   {
     "id": "media-03",
-    "category": "Musik & Film",
-    "question": "Wer führte Regie beim Animationsfilm „Chihiros Reise ins Zauberland“?",
+    "category": "Music & Film",
+    "question": "Who directed the animated film “Spirited Away”?",
     "options": [
       "Satoshi Kon",
       "Hayao Miyazaki",
@@ -688,12 +688,12 @@ export const QUESTIONS = [
       "Isao Takahata"
     ],
     "answer": 1,
-    "explanation": "Hayao Miyazaki schrieb und inszenierte den Film für Studio Ghibli."
+    "explanation": "Hayao Miyazaki wrote and directed the film for Studio Ghibli."
   },
   {
     "id": "media-04",
-    "category": "Musik & Film",
-    "question": "Zu welcher Preisverleihung gehört die goldene Statuette mit dem Spitznamen „Oscar“?",
+    "category": "Music & Film",
+    "question": "Which awards ceremony presents the statuette nicknamed the “Oscar”?",
     "options": [
       "Grammy Awards",
       "Academy Awards",
@@ -701,12 +701,12 @@ export const QUESTIONS = [
       "Tony Awards"
     ],
     "answer": 1,
-    "explanation": "Die Academy Awards werden umgangssprachlich meist Oscars genannt."
+    "explanation": "The Academy Awards are commonly known as the Oscars."
   },
   {
     "id": "media-05",
-    "category": "Musik & Film",
-    "question": "Bei welcher Band war Freddie Mercury der Leadsänger?",
+    "category": "Music & Film",
+    "question": "Freddie Mercury was the lead singer of which band?",
     "options": [
       "The Who",
       "Queen",
@@ -714,25 +714,25 @@ export const QUESTIONS = [
       "Deep Purple"
     ],
     "answer": 1,
-    "explanation": "Freddie Mercury war Frontmann und wichtiger Songwriter von Queen."
+    "explanation": "Freddie Mercury was Queen’s frontman and one of its principal songwriters."
   },
   {
     "id": "media-06",
-    "category": "Musik & Film",
-    "question": "In welcher Sprache wurde der Film „Parasite“ ursprünglich überwiegend gedreht?",
+    "category": "Music & Film",
+    "question": "In which language was “Parasite” filmed primarily?",
     "options": [
-      "Japanisch",
-      "Koreanisch",
+      "Japanese",
+      "Korean",
       "Mandarin",
-      "Thailändisch"
+      "Thai"
     ],
     "answer": 1,
-    "explanation": "„Parasite“ ist ein südkoreanischer Film und wurde überwiegend auf Koreanisch gedreht."
+    "explanation": "“Parasite” is a South Korean film and is primarily in Korean."
   },
   {
     "id": "media-07",
-    "category": "Musik & Film",
-    "question": "Welche US-Stadt gilt als ein zentraler Entstehungsort des Jazz?",
+    "category": "Music & Film",
+    "question": "Which U.S. city is widely regarded as a birthplace of jazz?",
     "options": [
       "Seattle",
       "New Orleans",
@@ -740,12 +740,12 @@ export const QUESTIONS = [
       "Denver"
     ],
     "answer": 1,
-    "explanation": "In New Orleans trafen verschiedene afroamerikanische und europäische Musiktraditionen aufeinander."
+    "explanation": "New Orleans brought together African American and European musical traditions."
   },
   {
     "id": "media-08",
-    "category": "Musik & Film",
-    "question": "Wer komponierte die als „Mondscheinsonate“ bekannte Klaviersonate?",
+    "category": "Music & Film",
+    "question": "Who composed the piano sonata known as the “Moonlight Sonata”?",
     "options": [
       "Franz Schubert",
       "Wolfgang Amadeus Mozart",
@@ -753,12 +753,12 @@ export const QUESTIONS = [
       "Frédéric Chopin"
     ],
     "answer": 2,
-    "explanation": "Die populäre Bezeichnung meint Beethovens Klaviersonate Nr. 14."
+    "explanation": "The popular nickname refers to Beethoven’s Piano Sonata No. 14."
   },
   {
     "id": "media-09",
-    "category": "Musik & Film",
-    "question": "Wer führte Regie beim Film „Der Pate“ von 1972?",
+    "category": "Music & Film",
+    "question": "Who directed the 1972 film “The Godfather”?",
     "options": [
       "Martin Scorsese",
       "Francis Ford Coppola",
@@ -766,12 +766,12 @@ export const QUESTIONS = [
       "Sidney Lumet"
     ],
     "answer": 1,
-    "explanation": "Francis Ford Coppola inszenierte den ersten Teil der berühmten Filmtrilogie."
+    "explanation": "Francis Ford Coppola directed the first film in the famous trilogy."
   },
   {
     "id": "media-10",
-    "category": "Musik & Film",
-    "question": "Aus welcher englischen Stadt stammen die Beatles?",
+    "category": "Music & Film",
+    "question": "The Beatles came from which English city?",
     "options": [
       "Manchester",
       "London",
@@ -779,12 +779,12 @@ export const QUESTIONS = [
       "Birmingham"
     ],
     "answer": 2,
-    "explanation": "Die Band formierte sich in Liverpool."
+    "explanation": "The band formed in Liverpool."
   },
   {
     "id": "tech-01",
-    "category": "Technik & Erfindungen",
-    "question": "Wer entwickelte das World Wide Web am CERN?",
+    "category": "Technology & Inventions",
+    "question": "Who developed the World Wide Web at CERN?",
     "options": [
       "Tim Berners-Lee",
       "Vint Cerf",
@@ -792,12 +792,12 @@ export const QUESTIONS = [
       "Dennis Ritchie"
     ],
     "answer": 0,
-    "explanation": "Tim Berners-Lee entwickelte zentrale Grundlagen wie HTML, HTTP und URLs für das Web."
+    "explanation": "Tim Berners-Lee developed key web technologies including HTML, HTTP, and URLs."
   },
   {
     "id": "tech-02",
-    "category": "Technik & Erfindungen",
-    "question": "Welche Basis verwendet das Binärsystem?",
+    "category": "Technology & Inventions",
+    "question": "What base does the binary number system use?",
     "options": [
       "2",
       "8",
@@ -805,51 +805,51 @@ export const QUESTIONS = [
       "16"
     ],
     "answer": 0,
-    "explanation": "Das Binärsystem arbeitet nur mit den Ziffern 0 und 1."
+    "explanation": "Binary uses only the digits 0 and 1."
   },
   {
     "id": "tech-03",
-    "category": "Technik & Erfindungen",
-    "question": "Für welche Organisation wurde das GPS ursprünglich entwickelt?",
+    "category": "Technology & Inventions",
+    "question": "For which organization was GPS originally developed?",
     "options": [
-      "Europäische Weltraumorganisation",
-      "US-Verteidigungsministerium",
-      "Internationale Fernmeldeunion",
-      "NASA allein"
+      "European Space Agency",
+      "U.S. Department of Defense",
+      "International Telecommunication Union",
+      "NASA alone"
     ],
     "answer": 1,
-    "explanation": "GPS entstand als Satellitennavigationssystem des US-Verteidigungsministeriums."
+    "explanation": "GPS began as a satellite navigation system for the U.S. Department of Defense."
   },
   {
     "id": "tech-04",
-    "category": "Technik & Erfindungen",
-    "question": "In welchem Land wurde der QR-Code entwickelt?",
+    "category": "Technology & Inventions",
+    "question": "In which country was the QR code developed?",
     "options": [
       "Japan",
-      "Deutschland",
-      "Kanada",
-      "Südkorea"
+      "Germany",
+      "Canada",
+      "South Korea"
     ],
     "answer": 0,
-    "explanation": "Der QR-Code wurde in den 1990er-Jahren von einem japanischen Unternehmen für die Industrie entwickelt."
+    "explanation": "A Japanese company developed the QR code in the 1990s for industrial use."
   },
   {
     "id": "tech-05",
-    "category": "Technik & Erfindungen",
-    "question": "Welche Hauptaufgabe kann ein Transistor in elektronischen Schaltungen übernehmen?",
+    "category": "Technology & Inventions",
+    "question": "What is a major function of a transistor in an electronic circuit?",
     "options": [
-      "Elektrische Signale schalten oder verstärken",
-      "Licht in Glasfasern bündeln",
-      "Mechanische Energie speichern",
-      "Schall direkt in Wärme umwandeln"
+      "Switch or amplify electrical signals",
+      "Focus light in optical fibers",
+      "Store mechanical energy",
+      "Convert sound directly into heat"
     ],
     "answer": 0,
-    "explanation": "Transistoren dienen unter anderem als Schalter und Verstärker."
+    "explanation": "Transistors are commonly used as electronic switches and amplifiers."
   },
   {
     "id": "tech-06",
-    "category": "Technik & Erfindungen",
-    "question": "Wofür steht die Abkürzung HTTP?",
+    "category": "Technology & Inventions",
+    "question": "What does HTTP stand for?",
     "options": [
       "High Transfer Text Process",
       "Hypertext Transfer Protocol",
@@ -857,38 +857,38 @@ export const QUESTIONS = [
       "Hybrid Text Transport Package"
     ],
     "answer": 1,
-    "explanation": "HTTP ist das Übertragungsprotokoll, das dem Austausch vieler Webinhalte dient."
+    "explanation": "HTTP is a protocol used to transfer many kinds of web content."
   },
   {
     "id": "tech-07",
-    "category": "Technik & Erfindungen",
-    "question": "Welcher Akkutyp wird in modernen Smartphones besonders häufig verwendet?",
+    "category": "Technology & Inventions",
+    "question": "Which battery type is widely used in modern smartphones?",
     "options": [
-      "Bleiakku",
-      "Nickel-Cadmium-Akku",
-      "Lithium-Ionen-Akku",
-      "Zink-Kohle-Akku"
+      "Lead-acid",
+      "Nickel-cadmium",
+      "Lithium-ion",
+      "Zinc-carbon"
     ],
     "answer": 2,
-    "explanation": "Lithium-Ionen-Akkus bieten eine hohe Energiedichte und sind wiederaufladbar."
+    "explanation": "Lithium-ion batteries are rechargeable and offer high energy density."
   },
   {
     "id": "tech-08",
-    "category": "Technik & Erfindungen",
-    "question": "Welche Einheit wird häufig für die Datenübertragungsrate verwendet?",
+    "category": "Technology & Inventions",
+    "question": "Which unit is commonly used for data transfer speed?",
     "options": [
-      "Bit pro Sekunde",
-      "Bytequadrat",
-      "Pixel pro Volt",
-      "Hertzmeter"
+      "Bits per second",
+      "Byte squared",
+      "Pixels per volt",
+      "Hertz-meter"
     ],
     "answer": 0,
-    "explanation": "Datenraten werden oft in bit/s sowie in Kilo-, Mega- oder Gigabit pro Sekunde angegeben."
+    "explanation": "Data rates are often measured in bits per second, including megabits and gigabits per second."
   },
   {
     "id": "tech-09",
-    "category": "Technik & Erfindungen",
-    "question": "Wer initiierte die Entwicklung des Linux-Kernels?",
+    "category": "Technology & Inventions",
+    "question": "Who began the development of the Linux kernel?",
     "options": [
       "Bill Gates",
       "Linus Torvalds",
@@ -896,25 +896,25 @@ export const QUESTIONS = [
       "Richard Stallman"
     ],
     "answer": 1,
-    "explanation": "Linus Torvalds veröffentlichte 1991 die ersten Versionen des Linux-Kernels."
+    "explanation": "Linus Torvalds released the first versions of the Linux kernel in 1991."
   },
   {
     "id": "tech-10",
-    "category": "Technik & Erfindungen",
-    "question": "Welchen Zweck hat ein CAPTCHA auf einer Webseite hauptsächlich?",
+    "category": "Technology & Inventions",
+    "question": "What is the main purpose of a CAPTCHA on a website?",
     "options": [
-      "Die Bildschirmhelligkeit messen",
-      "Menschen von automatisierten Programmen unterscheiden",
-      "Passwörter verschlüsseln",
-      "Die Internetgeschwindigkeit erhöhen"
+      "Measure screen brightness",
+      "Distinguish humans from automated programs",
+      "Encrypt passwords",
+      "Increase internet speed"
     ],
     "answer": 1,
-    "explanation": "CAPTCHAs sollen automatisierte Zugriffe und Missbrauch erschweren."
+    "explanation": "CAPTCHAs are designed to reduce automated abuse."
   },
   {
     "id": "sport-01",
-    "category": "Sport",
-    "question": "Welches Grand-Slam-Tennisturnier wird auf Sand gespielt?",
+    "category": "Sports",
+    "question": "Which Grand Slam tennis tournament is played on clay?",
     "options": [
       "Wimbledon",
       "US Open",
@@ -922,25 +922,25 @@ export const QUESTIONS = [
       "French Open"
     ],
     "answer": 3,
-    "explanation": "Die French Open in Paris werden auf dem Sandplatz von Roland Garros ausgetragen."
+    "explanation": "The French Open is played on the clay courts of Roland-Garros in Paris."
   },
   {
     "id": "sport-02",
-    "category": "Sport",
-    "question": "Wie lang ist die offizielle Marathondistanz?",
+    "category": "Sports",
+    "question": "What is the official marathon distance?",
     "options": [
-      "40,000 km",
-      "41,500 km",
-      "42,195 km",
-      "43,000 km"
+      "40.000 km",
+      "41.500 km",
+      "42.195 km",
+      "43.000 km"
     ],
     "answer": 2,
-    "explanation": "Die standardisierte Marathondistanz beträgt 42,195 Kilometer."
+    "explanation": "The standardized marathon distance is 42.195 kilometers."
   },
   {
     "id": "sport-03",
-    "category": "Sport",
-    "question": "Wie viele Spieler einer Fußballmannschaft stehen regulär gleichzeitig auf dem Feld?",
+    "category": "Sports",
+    "question": "How many players from one soccer team are normally on the field at once?",
     "options": [
       "9",
       "10",
@@ -948,12 +948,12 @@ export const QUESTIONS = [
       "12"
     ],
     "answer": 2,
-    "explanation": "Eine Mannschaft beginnt normalerweise mit elf Spielern einschließlich Torwart."
+    "explanation": "A team normally starts with eleven players, including the goalkeeper."
   },
   {
     "id": "sport-04",
-    "category": "Sport",
-    "question": "Wie viele Punkte zählt in der NBA ein erfolgreicher Wurf von hinter der Dreipunktelinie?",
+    "category": "Sports",
+    "question": "How many points is an NBA shot worth from beyond the three-point line?",
     "options": [
       "2",
       "3",
@@ -961,12 +961,12 @@ export const QUESTIONS = [
       "5"
     ],
     "answer": 1,
-    "explanation": "Ein Wurf von außerhalb des Dreipunktbogens zählt drei Punkte."
+    "explanation": "A successful shot from behind the three-point arc is worth three points."
   },
   {
     "id": "sport-05",
-    "category": "Sport",
-    "question": "Aus wie vielen Disziplinen besteht ein Zehnkampf?",
+    "category": "Sports",
+    "question": "How many events are in a decathlon?",
     "options": [
       "8",
       "9",
@@ -974,25 +974,25 @@ export const QUESTIONS = [
       "12"
     ],
     "answer": 2,
-    "explanation": "Der Name verrät es: Der Zehnkampf umfasst zehn leichtathletische Wettbewerbe."
+    "explanation": "As the name suggests, a decathlon consists of ten track-and-field events."
   },
   {
     "id": "sport-06",
-    "category": "Sport",
-    "question": "Wer trägt bei der Tour de France das Gelbe Trikot?",
+    "category": "Sports",
+    "question": "Who wears the yellow jersey in the Tour de France?",
     "options": [
-      "Der beste Sprinter",
-      "Der Führende der Gesamtwertung",
-      "Der beste Nachwuchsfahrer",
-      "Der Sieger der letzten Etappe"
+      "The best sprinter",
+      "The overall race leader",
+      "The best young rider",
+      "The winner of the previous stage"
     ],
     "answer": 1,
-    "explanation": "Das Gelbe Trikot kennzeichnet den zeitlich führenden Fahrer der Gesamtwertung."
+    "explanation": "The yellow jersey identifies the rider leading the overall classification by time."
   },
   {
     "id": "sport-07",
-    "category": "Sport",
-    "question": "Wie heißt das Spielgerät, das beim Badminton über das Netz geschlagen wird?",
+    "category": "Sports",
+    "question": "What is the object hit over the net in badminton called?",
     "options": [
       "Shuttlecock",
       "Puck",
@@ -1000,38 +1000,38 @@ export const QUESTIONS = [
       "Boule"
     ],
     "answer": 0,
-    "explanation": "Das federbesetzte Flugobjekt heißt Shuttlecock oder auf Deutsch Federball."
+    "explanation": "The feathered projectile used in badminton is called a shuttlecock."
   },
   {
     "id": "sport-08",
-    "category": "Sport",
-    "question": "Wie oft darf eine Volleyballmannschaft den Ball höchstens berühren, bevor sie ihn zurückspielt?",
+    "category": "Sports",
+    "question": "How many times may a volleyball team normally touch the ball before returning it?",
     "options": [
-      "Zweimal",
-      "Dreimal",
-      "Viermal",
-      "Fünfmal"
+      "Two",
+      "Three",
+      "Four",
+      "Five"
     ],
     "answer": 1,
-    "explanation": "Neben einer Blockberührung sind regulär höchstens drei Ballkontakte erlaubt."
+    "explanation": "A team normally has up to three contacts, excluding a block touch."
   },
   {
     "id": "sport-09",
-    "category": "Sport",
-    "question": "Wie viele Ringe zeigt das olympische Symbol?",
+    "category": "Sports",
+    "question": "How many rings are shown in the Olympic symbol?",
     "options": [
-      "Vier",
-      "Fünf",
-      "Sechs",
-      "Sieben"
+      "Four",
+      "Five",
+      "Six",
+      "Seven"
     ],
     "answer": 1,
-    "explanation": "Das olympische Symbol besteht aus fünf ineinandergreifenden Ringen."
+    "explanation": "The Olympic symbol consists of five interlocking rings."
   },
   {
     "id": "sport-10",
-    "category": "Sport",
-    "question": "Wie hoch ist ein reguläres Maximum Break im Snooker ohne Sonderfall?",
+    "category": "Sports",
+    "question": "What is a standard maximum break in snooker, excluding unusual special cases?",
     "options": [
       "137",
       "147",
@@ -1039,51 +1039,51 @@ export const QUESTIONS = [
       "167"
     ],
     "answer": 1,
-    "explanation": "Mit 15 roten und anschließend allen Farben ergibt sich normalerweise ein Maximum von 147 Punkten."
+    "explanation": "Potting 15 reds with blacks and then all colors produces a standard maximum of 147."
   },
   {
     "id": "cult-01",
-    "category": "Gesellschaft & Kultur",
-    "question": "Welcher Tee wird traditionell bei der japanischen Teezeremonie verwendet?",
+    "category": "Society & Culture",
+    "question": "Which tea is traditionally used in the Japanese tea ceremony?",
     "options": [
       "Matcha",
       "Earl Grey",
       "Rooibos",
-      "Oolong mit Milch"
+      "Oolong with milk"
     ],
     "answer": 0,
-    "explanation": "Matcha ist fein gemahlener grüner Tee und wird mit Wasser aufgeschlagen."
+    "explanation": "Matcha is finely ground green tea whisked with water."
   },
   {
     "id": "cult-02",
-    "category": "Gesellschaft & Kultur",
-    "question": "Der wievielte Monat des islamischen Mondkalenders ist Ramadan?",
+    "category": "Society & Culture",
+    "question": "Ramadan is which month of the Islamic lunar calendar?",
     "options": [
-      "Der fünfte",
-      "Der siebte",
-      "Der neunte",
-      "Der zwölfte"
+      "Fifth",
+      "Seventh",
+      "Ninth",
+      "Twelfth"
     ],
     "answer": 2,
-    "explanation": "Ramadan ist der neunte Monat des islamischen Kalenders."
+    "explanation": "Ramadan is the ninth month of the Islamic calendar."
   },
   {
     "id": "cult-03",
-    "category": "Gesellschaft & Kultur",
-    "question": "Welche Sprache hat weltweit die meisten Muttersprachler?",
+    "category": "Society & Culture",
+    "question": "Which language has the most native speakers worldwide?",
     "options": [
-      "Englisch",
-      "Spanisch",
+      "English",
+      "Spanish",
       "Hindi",
-      "Mandarin-Chinesisch"
+      "Mandarin Chinese"
     ],
     "answer": 3,
-    "explanation": "Mandarin-Chinesisch hat mehr Muttersprachler als jede andere Einzelsprache."
+    "explanation": "Mandarin Chinese has more native speakers than any other single language."
   },
   {
     "id": "cult-04",
-    "category": "Gesellschaft & Kultur",
-    "question": "Für welche Zahl steht die römische Schreibweise XL?",
+    "category": "Society & Culture",
+    "question": "What number is represented by the Roman numeral XL?",
     "options": [
       "35",
       "40",
@@ -1091,38 +1091,38 @@ export const QUESTIONS = [
       "60"
     ],
     "answer": 1,
-    "explanation": "X vor L bedeutet 50 minus 10, also 40."
+    "explanation": "X before L means 50 minus 10, which equals 40."
   },
   {
     "id": "cult-05",
-    "category": "Gesellschaft & Kultur",
-    "question": "In welcher Stadt befindet sich der Hauptsitz der UNESCO?",
+    "category": "Society & Culture",
+    "question": "In which city is UNESCO headquartered?",
     "options": [
-      "Genf",
+      "Geneva",
       "Paris",
-      "Brüssel",
+      "Brussels",
       "New York"
     ],
     "answer": 1,
-    "explanation": "Der Hauptsitz der UNESCO befindet sich in Paris."
+    "explanation": "UNESCO’s headquarters are in Paris."
   },
   {
     "id": "cult-06",
-    "category": "Gesellschaft & Kultur",
-    "question": "Was bedeutet der französische Ausdruck „Mardi Gras“ wörtlich?",
+    "category": "Society & Culture",
+    "question": "What does the French phrase “Mardi Gras” literally mean?",
     "options": [
-      "Großer Montag",
-      "Fetter Dienstag",
-      "Heiliger Freitag",
-      "Bunter Sonntag"
+      "Great Monday",
+      "Fat Tuesday",
+      "Holy Friday",
+      "Colorful Sunday"
     ],
     "answer": 1,
-    "explanation": "Mardi Gras bedeutet „Fetter Dienstag“ und bezeichnet den Tag vor Beginn der Fastenzeit."
+    "explanation": "“Mardi Gras” means “Fat Tuesday,” the day before Lent begins."
   },
   {
     "id": "cult-07",
-    "category": "Gesellschaft & Kultur",
-    "question": "Wie heißt ein traditionelles, langes Wickelgewand aus Südasien?",
+    "category": "Society & Culture",
+    "question": "What is a traditional long draped garment from South Asia called?",
     "options": [
       "Kimono",
       "Sari",
@@ -1130,175 +1130,175 @@ export const QUESTIONS = [
       "Kaftan"
     ],
     "answer": 1,
-    "explanation": "Der Sari wird besonders auf dem indischen Subkontinent getragen."
+    "explanation": "The sari is especially associated with the Indian subcontinent."
   },
   {
     "id": "cult-08",
-    "category": "Gesellschaft & Kultur",
-    "question": "Welches Tierkreiszeichen folgt im üblichen westlichen Tierkreis auf die Waage?",
+    "category": "Society & Culture",
+    "question": "Which zodiac sign follows Libra in the usual Western zodiac?",
     "options": [
-      "Jungfrau",
-      "Skorpion",
-      "Schütze",
-      "Steinbock"
+      "Virgo",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn"
     ],
     "answer": 1,
-    "explanation": "Auf die Waage folgt der Skorpion."
+    "explanation": "Scorpio follows Libra."
   },
   {
     "id": "cult-09",
-    "category": "Gesellschaft & Kultur",
-    "question": "Welche griechische Göttin wird besonders mit Weisheit verbunden?",
+    "category": "Society & Culture",
+    "question": "Which Greek goddess is especially associated with wisdom?",
     "options": [
       "Aphrodite",
       "Artemis",
-      "Athene",
+      "Athena",
       "Demeter"
     ],
     "answer": 2,
-    "explanation": "Athene gilt als Göttin der Weisheit und der strategischen Kriegskunst."
+    "explanation": "Athena is the goddess of wisdom and strategic warfare."
   },
   {
     "id": "cult-10",
-    "category": "Gesellschaft & Kultur",
-    "question": "In welcher Stadt wird der Friedensnobelpreis verliehen?",
+    "category": "Society & Culture",
+    "question": "In which city is the Nobel Peace Prize awarded?",
     "options": [
       "Stockholm",
       "Oslo",
-      "Kopenhagen",
+      "Copenhagen",
       "Helsinki"
     ],
     "answer": 1,
-    "explanation": "Der Friedensnobelpreis wird in Oslo verliehen; die übrigen Nobelpreise werden in Stockholm überreicht."
+    "explanation": "The Nobel Peace Prize is awarded in Oslo; the other Nobel Prizes are presented in Stockholm."
   },
   {
     "id": "food-01",
-    "category": "Essen & Alltag",
-    "question": "Welche Getreideart bildet die Grundlage eines klassischen Risottos?",
+    "category": "Food & Everyday Life",
+    "question": "Which grain is the basis of a classic risotto?",
     "options": [
-      "Reis",
-      "Gerste",
-      "Mais",
-      "Hirse"
+      "Rice",
+      "Barley",
+      "Corn",
+      "Millet"
     ],
     "answer": 0,
-    "explanation": "Risotto wird mit stärkehaltigen Reissorten wie Arborio oder Carnaroli zubereitet."
+    "explanation": "Risotto is made with starchy rice varieties such as Arborio or Carnaroli."
   },
   {
     "id": "food-02",
-    "category": "Essen & Alltag",
-    "question": "Aus welcher Hülsenfrucht wird Tofu hergestellt?",
+    "category": "Food & Everyday Life",
+    "question": "Which legume is used to make tofu?",
     "options": [
-      "Kichererbse",
-      "Sojabohne",
-      "Linse",
-      "Erdnuss"
+      "Chickpea",
+      "Soybean",
+      "Lentil",
+      "Peanut"
     ],
     "answer": 1,
-    "explanation": "Tofu entsteht durch Gerinnen und Pressen von Sojamilch."
+    "explanation": "Tofu is made by curdling and pressing soy milk."
   },
   {
     "id": "food-03",
-    "category": "Essen & Alltag",
-    "question": "Welcher Teil der Krokusblüte liefert das Gewürz Safran?",
+    "category": "Food & Everyday Life",
+    "question": "Which part of the crocus flower produces saffron?",
     "options": [
-      "Die Blätter",
-      "Die Wurzeln",
-      "Die Narbenfäden",
-      "Die Samen"
+      "Leaves",
+      "Roots",
+      "Stigmas",
+      "Seeds"
     ],
     "answer": 2,
-    "explanation": "Safran besteht aus den getrockneten roten Narbenfäden einer Krokusart."
+    "explanation": "Saffron consists of the dried red stigmas of a crocus species."
   },
   {
     "id": "food-04",
-    "category": "Essen & Alltag",
-    "question": "Welche Kaffeezubereitung enthält bei gleicher Kaffeemenge typischerweise weniger Wasser?",
+    "category": "Food & Everyday Life",
+    "question": "Which coffee preparation typically uses the least water for the same amount of coffee?",
     "options": [
       "Lungo",
       "Espresso",
-      "Café Americano",
-      "Filterkaffee"
+      "Caffè Americano",
+      "Filter coffee"
     ],
     "answer": 1,
-    "explanation": "Ein Espresso wird mit einer kleinen Wassermenge unter Druck extrahiert."
+    "explanation": "Espresso is extracted under pressure with a small amount of water."
   },
   {
     "id": "food-05",
-    "category": "Essen & Alltag",
-    "question": "Welche Frucht ist die Hauptzutat von Guacamole?",
+    "category": "Food & Everyday Life",
+    "question": "Which fruit is the main ingredient in guacamole?",
     "options": [
       "Avocado",
       "Papaya",
-      "Limette",
-      "Tomate"
+      "Lime",
+      "Tomato"
     ],
     "answer": 0,
-    "explanation": "Guacamole basiert auf zerdrückter Avocado; weitere Zutaten variieren."
+    "explanation": "Guacamole is based on mashed avocado, with other ingredients varying by recipe."
   },
   {
     "id": "food-06",
-    "category": "Essen & Alltag",
-    "question": "Welche Mikroorganismen sind für die klassische Joghurtherstellung entscheidend?",
+    "category": "Food & Everyday Life",
+    "question": "Which microorganisms are essential for making traditional yogurt?",
     "options": [
-      "Milchsäurebakterien",
-      "Hefepilze allein",
-      "Algen",
-      "Schimmelpilze allein"
+      "Lactic acid bacteria",
+      "Yeast alone",
+      "Algae",
+      "Mold alone"
     ],
     "answer": 0,
-    "explanation": "Milchsäurebakterien vergären Milchzucker und lassen die Milch eindicken."
+    "explanation": "Lactic acid bacteria ferment milk sugar and thicken the milk."
   },
   {
     "id": "food-07",
-    "category": "Essen & Alltag",
-    "question": "Aus welcher Küche stammt die Zubereitungsart Tempura?",
+    "category": "Food & Everyday Life",
+    "question": "Tempura comes from which cuisine?",
     "options": [
-      "Japanische Küche",
-      "Mexikanische Küche",
-      "Marokkanische Küche",
-      "Schwedische Küche"
+      "Japanese",
+      "Mexican",
+      "Moroccan",
+      "Swedish"
     ],
     "answer": 0,
-    "explanation": "Tempura bezeichnet japanisch zubereitete, in leichtem Teig frittierte Zutaten."
+    "explanation": "Tempura is a Japanese preparation of ingredients fried in a light batter."
   },
   {
     "id": "food-08",
-    "category": "Essen & Alltag",
-    "question": "Aus welchem Getreide wird Pumpernickel traditionell hauptsächlich gebacken?",
+    "category": "Food & Everyday Life",
+    "question": "Which grain is traditionally used mainly to make pumpernickel?",
     "options": [
-      "Roggen",
-      "Hafer",
-      "Reis",
-      "Dinkel"
+      "Rye",
+      "Oats",
+      "Rice",
+      "Spelt"
     ],
     "answer": 0,
-    "explanation": "Pumpernickel ist ein lange gebackenes dunkles Roggenbrot."
+    "explanation": "Pumpernickel is a dark rye bread baked for a long time."
   },
   {
     "id": "food-09",
-    "category": "Essen & Alltag",
-    "question": "Welche Milch wird traditionell für „Mozzarella di Bufala“ verwendet?",
+    "category": "Food & Everyday Life",
+    "question": "Which milk is traditionally used for mozzarella di bufala?",
     "options": [
-      "Ziegenmilch",
-      "Schafmilch",
-      "Büffelmilch",
-      "Stutenmilch"
+      "Goat milk",
+      "Sheep milk",
+      "Buffalo milk",
+      "Mare milk"
     ],
     "answer": 2,
-    "explanation": "Der Name bezeichnet Mozzarella aus Wasserbüffelmilch."
+    "explanation": "The name refers to mozzarella made from water-buffalo milk."
   },
   {
     "id": "food-10",
-    "category": "Essen & Alltag",
-    "question": "Welche Geschmacksrichtung bezeichnet das japanische Wort „Umami“?",
+    "category": "Food & Everyday Life",
+    "question": "What kind of taste does the Japanese word “umami” describe?",
     "options": [
       "Bitter",
-      "Herzhaft-würzig",
-      "Sauer",
-      "Scharf"
+      "Savory",
+      "Sour",
+      "Spicy"
     ],
     "answer": 1,
-    "explanation": "Umami beschreibt einen herzhaften Geschmack, der unter anderem mit Glutamat verbunden ist."
+    "explanation": "Umami describes a savory taste associated with compounds such as glutamate."
   }
 ];

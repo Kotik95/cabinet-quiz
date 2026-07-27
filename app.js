@@ -17,9 +17,8 @@ import {
   runTransaction
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
-// Dieselbe Firebase-Web-App wie beim Basketball-Spiel.
-// Die Firebase-Konfiguration ist kein privater Server-Schlüssel.
-// Schutz und Berechtigungen werden über Firebase Authentication und Database Rules geregelt.
+// Firebase web app configuration for Cabinet Quiz.
+// Access is protected through Firebase Authentication and Realtime Database Rules.
 const firebaseConfig = {
   apiKey: "AIzaSyCcEBcQmDNE3nQqtyympT0GGwiyh9hc-R4",
   authDomain: "cabinet-quiz.firebaseapp.com",
@@ -112,7 +111,7 @@ els.playerName.value = rememberedName;
 const urlRoom = cleanRoomCode(new URL(location.href).searchParams.get("room") || "");
 if (urlRoom) {
   els.roomCodeInput.value = urlRoom;
-  els.homeStatus.textContent = `Einladungslink erkannt: Raum ${urlRoom}. Namen eingeben und beitreten.`;
+  els.homeStatus.textContent = `Invitation link detected for room ${urlRoom}. Enter your name to join.`;
 }
 
 onValue(ref(db, ".info/serverTimeOffset"), snapshot => {
@@ -124,12 +123,12 @@ onAuthStateChanged(auth, user => {
   uid = user.uid;
   authReadyResolve(user);
   els.homeStatus.textContent = urlRoom
-    ? `Bereit für Raum ${urlRoom}.`
-    : "Online-Verbindung bereit.";
+    ? `Ready to join room ${urlRoom}.`
+    : "Online connection ready.";
 });
 
 signInAnonymously(auth).catch(error => {
-  els.homeStatus.textContent = `Firebase-Anmeldung fehlgeschlagen: ${friendlyError(error)}`;
+  els.homeStatus.textContent = `Firebase sign-in failed: ${friendlyError(error)}`;
 });
 
 function showView(name) {
@@ -174,7 +173,7 @@ function randomGameId() {
 function getPlayerNameOrWarn() {
   const name = cleanName(els.playerName.value);
   if (!name) {
-    showToast("Bitte gib zuerst einen Spielernamen ein.");
+    showToast("Please enter a player name first.");
     els.playerName.focus();
     return null;
   }
@@ -184,12 +183,12 @@ function getPlayerNameOrWarn() {
 }
 
 function friendlyError(error) {
-  const message = String(error?.message || error || "Unbekannter Fehler");
+  const message = String(error?.message || error || "Unknown error");
   if (message.includes("PERMISSION_DENIED")) {
-    return "Zugriff verweigert. Prüfe die Firebase-Regeln und die anonyme Anmeldung.";
+    return "Access denied. Check the Firebase rules and anonymous sign-in.";
   }
   if (message.includes("auth/admin-restricted-operation")) {
-    return "Die anonyme Anmeldung ist in Firebase noch nicht aktiviert.";
+    return "Anonymous sign-in has not been enabled in Firebase.";
   }
   return message.replace(/^Firebase:\s*/i, "");
 }
@@ -252,7 +251,7 @@ async function createRoom() {
   await authReady;
 
   els.createRoomBtn.disabled = true;
-  els.homeStatus.textContent = "Raum wird erstellt …";
+  els.homeStatus.textContent = "Creating room…";
 
   try {
     let createdCode = null;
@@ -291,10 +290,10 @@ async function createRoom() {
       }
     }
 
-    if (!createdCode) throw new Error("Es konnte kein freier Raumcode erzeugt werden.");
+    if (!createdCode) throw new Error("A free room code could not be generated.");
     await enterRoom(createdCode);
   } catch (error) {
-    els.homeStatus.textContent = `Raum konnte nicht erstellt werden: ${friendlyError(error)}`;
+    els.homeStatus.textContent = `The room could not be created: ${friendlyError(error)}`;
   } finally {
     els.createRoomBtn.disabled = false;
   }
@@ -308,22 +307,22 @@ async function joinRoom() {
   const code = cleanRoomCode(els.roomCodeInput.value);
   els.roomCodeInput.value = code;
   if (code.length !== 6) {
-    showToast("Der Raumcode muss aus sechs Zeichen bestehen.");
+    showToast("The room code must contain six characters.");
     return;
   }
 
   els.joinRoomBtn.disabled = true;
-  els.homeStatus.textContent = `Raum ${code} wird gesucht …`;
+  els.homeStatus.textContent = `Looking for room ${code}…`;
 
   try {
     const targetRef = ref(db, `quizRooms/${code}`);
     const snapshot = await get(targetRef);
-    if (!snapshot.exists()) throw new Error("Dieser Raum wurde nicht gefunden.");
+    if (!snapshot.exists()) throw new Error("This room could not be found.");
 
     const existing = snapshot.val();
     const knownPlayer = existing.players?.[uid];
     if (existing.phase !== "lobby" && !knownPlayer) {
-      throw new Error("Diese Partie läuft bereits. Neue Spieler können erst in der Lobby beitreten.");
+      throw new Error("This game is already in progress. New players can join once the room returns to the lobby.");
     }
 
     const now = serverNow();
@@ -354,7 +353,7 @@ async function enterRoom(code) {
   if (roomUnsubscribe) roomUnsubscribe();
   roomUnsubscribe = onValue(roomRef(), snapshot => {
     if (!snapshot.exists()) {
-      showToast("Der Raum existiert nicht mehr.");
+      showToast("This room no longer exists.");
       leaveRoom(false);
       return;
     }
@@ -392,7 +391,7 @@ async function attemptHostHandover() {
       return uid;
     });
   } catch {
-    // Ein anderer Client kann die Übergabe gleichzeitig übernommen haben.
+    // Another client may have completed the host handover at the same time.
   }
 }
 
@@ -430,11 +429,11 @@ function renderLobby() {
     const name = document.createElement("div");
     name.className = "player-name";
     name.innerHTML = `<span class="online-dot" aria-hidden="true"></span><span></span>`;
-    name.querySelector("span:last-child").textContent = player.name || "Unbenannt";
+    name.querySelector("span:last-child").textContent = player.name || "Unnamed";
 
     const tag = document.createElement("span");
     tag.className = "host-tag";
-    tag.textContent = player.id === roomState.hostUid ? "Spielleitung" : "";
+    tag.textContent = player.id === roomState.hostUid ? "Host" : "";
 
     row.append(name, tag);
     els.playersList.append(row);
@@ -447,13 +446,13 @@ function renderLobby() {
 
   if (isHost()) {
     els.hostHint.textContent = onlineCount > MAX_PLAYERS_RECOMMENDED
-      ? "Viele Spieler sind verbunden. Für flüssiges Spielen sind bis zu acht empfohlen."
-      : "Du bist die Spielleitung. Starte, sobald alle bereit sind.";
-    els.lobbyStatus.textContent = `${onlineCount} Spieler verbunden.`;
+      ? "Many players are connected. Up to eight players are recommended for the smoothest game."
+      : "Du bist die Host. Starte, sobald alle bereit sind.";
+    els.lobbyStatus.textContent = `${onlineCount} player${onlineCount === 1 ? "" : "s"} connected.`;
   } else {
-    const hostName = roomState.players?.[roomState.hostUid]?.name || "Die Spielleitung";
-    els.hostHint.textContent = `${hostName} wählt die Rundenzahl und startet die Partie.`;
-    els.lobbyStatus.textContent = "Warte auf den Spielstart.";
+    const hostName = roomState.players?.[roomState.hostUid]?.name || "The host";
+    els.hostHint.textContent = `${hostName} chooses the number of rounds and starts the game.`;
+    els.lobbyStatus.textContent = "Waiting for the game to start.";
   }
 }
 
@@ -470,8 +469,8 @@ function renderGame() {
   const roundNumber = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
   const questionInRound = (cursor % QUESTIONS_PER_ROUND) + 1;
 
-  els.roundLabel.textContent = `Runde ${roundNumber} von ${roundCount}`;
-  els.questionLabel.textContent = `Frage ${questionInRound} von ${QUESTIONS_PER_ROUND}`;
+  els.roundLabel.textContent = `Round ${roundNumber} of ${roundCount}`;
+  els.questionLabel.textContent = `Question ${questionInRound} of ${QUESTIONS_PER_ROUND}`;
   els.categoryLabel.textContent = question.category;
   els.questionText.textContent = question.question;
 
@@ -484,16 +483,16 @@ function renderGame() {
   }
   if (roomState.phase === "question") {
     els.answerStatus.textContent = ownAnswer
-      ? "Antwort gespeichert. Warte auf die anderen Spieler …"
-      : "Wähle eine Antwort.";
+      ? "Answer saved. Waiting for the other players…"
+      : "Choose an answer.";
   } else {
     const ownAward = Number(roomState.players?.[uid]?.lastAward || 0);
     if (!ownAnswer) {
-      els.answerStatus.textContent = `Zeit abgelaufen. ${question.explanation}`;
+      els.answerStatus.textContent = `Time is up. ${question.explanation}`;
     } else if (ownAnswer.correct) {
-      els.answerStatus.textContent = `Richtig · +${ownAward} Punkte. ${question.explanation}`;
+      els.answerStatus.textContent = `Correct · +${ownAward} points. ${question.explanation}`;
     } else {
-      els.answerStatus.textContent = `Leider falsch. ${question.explanation}`;
+      els.answerStatus.textContent = `Incorrect. ${question.explanation}`;
     }
   }
 }
@@ -548,7 +547,7 @@ async function submitAnswer(baseOptionIndex) {
 
   const elapsed = serverNow() - Number(game.questionStartedAt || 0);
   if (elapsed > QUESTION_SECONDS * 1000 + 300) {
-    showToast("Die Antwortzeit ist bereits abgelaufen.");
+    showToast("The answer time has already expired.");
     return;
   }
 
@@ -568,7 +567,7 @@ async function submitAnswer(baseOptionIndex) {
       renderGame();
     }
   } catch (error) {
-    showToast(`Antwort konnte nicht gespeichert werden: ${friendlyError(error)}`);
+    showToast(`The answer could not be saved: ${friendlyError(error)}`);
   }
 }
 
@@ -593,11 +592,11 @@ function renderLeaderboard(container) {
     rank.textContent = `${index + 1}.`;
 
     const name = document.createElement("span");
-    name.textContent = player.name || "Unbenannt";
+    name.textContent = player.name || "Unnamed";
 
     const points = document.createElement("span");
     points.className = "points";
-    points.textContent = `${player.score || 0} P`;
+    points.textContent = `${player.score || 0} pts`;
 
     row.append(rank, name, points);
     container.append(row);
@@ -608,12 +607,12 @@ function renderRoundBreak() {
   const cursor = Number(roomState.game?.cursor || 0);
   const finishedRound = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
   const totalRounds = Number(roomState.settings?.roundCount || 1);
-  els.breakEyebrow.textContent = `Runde ${finishedRound} von ${totalRounds} beendet`;
-  els.breakTitle.textContent = "Zwischenstand";
+  els.breakEyebrow.textContent = `Round ${finishedRound} of ${totalRounds} complete`;
+  els.breakTitle.textContent = "Standings";
   renderLeaderboard(els.breakLeaderboard);
   els.breakMessage.textContent = isHost()
-    ? "Die nächste Runde beginnt automatisch."
-    : "Die Spielleitung eröffnet gleich die nächste Runde.";
+    ? "The next round will begin automatically."
+    : "The host will begin the next round shortly.";
 }
 
 function renderFinal() {
@@ -621,14 +620,14 @@ function renderFinal() {
   const topScore = players[0]?.score || 0;
   const winners = players.filter(player => (player.score || 0) === topScore);
   els.winnerTitle.textContent = winners.length > 1
-    ? `Unentschieden: ${winners.map(player => player.name).join(" & ")}`
-    : `${winners[0]?.name || "Niemand"} gewinnt`;
+    ? `Tie: ${winners.map(player => player.name).join(" & ")}`
+    : `${winners[0]?.name || "Nobody"} wins`;
 
   renderLeaderboard(els.finalLeaderboard);
   els.playAgainBtn.classList.toggle("hidden", !isHost());
   els.finalHint.textContent = isHost()
-    ? "Du kannst dieselbe Gesellschaft zurück in die Lobby holen."
-    : "Die Spielleitung kann eine neue Partie vorbereiten.";
+    ? "You can bring the same group back to the lobby for another game."
+    : "The host can prepare a new game.";
 }
 
 function updateTimerDisplay() {
@@ -670,7 +669,7 @@ async function startGame() {
       return current;
     });
   } catch (error) {
-    showToast(`Spielstart fehlgeschlagen: ${friendlyError(error)}`);
+    showToast(`The game could not be started: ${friendlyError(error)}`);
   } finally {
     els.startGameBtn.disabled = false;
   }
@@ -801,7 +800,7 @@ async function returnToLobby() {
       return current;
     });
   } catch (error) {
-    showToast(`Neue Partie konnte nicht vorbereitet werden: ${friendlyError(error)}`);
+    showToast(`A new game could not be prepared: ${friendlyError(error)}`);
   }
 }
 
@@ -833,7 +832,7 @@ async function leaveRoom(removePlayer = true) {
   url.searchParams.delete("room");
   history.replaceState({}, "", url);
   showView("home");
-  els.homeStatus.textContent = "Online-Verbindung bereit.";
+  els.homeStatus.textContent = "Online connection ready.";
 
   if (removePlayer && oldCode && oldUid) {
     try {
@@ -854,7 +853,7 @@ async function leaveRoom(removePlayer = true) {
           disconnectedAt: serverNow()
         });
       } catch {
-        // Der Raum kann bereits geschlossen oder die Verbindung getrennt sein.
+        // The room may already be closed or the connection may be unavailable.
       }
     }
   }
@@ -866,7 +865,7 @@ async function shareRoom() {
   shareUrl.searchParams.set("room", roomCode);
   const data = {
     title: "Cabinet Quiz",
-    text: `Komm in meinen Quizraum ${roomCode}.`,
+    text: `Join my quiz room ${roomCode}.`,
     url: shareUrl.toString()
   };
 
@@ -875,15 +874,15 @@ async function shareRoom() {
       await navigator.share(data);
     } else {
       await navigator.clipboard.writeText(shareUrl.toString());
-      showToast("Einladungslink kopiert.");
+      showToast("Invitation link copied.");
     }
   } catch (error) {
     if (error?.name !== "AbortError") {
       try {
         await navigator.clipboard.writeText(shareUrl.toString());
-        showToast("Einladungslink kopiert.");
+        showToast("Invitation link copied.");
       } catch {
-        showToast(`Raumcode: ${roomCode}`);
+        showToast(`Room code: ${roomCode}`);
       }
     }
   }
@@ -922,12 +921,12 @@ els.lobbyRounds.addEventListener("change", async () => {
       questionSeconds: QUESTION_SECONDS
     });
   } catch (error) {
-    showToast(`Rundenzahl konnte nicht geändert werden: ${friendlyError(error)}`);
+    showToast(`The number of rounds could not be changed: ${friendlyError(error)}`);
   }
 });
 
-window.addEventListener("online", () => showToast("Internetverbindung wiederhergestellt."));
-window.addEventListener("offline", () => showToast("Offline – Antworten können derzeit nicht synchronisiert werden."));
+window.addEventListener("online", () => showToast("Internet connection restored."));
+window.addEventListener("offline", () => showToast("Offline — answers cannot be synchronized right now."));
 
 setInterval(() => {
   updateTimerDisplay();
@@ -939,7 +938,7 @@ setInterval(() => {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch(() => {
-      // Das Spiel funktioniert auch ohne Service Worker.
+      // The game also works without a service worker.
     });
   });
 }
