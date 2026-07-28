@@ -1272,12 +1272,11 @@ button { cursor: pointer; position: relative; z-index: 2; }
   .primary-btn, .secondary-btn, .answer-btn { min-height: 52px; }
 }
 
-/* Version 6 — British Shorthair crest and interaction fixes */
+/* Version 7 — polished gold silhouette and fluid timer */
 .cat-crest {
-  width: clamp(112px, 24vw, 168px);
-  margin: 0 auto 10px;
-  color: var(--gold-light);
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,.32));
+  width: clamp(118px, 25vw, 176px);
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,.38)) drop-shadow(0 0 18px rgba(216,170,67,.12));
 }
 .cat-crest svg {
   display: block;
@@ -1285,15 +1284,21 @@ button { cursor: pointer; position: relative; z-index: 2; }
   height: auto;
   overflow: visible;
 }
-.cat-crest path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 5.5;
-  stroke-linecap: round;
+.cat-crest .cat-silhouette {
+  stroke: rgba(255, 240, 176, .34);
+  stroke-width: 1.5;
   stroke-linejoin: round;
 }
-.cat-crest .cat-eye {
-  stroke-width: 10;
+.timer-track {
+  overflow: hidden;
+  contain: paint;
+}
+.timer-bar {
+  width: 100% !important;
+  transform: scaleX(1);
+  transform-origin: left center;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 .qr-loading,
 .qr-error {

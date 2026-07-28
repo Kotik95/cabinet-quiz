@@ -1,8 +1,14 @@
-SIR JAMES’S QUIZBOX — VERSION 6
+SIR JAMES'S QUIZBOX — VERSION 7
 
-1. Replace all files in your existing Quiz folder with this package.
-2. Commit and push the files with GitHub Desktop.
-3. IMPORTANT: Open Firebase Console > Realtime Database > Rules.
-4. Replace the rules with the full contents of firebase.rules.json and click Publish.
+Changes:
+- New filled gold British Shorthair silhouette logo.
+- Fluid requestAnimationFrame timer animation using GPU-friendly transforms.
+- Questions reveal immediately when every connected player has answered.
+- If anyone has not answered, the full 20-second timer remains available.
 
-The Firebase Rules update is required to fix “permission denied” when players submit answers.
+Deployment:
+1. Replace the contents of your existing Quiz folder with these files.
+2. Commit the changes in GitHub Desktop.
+3. Push origin.
+
+Firebase rules are unchanged from Version 6 and do not need to be republished.

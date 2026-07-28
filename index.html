@@ -10,7 +10,7 @@
   <meta name="description" content="A polished live multiplayer quiz with 500 questions and six game modes.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
   <title>Sir James’s Quizbox</title>
 </head>
 <body>
@@ -22,12 +22,16 @@
     <section id="homeView" class="view home-view">
       <div class="masthead">
         <div class="cat-crest" aria-hidden="true">
-          <svg viewBox="0 0 220 170" role="img" aria-label="Golden outline of a British Shorthair cat">
-            <path d="M52 68 39 31 73 49c11-7 24-11 37-11s26 4 37 11l34-18-13 37c12 13 18 29 18 47 0 31-34 49-76 49s-76-18-76-49c0-18 6-34 18-47Z"/>
-            <path d="M67 88c8-11 19-16 31-16M153 88c-8-11-19-16-31-16"/>
-            <path d="M83 104h1M136 104h1" class="cat-eye"/>
-            <path d="M101 119c5 5 13 5 18 0M110 116v12M92 132c10 8 26 8 36 0"/>
-            <path d="M67 119 30 114M68 128 29 132M153 119l37-5M152 128l39 4"/>
+          <svg viewBox="0 0 240 210" role="img" aria-label="Golden British Shorthair cat silhouette">
+            <defs>
+              <linearGradient id="catGold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fff0b0"/>
+                <stop offset="0.38" stop-color="#d8aa43"/>
+                <stop offset="0.72" stop-color="#a66d18"/>
+                <stop offset="1" stop-color="#f2d37b"/>
+              </linearGradient>
+            </defs>
+            <path class="cat-silhouette" fill="url(#catGold)" d="M42 82 25 28l51 25c13-8 28-12 44-12s31 4 44 12l51-25-17 54c10 15 15 33 15 52 0 30-17 51-42 64-14 7-31 11-51 11s-37-4-51-11c-25-13-42-34-42-64 0-19 5-37 15-52Zm46 27c-8 0-15 5-17 12 7-4 15-5 23-2 6 2 11 7 14 13-1-13-8-23-20-23Zm64 0c-12 0-19 10-20 23 3-6 8-11 14-13 8-3 16-2 23 2-2-7-9-12-17-12Zm-41 38c4 5 14 5 18 0-2-5-5-8-9-8s-7 3-9 8Zm-23 18c8 12 19 18 32 18s24-6 32-18c-11 7-21 10-32 10s-21-3-32-10Z"/>
           </svg>
         </div>
         <p class="eyebrow">A Distinguished Test of Knowledge</p>
@@ -256,6 +260,6 @@
     </section>
   </div>
 
-  <script type="module" src="app.js?v=6"></script>
+  <script type="module" src="app.js?v=7"></script>
 </body>
 </html>

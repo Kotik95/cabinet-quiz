@@ -814,16 +814,35 @@ function renderFinal() {
     : "The host can prepare another game.";
 }
 
+let lastTimerSecond = null;
+let timerAnimationFrame = null;
+
 function updateTimerDisplay() {
-  if (!roomState || roomState.phase !== "question" || !roomState.game) return;
+  if (!roomState || roomState.phase !== "question" || !roomState.game) {
+    els.timerBar.style.transform = "scaleX(1)";
+    lastTimerSecond = null;
+    return;
+  }
+
   const start = Number(roomState.game.questionStartedAt || serverNow());
   const duration = QUESTION_SECONDS * 1000;
   const remaining = Math.max(0, duration - (serverNow() - start));
   const ratio = Math.max(0, Math.min(1, remaining / duration));
+  const displayedSecond = Math.ceil(remaining / 1000);
 
-  els.timerBar.style.width = `${ratio * 100}%`;
-  els.timerText.textContent = String(Math.ceil(remaining / 1000));
-  els.timerText.classList.toggle("urgent", remaining <= 5000);
+  // Transform updates stay on the compositor, giving iPhone Safari a fluid 60 fps countdown.
+  els.timerBar.style.transform = `scaleX(${ratio})`;
+
+  if (displayedSecond !== lastTimerSecond) {
+    lastTimerSecond = displayedSecond;
+    els.timerText.textContent = String(displayedSecond);
+    els.timerText.classList.toggle("urgent", remaining <= 5000);
+  }
+}
+
+function animateTimer() {
+  updateTimerDisplay();
+  timerAnimationFrame = requestAnimationFrame(animateTimer);
 }
 
 async function startGame() {
@@ -873,10 +892,13 @@ async function settleQuestionIfNeeded() {
   if (!game) return;
 
   const cursor = Number(game.cursor || 0);
+  const answers = roomState.answers?.[game.id]?.[cursor] || {};
+  const players = connectedPlayers();
+  const allAnswered = players.length > 0 && players.every(player => answers[player.id]);
   const timeEnded = serverNow() - Number(game.questionStartedAt || 0) >= QUESTION_SECONDS * 1000;
 
-  // Every question always lasts the full 20 seconds, even when all players answer early.
-  if (!timeEnded) return;
+  // Reveal immediately once every connected player has answered; otherwise reveal at timeout.
+  if (!allAnswered && !timeEnded) return;
 
   const planItem = game.plan?.[cursor];
   const question = questionById(planItem?.id);
@@ -1227,12 +1249,13 @@ els.lobbyCategory.addEventListener("change", updateLobbySettings);
 window.addEventListener("online", () => showToast("Internet connection restored."));
 window.addEventListener("offline", () => showToast("Offline — answers cannot be synchronized right now."));
 
+timerAnimationFrame = requestAnimationFrame(animateTimer);
+
 setInterval(() => {
-  updateTimerDisplay();
   settleQuestionIfNeeded();
   advanceAfterRevealIfNeeded();
   advanceAfterRoundBreakIfNeeded();
-}, 180);
+}, 120);
 
 // Service workers are intentionally disabled for this live multiplayer build.
 // Removing old workers prevents iPhone Safari from loading stale JavaScript that can block taps.
