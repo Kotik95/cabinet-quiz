@@ -37,7 +37,7 @@ const QUESTION_SECONDS = 20;
 const REVEAL_MS = 6500;
 const APP_VERSION = "6.0.0";
 const ROUND_BREAK_MS = 5200;
-const QUESTION_INTRO_MS = 1150;
+const QUESTION_INTRO_MS = 900;
 const MAX_PLAYERS_RECOMMENDED = 8;
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const GENERAL_CATEGORY = "General Knowledge";
@@ -140,6 +140,8 @@ let playerDisconnect = null;
 let hostBusy = false;
 let lastRenderedQuestionKey = "";
 let toastTimer = null;
+let activeViewName = null;
+let hostTransitionLock = "";
 let inviteAutoJoinAttempted = false;
 let lastInviteUrl = "";
 
@@ -180,6 +182,8 @@ signInAnonymously(auth).catch(error => {
 });
 
 function showView(name) {
+  if (activeViewName === name) return;
+  activeViewName = name;
   Object.entries(views).forEach(([key, element]) => {
     element.classList.toggle("hidden", key !== name);
   });
@@ -797,12 +801,12 @@ function renderLeaderboard(container) {
 }
 
 const INTRO_MESSAGES = [
-  "A fresh challenge is on its way.",
-  "Pens down. Wits up.",
-  "One breath — then back into the fray.",
-  "Sir James has another one for you.",
-  "No pressure. Only reputation.",
-  "The next question approaches with impeccable timing."
+  "Next up — keep your dignity close.",
+  "A brief pause. Your reputation remains at risk.",
+  "Fresh question. Same formidable company.",
+  "Sir James has selected another little ordeal.",
+  "Reset the wits. Here comes the next one.",
+  "No speeches, please. The next question awaits."
 ];
 
 function renderQuestionIntro() {
@@ -973,6 +977,9 @@ async function advanceAfterRevealIfNeeded() {
   if (!game) return;
   if (serverNow() - Number(game.revealStartedAt || 0) < REVEAL_MS) return;
 
+  const transitionKey = `reveal:${game.id}:${Number(game.cursor || 0)}`;
+  if (hostTransitionLock === transitionKey) return;
+  hostTransitionLock = transitionKey;
   hostBusy = true;
   try {
     const cursor = Number(game.cursor || 0);
@@ -1010,6 +1017,9 @@ async function advanceAfterQuestionIntroIfNeeded() {
   if (!game) return;
   if (serverNow() - Number(game.introStartedAt || 0) < QUESTION_INTRO_MS) return;
 
+  const transitionKey = `intro:${game.id}:${Number(game.cursor || 0)}`;
+  if (hostTransitionLock === transitionKey) return;
+  hostTransitionLock = transitionKey;
   hostBusy = true;
   try {
     const cursor = Number(game.cursor || 0);
@@ -1034,6 +1044,9 @@ async function advanceAfterRoundBreakIfNeeded() {
   if (!game) return;
   if (serverNow() - Number(game.roundBreakStartedAt || 0) < ROUND_BREAK_MS) return;
 
+  const transitionKey = `break:${game.id}:${Number(game.cursor || 0)}`;
+  if (hostTransitionLock === transitionKey) return;
+  hostTransitionLock = transitionKey;
   hostBusy = true;
   try {
     const cursor = Number(game.cursor || 0);
@@ -1312,7 +1325,7 @@ setInterval(() => {
   advanceAfterRevealIfNeeded();
   advanceAfterQuestionIntroIfNeeded();
   advanceAfterRoundBreakIfNeeded();
-}, 120);
+}, 200);
 
 // Service workers are intentionally disabled for this live multiplayer build.
 // Removing old workers prevents iPhone Safari from loading stale JavaScript that can block taps.

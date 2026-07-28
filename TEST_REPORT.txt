@@ -1,25 +1,11 @@
-CABINET QUIZ V4 — AUTOMATED VALIDATION SUMMARY
+VERSION 9 STATIC TEST REPORT
 
-Question catalog
-- Total questions: 500
-- Geography: 100
-- History: 100
-- Science & Nature: 100
-- Arts & Culture: 100
-- Sports & Games: 100
-- Four distinct options per question: passed
-- Valid correct-answer index per question: passed
-- Unique question IDs: passed
-- Unique question wording: passed
+PASS — JavaScript syntax checked with Node.js.
+PASS — Versioned CSS and JavaScript references updated to v=9.
+PASS — Inter-question transition is guarded by one unique host transition lock per game/cursor/phase.
+PASS — Repeated render calls no longer re-activate the same view.
+PASS — Inter-question card duration reduced to 900 ms.
+PASS — Timer animation remains driven by requestAnimationFrame.
+PASS — Firebase rules unchanged.
 
-Application checks
-- JavaScript syntax: passed
-- Firebase rules JSON syntax: passed
-- HTML element IDs referenced by app.js: passed
-- Six category options present in the create-room and lobby menus: passed
-- Full 20-second timer requirement implemented: passed by static logic inspection
-- Reveal player-color markers implemented: passed by static logic inspection
-- Correct-answer green highlight implemented: passed by static logic inspection
-- Direct invitation-link handling implemented: passed by static logic inspection
-
-Note: Live multiplayer behavior still requires the published Firebase rules and an online browser test with at least two devices.
+A live two-device iPhone test is still recommended after deployment.

@@ -1370,3 +1370,41 @@ button { cursor: pointer; position: relative; z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
   .question-intro-card, .intro-flourish, .intro-pulse span { animation: none !important; }
 }
+
+/* Version 9 — British Shorthair jewel crest and stable inter-question flow */
+.cat-crest {
+  width: clamp(140px, 29vw, 202px);
+  margin: 0 auto 15px;
+  filter: none;
+}
+.cat-crest svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.question-intro-view {
+  min-height: calc(100svh - 40px);
+  display: grid;
+  place-items: center;
+  opacity: 1;
+}
+.question-intro-view.hidden { display: none; }
+.question-intro-card {
+  animation: v9IntroCard .34s cubic-bezier(.2,.82,.24,1) both;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout paint;
+}
+.intro-flourish { animation: none; }
+.intro-pulse span { animation-duration: .58s; }
+
+@keyframes v9IntroCard {
+  from { opacity: 0; transform: translate3d(0,10px,0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question-intro-card { animation: none; }
+}

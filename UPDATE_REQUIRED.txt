@@ -1,14 +1,8 @@
-SIR JAMES'S QUIZBOX — VERSION 7
+SIR JAMES’S QUIZBOX — VERSION 9
 
-Changes:
-- New filled gold British Shorthair silhouette logo.
-- Fluid requestAnimationFrame timer animation using GPU-friendly transforms.
-- Questions reveal immediately when every connected player has answered.
-- If anyone has not answered, the full 20-second timer remains available.
+Replace every file in the existing project with this package.
+Then commit and push through GitHub Desktop.
 
-Deployment:
-1. Replace the contents of your existing Quiz folder with these files.
-2. Commit the changes in GitHub Desktop.
-3. Push origin.
+This release replaces the crest with a dignified gold British Shorthair bust, a tailored collar and an emerald jewel. It also fixes the repeated Firebase phase transition that caused the inter-question screen to flash and the game to stall.
 
-Firebase rules are unchanged from Version 6 and do not need to be republished.
+Firebase rules are unchanged from Version 6 and do not need to be published again.
