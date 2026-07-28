@@ -1500,3 +1500,42 @@ button { cursor: pointer; position: relative; z-index: 2; }
     font-size: clamp(1.35rem, 6vw, 2rem);
   }
 }
+
+/* Version 11 — photographic gold cat logo and synchronized pre-question transition */
+.cat-crest {
+  width: min(92vw, 510px);
+  margin: 0 auto 8px;
+  filter: none;
+}
+
+.cat-crest img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 22px;
+  object-fit: contain;
+  box-shadow: 0 18px 48px rgba(0,0,0,.34);
+}
+
+.question-transition {
+  animation: none;
+}
+
+.transition-card {
+  animation: v11TransitionIn .28s cubic-bezier(.2,.82,.24,1) both;
+}
+
+@keyframes v11TransitionIn {
+  from { opacity: 0; transform: translateY(8px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 640px) {
+  .cat-crest {
+    width: min(96vw, 430px);
+  }
+
+  .cat-crest img {
+    border-radius: 16px;
+  }
+}

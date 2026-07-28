@@ -35,9 +35,9 @@ const db = getDatabase(app);
 const QUESTIONS_PER_ROUND = 5;
 const QUESTION_SECONDS = 20;
 const REVEAL_MS = 6500;
-const APP_VERSION = "10.0.0";
+const APP_VERSION = "11.0.0";
 const ROUND_BREAK_MS = 5200;
-const QUESTION_INTRO_MS = 1700;
+const QUESTION_TRANSITION_MS = 1800;
 const MAX_PLAYERS_RECOMMENDED = 8;
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const GENERAL_CATEGORY = "General Knowledge";
@@ -64,7 +64,6 @@ const views = {
   home: document.getElementById("homeView"),
   lobby: document.getElementById("lobbyView"),
   game: document.getElementById("gameView"),
-  intro: document.getElementById("questionIntroView"),
   break: document.getElementById("breakView"),
   final: document.getElementById("finalView")
 };
@@ -104,9 +103,6 @@ const els = {
   myScore: document.getElementById("myScore"),
   leaderName: document.getElementById("leaderName"),
 
-  introEyebrow: document.getElementById("introEyebrow"),
-  introMessage: document.getElementById("introMessage"),
-  introMeta: document.getElementById("introMeta"),
   questionTransition: document.getElementById("questionTransition"),
   transitionEyebrow: document.getElementById("transitionEyebrow"),
   transitionMessage: document.getElementById("transitionMessage"),
@@ -148,6 +144,7 @@ let activeViewName = null;
 let hostTransitionLock = "";
 let inviteAutoJoinAttempted = false;
 let lastInviteUrl = "";
+let lastTransitionKey = "";
 
 const rememberedName = localStorage.getItem("cabinetQuizName") || "";
 els.playerName.value = rememberedName;
@@ -524,7 +521,7 @@ function renderRoom() {
   if (phase === "lobby") {
     showView("lobby");
     renderLobby();
-  } else if (phase === "question" || phase === "reveal" || phase === "questionIntro") {
+  } else if (phase === "question" || phase === "reveal") {
     showView("game");
     renderGame();
   } else if (phase === "roundBreak") {
@@ -626,7 +623,10 @@ function renderGame() {
     renderAnswerButtons(question, planItem, cursor);
   }
 
-  if (roomState.phase === "question") {
+  const questionHasStarted = serverNow() >= Number(game.questionStartedAt || 0);
+  if (roomState.phase === "question" && !questionHasStarted) {
+    els.answerStatus.textContent = "The next question is about to begin.";
+  } else if (roomState.phase === "question") {
     els.answerStatus.textContent = ownAnswer
       ? "Answer locked. The reveal begins as soon as everyone is in — or when time runs out."
       : "Choose one answer. You have up to 20 seconds.";
@@ -640,8 +640,6 @@ function renderGame() {
     } else {
       els.answerStatus.textContent = `Not this time. ${question.explanation}`;
     }
-  } else {
-    els.answerStatus.textContent = "A new question is stepping onto the floor.";
   }
 
   renderQuestionTransition();
@@ -726,7 +724,7 @@ function renderAnswerButtons(question, planItem, cursor) {
         button.append(ribbon, chips);
       }
     } else {
-      const canAnswerNow = roomState.phase === "question" && !ownAnswer;
+      const canAnswerNow = roomState.phase === "question" && serverNow() >= Number(roomState.game?.questionStartedAt || 0) && !ownAnswer;
       button.disabled = !canAnswerNow;
       if (canAnswerNow) {
         button.addEventListener("click", () => submitAnswer(baseOptionIndex));
@@ -746,6 +744,10 @@ async function submitAnswer(baseOptionIndex) {
   if (!question) return;
 
   const elapsed = serverNow() - Number(game.questionStartedAt || 0);
+  if (elapsed < 0) {
+    showToast("The next question has not started yet.");
+    return;
+  }
   if (elapsed > QUESTION_SECONDS * 1000 + 300) {
     showToast("The answer time has already expired.");
     return;
@@ -818,29 +820,45 @@ const INTRO_MESSAGES = [
 ];
 
 function renderQuestionTransition() {
-  if (!roomState || roomState.phase !== "questionIntro" || !roomState.game?.plan?.length) {
-    els.questionTransition.classList.add("hidden");
-    views.game.classList.remove("transition-active");
+  const game = roomState?.game;
+  const isScheduledQuestion = roomState?.phase === "question" && game?.plan?.length;
+  const startsAt = Number(game?.questionStartedAt || 0);
+  const isWaiting = Boolean(isScheduledQuestion && serverNow() < startsAt);
+
+  if (!isWaiting) {
+    const transitionJustEnded = Boolean(lastTransitionKey);
+    if (!els.questionTransition.classList.contains("hidden")) {
+      els.questionTransition.classList.add("hidden");
+      views.game.classList.remove("transition-active");
+    }
+    lastTransitionKey = "";
+
+    // The database does not need another write when the scheduled start time arrives.
+    // Force one clean rerender so the answer buttons become tappable immediately.
+    if (transitionJustEnded && roomState?.phase === "question") {
+      lastRenderedQuestionKey = "";
+      renderGame();
+    }
     return;
   }
 
-  const game = roomState.game;
   const cursor = Number(game.cursor || 0);
-  const planItem = game.plan[cursor];
-  const question = questionById(planItem?.id);
-  const roundNumber = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
-  const questionInRound = (cursor % QUESTIONS_PER_ROUND) + 1;
-  const messageIndex = Math.abs((cursor * 11) + String(game.id || "").length) % INTRO_MESSAGES.length;
+  const transitionKey = `${game.id}:${cursor}:${startsAt}`;
+  if (transitionKey !== lastTransitionKey) {
+    lastTransitionKey = transitionKey;
+    const planItem = game.plan[cursor];
+    const question = questionById(planItem?.id);
+    const roundNumber = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
+    const questionInRound = (cursor % QUESTIONS_PER_ROUND) + 1;
+    const messageIndex = Math.abs((cursor * 11) + String(game.id || "").length) % INTRO_MESSAGES.length;
 
-  els.transitionEyebrow.textContent = `Round ${roundNumber} · Question ${questionInRound}`;
-  els.transitionMessage.textContent = INTRO_MESSAGES[messageIndex];
-  els.transitionMeta.textContent = question ? question.category : "Next question";
+    els.transitionEyebrow.textContent = `Round ${roundNumber} · Question ${questionInRound}`;
+    els.transitionMessage.textContent = INTRO_MESSAGES[messageIndex];
+    els.transitionMeta.textContent = question ? question.category : "Next question";
+  }
+
   els.questionTransition.classList.remove("hidden");
   views.game.classList.add("transition-active");
-}
-
-function renderQuestionIntro() {
-  renderQuestionTransition();
 }
 
 function renderRoundBreak() {
@@ -882,7 +900,8 @@ function updateTimerDisplay() {
 
   const start = Number(roomState.game.questionStartedAt || serverNow());
   const duration = QUESTION_SECONDS * 1000;
-  const remaining = Math.max(0, duration - (serverNow() - start));
+  const elapsed = serverNow() - start;
+  const remaining = elapsed < 0 ? duration : Math.max(0, duration - elapsed);
   const ratio = Math.max(0, Math.min(1, remaining / duration));
   const displayedSecond = Math.ceil(remaining / 1000);
 
@@ -898,6 +917,7 @@ function updateTimerDisplay() {
 
 function animateTimer() {
   updateTimerDisplay();
+  renderQuestionTransition();
   timerAnimationFrame = requestAnimationFrame(animateTimer);
 }
 
@@ -948,6 +968,8 @@ async function settleQuestionIfNeeded() {
   if (!game) return;
 
   const cursor = Number(game.cursor || 0);
+  const questionStartedAt = Number(game.questionStartedAt || 0);
+  if (serverNow() < questionStartedAt) return;
   const answers = roomState.answers?.[game.id]?.[cursor] || {};
   const players = connectedPlayers();
   const allAnswered = players.length > 0 && players.every(player => answers[player.id]);
@@ -1007,7 +1029,7 @@ async function advanceAfterRevealIfNeeded() {
     const nextCursor = cursor + 1;
     const now = serverNow();
 
-    await runTransaction(roomRef(), current => {
+    const result = await runTransaction(roomRef(), current => {
       if (!current || current.hostUid !== uid || current.phase !== "reveal") return;
       if (Number(current.game?.cursor || 0) !== cursor || current.game?.id !== game.id) return;
 
@@ -1018,41 +1040,18 @@ async function advanceAfterRevealIfNeeded() {
         current.phase = "roundBreak";
         current.game.roundBreakStartedAt = now;
       } else {
-        current.phase = "questionIntro";
+        current.phase = "question";
         current.game.cursor = nextCursor;
-        current.game.introStartedAt = now;
+        current.game.questionStartedAt = now + QUESTION_TRANSITION_MS;
         current.game.revealStartedAt = null;
       }
       current.lastActivity = now;
       return current;
     });
-  } finally {
-    hostBusy = false;
-  }
-}
-
-async function advanceAfterQuestionIntroIfNeeded() {
-  if (!isHost() || hostBusy || roomState?.phase !== "questionIntro") return;
-  const game = roomState.game;
-  if (!game) return;
-  if (serverNow() - Number(game.introStartedAt || 0) < QUESTION_INTRO_MS) return;
-
-  const transitionKey = `intro:${game.id}:${Number(game.cursor || 0)}`;
-  if (hostTransitionLock === transitionKey) return;
-  hostTransitionLock = transitionKey;
-  hostBusy = true;
-  try {
-    const cursor = Number(game.cursor || 0);
-    const now = serverNow();
-    await runTransaction(roomRef(), current => {
-      if (!current || current.hostUid !== uid || current.phase !== "questionIntro") return;
-      if (Number(current.game?.cursor || 0) !== cursor || current.game?.id !== game.id) return;
-      current.phase = "question";
-      current.game.questionStartedAt = now;
-      current.game.introStartedAt = null;
-      current.lastActivity = now;
-      return current;
-    });
+    if (!result.committed) hostTransitionLock = "";
+  } catch (error) {
+    hostTransitionLock = "";
+    showToast(`The next question could not be prepared: ${friendlyError(error)}`);
   } finally {
     hostBusy = false;
   }
@@ -1343,7 +1342,6 @@ timerAnimationFrame = requestAnimationFrame(animateTimer);
 setInterval(() => {
   settleQuestionIfNeeded();
   advanceAfterRevealIfNeeded();
-  advanceAfterQuestionIntroIfNeeded();
   advanceAfterRoundBreakIfNeeded();
 }, 200);
 

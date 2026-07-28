@@ -1,8 +1,11 @@
-SIR JAMES’S QUIZBOX — VERSION 9
+SIR JAMES’S QUIZBOX V11
 
-Replace every file in the existing project with this package.
-Then commit and push through GitHub Desktop.
+1. Replace every file in your existing Quiz folder with the files from this package.
+2. In GitHub Desktop use the summary:
+   V11 gold cat logo and transition repair
+3. Click Commit to main.
+4. Click Push origin.
+5. Wait about 1–2 minutes for GitHub Pages.
+6. On iPhone, close the old Safari tab and reopen the site.
 
-This release replaces the crest with a dignified gold British Shorthair bust, a tailored collar and an emerald jewel. It also fixes the repeated Firebase phase transition that caused the inter-question screen to flash and the game to stall.
-
-Firebase rules are unchanged from Version 6 and do not need to be published again.
+Firebase rules do NOT need to be republished for V11.
