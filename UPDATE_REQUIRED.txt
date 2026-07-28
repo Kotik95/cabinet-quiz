@@ -1,11 +1,10 @@
-SIR JAMES’S QUIZBOX V11
+SIR JAMES’S QUIZBOX — VERSION 12
 
-1. Replace every file in your existing Quiz folder with the files from this package.
-2. In GitHub Desktop use the summary:
-   V11 gold cat logo and transition repair
-3. Click Commit to main.
-4. Click Push origin.
-5. Wait about 1–2 minutes for GitHub Pages.
-6. On iPhone, close the old Safari tab and reopen the site.
+1. Replace every file in the existing Quiz folder with this package.
+2. Commit the changes in GitHub Desktop.
+3. Push origin.
+4. GitHub Pages updates automatically.
 
-Firebase rules do NOT need to be republished for V11.
+This release removes the visible image frame, keeps only the transparent gold cat mark, makes the opening screen more compact on iPhone, and extends the synchronized inter-question pause to 3 seconds.
+
+Firebase rules do not need to be republished for this release.

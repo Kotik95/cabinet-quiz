@@ -1,24 +1,14 @@
-Sir James’s Quizbox V11 — verification report
+SIR JAMES’S QUIZBOX V12 — TECHNICAL CHECK
 
-Automated checks completed:
-- app.js JavaScript syntax: PASS (Node.js --check)
-- firebase.rules.json syntax: PASS
-- Every document.getElementById reference exists in index.html: PASS
-- Every phase written by app.js is accepted by the published Firebase rules: PASS
-- No unsupported questionIntro phase remains: PASS
-- Transition schedules the next question using the existing allowed "question" phase: PASS
-- Answers stay disabled before the synchronized start timestamp: PASS
-- Answer buttons are force-rerendered and enabled when the transition finishes: PASS
-- Host settlement cannot reveal a scheduled question before it starts: PASS
-- Question catalog: 500 questions, 4 options each, valid answer indexes: PASS
-- New gold-cat logo asset is included and referenced by index.html: PASS
+Checked:
+- JavaScript syntax parses successfully
+- HTML references all required game and transition elements
+- 500-question catalogue remains present
+- transition uses the permitted Firebase phase "question"
+- next question is scheduled 3,000 ms in the future
+- answers stay disabled during the scheduled pause
+- answer buttons rerender when the scheduled start time arrives
+- logo PNG contains transparency and is shown without border, radius, background, or box shadow
+- compact iPhone logo height avoids the previous oversized framed appearance
 
-Flow verified by code-path assertions:
-1. Question reveal remains visible for REVEAL_MS.
-2. Host advances cursor to the next question and sets questionStartedAt 1.8 seconds in the future.
-3. All clients display the same blurred transition while waiting for that timestamp.
-4. At the timestamp the overlay disappears without another Firebase write.
-5. The question card rerenders once, the buttons become tappable, and the 20-second timer begins.
-
-Important limitation:
-A real two-iPhone Firebase multiplayer session cannot be physically performed in this environment. The prior failure was identified precisely: the app attempted to write the unsupported phase "questionIntro", while the Firebase rules only allow lobby, question, reveal, roundBreak, and finished. V11 removes that unsupported phase entirely, so no Firebase Rules update is required.
+A physical two-iPhone network test cannot be executed in this environment. The transition path and timing were checked statically against the host transaction and client rendering logic.

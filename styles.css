@@ -1539,3 +1539,63 @@ button { cursor: pointer; position: relative; z-index: 2; }
     border-radius: 16px;
   }
 }
+
+
+/* Version 12 — transparent cat-only mark, compact first screen, 3-second transition */
+.cat-crest {
+  width: min(82vw, 390px);
+  height: clamp(118px, 22vw, 170px);
+  margin: -2px auto 2px;
+  overflow: visible;
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,.30));
+}
+
+.cat-crest img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center bottom;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.home-view .masthead {
+  padding-top: 2px;
+}
+
+.home-view .masthead h1 {
+  margin-top: 2px;
+}
+
+.home-view .subtitle {
+  margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+  .cat-crest {
+    width: min(90vw, 360px);
+    height: 138px;
+    margin-bottom: 0;
+  }
+
+  .home-view .masthead {
+    padding-top: 0;
+  }
+
+  .home-view .hero-stats {
+    margin-top: 10px;
+  }
+}
+
+@media (max-height: 760px) and (max-width: 640px) {
+  .cat-crest {
+    height: 112px;
+  }
+
+  .home-view .subtitle {
+    font-size: .9rem;
+  }
+}
