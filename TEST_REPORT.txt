@@ -1,13 +1,25 @@
-CABINET QUIZ — ENGLISH EDITION TEST REPORT
+CABINET QUIZ V4 — AUTOMATED VALIDATION SUMMARY
 
-Automated checks:
-- Question count: 100
-- Unique question IDs: verified
-- Four answer choices per question: verified
-- Valid answer index per question: verified
-- Interface text: English
-- Questions, choices, categories, and explanations: English
-- Firebase configuration: cabinet-quiz
-- Service worker cache version: v3-all-english
+Question catalog
+- Total questions: 500
+- Geography: 100
+- History: 100
+- Science & Nature: 100
+- Arts & Culture: 100
+- Sports & Games: 100
+- Four distinct options per question: passed
+- Valid correct-answer index per question: passed
+- Unique question IDs: passed
+- Unique question wording: passed
 
-Note: A full live multiplayer test requires the published Firebase configuration, enabled anonymous sign-in, and published database rules.
+Application checks
+- JavaScript syntax: passed
+- Firebase rules JSON syntax: passed
+- HTML element IDs referenced by app.js: passed
+- Six category options present in the create-room and lobby menus: passed
+- Full 20-second timer requirement implemented: passed by static logic inspection
+- Reveal player-color markers implemented: passed by static logic inspection
+- Correct-answer green highlight implemented: passed by static logic inspection
+- Direct invitation-link handling implemented: passed by static logic inspection
+
+Note: Live multiplayer behavior still requires the published Firebase rules and an online browser test with at least two devices.

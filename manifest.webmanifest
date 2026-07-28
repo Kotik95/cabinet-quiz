@@ -1,12 +1,12 @@
 {
   "name": "Cabinet Quiz – The Mobile Knowledge Cabinet",
   "short_name": "Cabinet Quiz",
-  "description": "A mobile general knowledge quiz for friends.",
+  "description": "A polished live multiplayer quiz with 500 questions and six game modes.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#2d2418",
-  "theme_color": "#2d2418",
+  "background_color": "#241b13",
+  "theme_color": "#241b13",
   "lang": "en",
   "orientation": "portrait-primary",
   "icons": [

@@ -1,4 +1,4 @@
-import { QUESTIONS } from "./questions.js";
+import { QUESTIONS } from "./questions.js?v=4";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import {
   getAuth,
@@ -9,7 +9,6 @@ import {
   getDatabase,
   ref,
   get,
-  set,
   update,
   remove,
   onValue,
@@ -35,10 +34,29 @@ const db = getDatabase(app);
 
 const QUESTIONS_PER_ROUND = 5;
 const QUESTION_SECONDS = 20;
-const REVEAL_MS = 3800;
+const REVEAL_MS = 6500;
 const ROUND_BREAK_MS = 5200;
 const MAX_PLAYERS_RECOMMENDED = 8;
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+const GENERAL_CATEGORY = "General Knowledge";
+const SPECIALIST_CATEGORIES = [
+  "Geography",
+  "History",
+  "Science & Nature",
+  "Arts & Culture",
+  "Sports & Games"
+];
+const ALLOWED_CATEGORIES = [GENERAL_CATEGORY, ...SPECIALIST_CATEGORIES];
+const PLAYER_COLORS = [
+  "#b94452",
+  "#287b8e",
+  "#c27825",
+  "#4f7d48",
+  "#7356a8",
+  "#b0528a",
+  "#3869a8",
+  "#8a6335"
+];
 
 const views = {
   home: document.getElementById("homeView"),
@@ -51,10 +69,13 @@ const views = {
 const els = {
   playerName: document.getElementById("playerName"),
   createRounds: document.getElementById("createRounds"),
+  createCategory: document.getElementById("createCategory"),
   roomCodeInput: document.getElementById("roomCodeInput"),
   createRoomBtn: document.getElementById("createRoomBtn"),
   joinRoomBtn: document.getElementById("joinRoomBtn"),
   homeStatus: document.getElementById("homeStatus"),
+  inviteNotice: document.getElementById("inviteNotice"),
+  inviteRoomCode: document.getElementById("inviteRoomCode"),
 
   leaveLobbyBtn: document.getElementById("leaveLobbyBtn"),
   roomCodeDisplay: document.getElementById("roomCodeDisplay"),
@@ -62,6 +83,8 @@ const els = {
   playersList: document.getElementById("playersList"),
   playerCountBadge: document.getElementById("playerCountBadge"),
   lobbyRounds: document.getElementById("lobbyRounds"),
+  lobbyCategory: document.getElementById("lobbyCategory"),
+  lobbyCategorySummary: document.getElementById("lobbyCategorySummary"),
   startGameBtn: document.getElementById("startGameBtn"),
   hostHint: document.getElementById("hostHint"),
   lobbyStatus: document.getElementById("lobbyStatus"),
@@ -104,14 +127,20 @@ let playerDisconnect = null;
 let hostBusy = false;
 let lastRenderedQuestionKey = "";
 let toastTimer = null;
+let inviteAutoJoinAttempted = false;
 
 const rememberedName = localStorage.getItem("cabinetQuizName") || "";
 els.playerName.value = rememberedName;
 
-const urlRoom = cleanRoomCode(new URL(location.href).searchParams.get("room") || "");
-if (urlRoom) {
-  els.roomCodeInput.value = urlRoom;
-  els.homeStatus.textContent = `Invitation link detected for room ${urlRoom}. Enter your name to join.`;
+let invitationCode = cleanRoomCode(new URL(location.href).searchParams.get("room") || "");
+if (invitationCode) {
+  els.roomCodeInput.value = invitationCode;
+  els.inviteRoomCode.textContent = invitationCode;
+  els.inviteNotice.classList.remove("hidden");
+  els.joinRoomBtn.textContent = `Join Room ${invitationCode}`;
+  els.homeStatus.textContent = rememberedName
+    ? `Invitation detected. Joining room ${invitationCode}…`
+    : `You have been invited to room ${invitationCode}. Enter your name to join.`;
 }
 
 onValue(ref(db, ".info/serverTimeOffset"), snapshot => {
@@ -122,9 +151,20 @@ onAuthStateChanged(auth, user => {
   if (!user) return;
   uid = user.uid;
   authReadyResolve(user);
-  els.homeStatus.textContent = urlRoom
-    ? `Ready to join room ${urlRoom}.`
+
+  if (invitationCode && rememberedName && !inviteAutoJoinAttempted) {
+    inviteAutoJoinAttempted = true;
+    queueMicrotask(() => joinRoom(invitationCode, true));
+    return;
+  }
+
+  els.homeStatus.textContent = invitationCode
+    ? `Ready to join room ${invitationCode}.`
     : "Online connection ready.";
+
+  if (invitationCode && !rememberedName) {
+    setTimeout(() => els.playerName.focus(), 100);
+  }
 });
 
 signInAnonymously(auth).catch(error => {
@@ -156,6 +196,10 @@ function cleanRoomCode(value) {
     .replace(/[^A-Z2-9]/g, "")
     .replace(/[IO01]/g, "")
     .slice(0, 6);
+}
+
+function cleanCategory(value) {
+  return ALLOWED_CATEGORIES.includes(value) ? value : GENERAL_CATEGORY;
 }
 
 function randomCode() {
@@ -197,7 +241,7 @@ function showToast(message) {
   clearTimeout(toastTimer);
   els.toast.textContent = message;
   els.toast.classList.add("show");
-  toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2600);
+  toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2800);
 }
 
 function shuffle(values) {
@@ -209,13 +253,34 @@ function shuffle(values) {
   return result;
 }
 
-function makeQuestionPlan(totalQuestions) {
-  return shuffle(QUESTIONS.map(question => question.id))
-    .slice(0, totalQuestions)
-    .map(id => ({
-      id,
-      order: shuffle([0, 1, 2, 3])
-    }));
+function makeQuestionPlan(totalQuestions, selectedCategory) {
+  const category = cleanCategory(selectedCategory);
+  let selectedIds;
+
+  if (category === GENERAL_CATEGORY) {
+    const categoryPools = Object.fromEntries(
+      SPECIALIST_CATEGORIES.map(name => [
+        name,
+        shuffle(QUESTIONS.filter(question => question.category === name).map(question => question.id))
+      ])
+    );
+
+    selectedIds = [];
+    for (let i = 0; i < totalQuestions; i += 1) {
+      const categoryName = SPECIALIST_CATEGORIES[i % SPECIALIST_CATEGORIES.length];
+      selectedIds.push(categoryPools[categoryName].shift());
+    }
+    selectedIds = shuffle(selectedIds);
+  } else {
+    selectedIds = shuffle(
+      QUESTIONS.filter(question => question.category === category).map(question => question.id)
+    ).slice(0, totalQuestions);
+  }
+
+  return selectedIds.map(id => ({
+    id,
+    order: shuffle([0, 1, 2, 3])
+  }));
 }
 
 function questionById(id) {
@@ -245,6 +310,32 @@ function roomRef() {
   return ref(db, `quizRooms/${roomCode}`);
 }
 
+function availableColorIndex(players = {}) {
+  const used = new Set(
+    Object.values(players)
+      .map(player => Number(player?.colorIndex))
+      .filter(index => Number.isInteger(index) && index >= 0 && index < PLAYER_COLORS.length)
+  );
+  for (let index = 0; index < PLAYER_COLORS.length; index += 1) {
+    if (!used.has(index)) return index;
+  }
+  return Object.keys(players).length % PLAYER_COLORS.length;
+}
+
+function playerColor(player) {
+  const index = Number.isInteger(Number(player?.colorIndex))
+    ? Number(player.colorIndex) % PLAYER_COLORS.length
+    : 0;
+  return PLAYER_COLORS[index];
+}
+
+function playerInitials(name) {
+  const parts = String(name || "?").trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
 async function createRoom() {
   const name = getPlayerNameOrWarn();
   if (!name) return;
@@ -260,17 +351,20 @@ async function createRoom() {
       const candidateRef = ref(db, `quizRooms/${candidate}`);
       const now = serverNow();
       const rounds = Number(els.createRounds.value || 3);
+      const category = cleanCategory(els.createCategory.value);
       const result = await runTransaction(candidateRef, current => {
         if (current) return;
         return {
           createdAt: now,
           lastActivity: now,
+          version: 4,
           hostUid: uid,
           phase: "lobby",
           settings: {
             roundCount: rounds,
             questionsPerRound: QUESTIONS_PER_ROUND,
-            questionSeconds: QUESTION_SECONDS
+            questionSeconds: QUESTION_SECONDS,
+            category
           },
           players: {
             [uid]: {
@@ -278,7 +372,8 @@ async function createRoom() {
               connected: true,
               joinedAt: now,
               score: 0,
-              lastAward: 0
+              lastAward: 0,
+              colorIndex: 0
             }
           }
         };
@@ -299,12 +394,12 @@ async function createRoom() {
   }
 }
 
-async function joinRoom() {
+async function joinRoom(codeOverride = null, automatic = false) {
   const name = getPlayerNameOrWarn();
   if (!name) return;
   await authReady;
 
-  const code = cleanRoomCode(els.roomCodeInput.value);
+  const code = cleanRoomCode(codeOverride || els.roomCodeInput.value);
   els.roomCodeInput.value = code;
   if (code.length !== 6) {
     showToast("The room code must contain six characters.");
@@ -312,7 +407,9 @@ async function joinRoom() {
   }
 
   els.joinRoomBtn.disabled = true;
-  els.homeStatus.textContent = `Looking for room ${code}…`;
+  els.homeStatus.textContent = automatic
+    ? `Joining room ${code}…`
+    : `Looking for room ${code}…`;
 
   try {
     const targetRef = ref(db, `quizRooms/${code}`);
@@ -326,17 +423,26 @@ async function joinRoom() {
     }
 
     const now = serverNow();
+    const colorIndex = Number.isInteger(Number(knownPlayer?.colorIndex))
+      ? Number(knownPlayer.colorIndex)
+      : availableColorIndex(existing.players);
+
     await update(ref(db, `quizRooms/${code}/players/${uid}`), {
       name,
       connected: true,
       joinedAt: knownPlayer?.joinedAt || now,
       score: Number(knownPlayer?.score || 0),
-      lastAward: Number(knownPlayer?.lastAward || 0)
+      lastAward: Number(knownPlayer?.lastAward || 0),
+      colorIndex
     });
 
     await enterRoom(code);
   } catch (error) {
     els.homeStatus.textContent = friendlyError(error);
+    if (automatic) {
+      showToast(friendlyError(error));
+      els.playerName.focus();
+    }
   } finally {
     els.joinRoomBtn.disabled = false;
   }
@@ -353,7 +459,7 @@ async function enterRoom(code) {
   if (roomUnsubscribe) roomUnsubscribe();
   roomUnsubscribe = onValue(roomRef(), snapshot => {
     if (!snapshot.exists()) {
-      showToast("This room no longer exists.");
+      showToast("The room no longer exists.");
       leaveRoom(false);
       return;
     }
@@ -391,7 +497,7 @@ async function attemptHostHandover() {
       return uid;
     });
   } catch {
-    // Another client may have completed the host handover at the same time.
+    // Another client may have completed the handover at the same moment.
   }
 }
 
@@ -426,33 +532,48 @@ function renderLobby() {
     const row = document.createElement("div");
     row.className = `player-row ${player.connected === false ? "offline" : ""}`;
 
-    const name = document.createElement("div");
+    const identity = document.createElement("div");
+    identity.className = "player-identity";
+
+    const token = document.createElement("span");
+    token.className = "player-token";
+    token.style.setProperty("--player-color", playerColor(player));
+    token.textContent = playerInitials(player.name);
+    token.setAttribute("aria-hidden", "true");
+
+    const name = document.createElement("span");
     name.className = "player-name";
-    name.innerHTML = `<span class="online-dot" aria-hidden="true"></span><span></span>`;
-    name.querySelector("span:last-child").textContent = player.name || "Unnamed";
+    name.textContent = player.name || "Unnamed";
 
     const tag = document.createElement("span");
     tag.className = "host-tag";
     tag.textContent = player.id === roomState.hostUid ? "Host" : "";
 
-    row.append(name, tag);
+    identity.append(token, name);
+    row.append(identity, tag);
     els.playersList.append(row);
   });
 
   const rounds = Number(roomState.settings?.roundCount || 3);
+  const category = cleanCategory(roomState.settings?.category);
   els.lobbyRounds.value = String(rounds);
   els.lobbyRounds.disabled = !isHost();
+  els.lobbyCategory.value = category;
+  els.lobbyCategory.disabled = !isHost();
+  els.lobbyCategorySummary.textContent = category === GENERAL_CATEGORY
+    ? "A balanced mix from all five specialist categories."
+    : `Questions will come from ${category}.`;
   els.startGameBtn.disabled = !isHost() || onlineCount < 1;
 
   if (isHost()) {
     els.hostHint.textContent = onlineCount > MAX_PLAYERS_RECOMMENDED
-      ? "Many players are connected. Up to eight players are recommended for the smoothest game."
+      ? "A large group is connected. Up to eight players is recommended for the clearest color display."
       : "You are the host. Start when everyone is ready.";
     els.lobbyStatus.textContent = `${onlineCount} player${onlineCount === 1 ? "" : "s"} connected.`;
   } else {
     const hostName = roomState.players?.[roomState.hostUid]?.name || "The host";
-    els.hostHint.textContent = `${hostName} chooses the number of rounds and starts the game.`;
-    els.lobbyStatus.textContent = "Waiting for the game to start.";
+    els.hostHint.textContent = `${hostName} chooses the mode and starts the game.`;
+    els.lobbyStatus.textContent = "Waiting for the host to start.";
   }
 }
 
@@ -462,7 +583,7 @@ function renderGame() {
 
   const cursor = Number(game.cursor || 0);
   const planItem = game.plan[cursor];
-  const question = questionById(planItem.id);
+  const question = questionById(planItem?.id);
   if (!question) return;
 
   const roundCount = Number(roomState.settings?.roundCount || 1);
@@ -474,25 +595,34 @@ function renderGame() {
   els.categoryLabel.textContent = question.category;
   els.questionText.textContent = question.question;
 
-  const ownAnswer = roomState.answers?.[game.id]?.[cursor]?.[uid];
+  const currentAnswers = roomState.answers?.[game.id]?.[cursor] || {};
+  const ownAnswer = currentAnswers[uid];
   const answerMarker = ownAnswer ? String(ownAnswer.choice) : "none";
-  const key = `${game.id}:${cursor}:${roomState.phase}:${answerMarker}`;
+  const revealSignature = roomState.phase === "reveal"
+    ? Object.entries(currentAnswers)
+      .map(([playerId, answer]) => `${playerId}:${answer?.choice}`)
+      .sort()
+      .join("|")
+    : "hidden";
+  const key = `${game.id}:${cursor}:${roomState.phase}:${answerMarker}:${revealSignature}`;
   if (key !== lastRenderedQuestionKey) {
     lastRenderedQuestionKey = key;
     renderAnswerButtons(question, planItem, cursor);
   }
+
   if (roomState.phase === "question") {
     els.answerStatus.textContent = ownAnswer
-      ? "Answer saved. Waiting for the other players…"
-      : "Choose an answer.";
+      ? "Answer locked. The reveal begins when the timer reaches zero."
+      : "Choose one answer. Every player gets the full 20 seconds.";
   } else {
     const ownAward = Number(roomState.players?.[uid]?.lastAward || 0);
+    const ownCorrect = ownAnswer && Number(ownAnswer.choice) === Number(question.answer);
     if (!ownAnswer) {
-      els.answerStatus.textContent = `Time is up. ${question.explanation}`;
-    } else if (ownAnswer.correct) {
+      els.answerStatus.textContent = `Time expired. ${question.explanation}`;
+    } else if (ownCorrect) {
       els.answerStatus.textContent = `Correct · +${ownAward} points. ${question.explanation}`;
     } else {
-      els.answerStatus.textContent = `Incorrect. ${question.explanation}`;
+      els.answerStatus.textContent = `Not this time. ${question.explanation}`;
     }
   }
 }
@@ -501,7 +631,9 @@ function renderAnswerButtons(question, planItem, cursor) {
   els.answersGrid.innerHTML = "";
   const letters = ["A", "B", "C", "D"];
   const gameId = roomState.game.id;
-  const ownAnswer = roomState.answers?.[gameId]?.[cursor]?.[uid];
+  const answers = roomState.answers?.[gameId]?.[cursor] || {};
+  const ownAnswer = answers[uid];
+  const ownPlayer = roomState.players?.[uid];
 
   planItem.order.forEach((baseOptionIndex, displayIndex) => {
     const button = document.createElement("button");
@@ -509,24 +641,69 @@ function renderAnswerButtons(question, planItem, cursor) {
     button.type = "button";
     button.dataset.baseIndex = String(baseOptionIndex);
 
+    const main = document.createElement("span");
+    main.className = "answer-main";
+
     const letter = document.createElement("span");
     letter.className = "answer-letter";
     letter.textContent = letters[displayIndex];
 
     const text = document.createElement("span");
+    text.className = "answer-copy";
     text.textContent = question.options[baseOptionIndex];
 
-    button.append(letter, text);
+    main.append(letter, text);
+    button.append(main);
 
     if (ownAnswer && Number(ownAnswer.choice) === baseOptionIndex) {
       button.classList.add("selected");
+      button.style.setProperty("--selection-color", playerColor(ownPlayer));
     }
 
     if (roomState.phase === "reveal") {
       button.disabled = true;
-      if (baseOptionIndex === question.answer) button.classList.add("correct");
-      if (ownAnswer && Number(ownAnswer.choice) === baseOptionIndex && !ownAnswer.correct) {
-        button.classList.add("incorrect");
+      if (baseOptionIndex === Number(question.answer)) button.classList.add("correct");
+      if (ownAnswer && Number(ownAnswer.choice) === baseOptionIndex && baseOptionIndex !== Number(question.answer)) {
+        button.classList.add("incorrect-own");
+      }
+
+      const picks = Object.entries(answers)
+        .filter(([, answer]) => Number(answer?.choice) === baseOptionIndex)
+        .map(([playerId]) => ({ id: playerId, ...(roomState.players?.[playerId] || {}) }))
+        .sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0));
+
+      if (picks.length) {
+        button.classList.add("has-picks");
+
+        const ribbon = document.createElement("span");
+        ribbon.className = "answer-pick-ribbon";
+        ribbon.setAttribute("aria-hidden", "true");
+        picks.forEach(player => {
+          const segment = document.createElement("span");
+          segment.style.background = playerColor(player);
+          ribbon.append(segment);
+        });
+
+        const chips = document.createElement("span");
+        chips.className = "answer-picks";
+        picks.forEach(player => {
+          const chip = document.createElement("span");
+          chip.className = "answer-player-chip";
+          chip.style.setProperty("--player-color", playerColor(player));
+          chip.title = `${player.name || "Unnamed"} chose this answer`;
+
+          const initial = document.createElement("span");
+          initial.className = "answer-player-initial";
+          initial.textContent = playerInitials(player.name);
+
+          const playerName = document.createElement("span");
+          playerName.textContent = player.name || "Unnamed";
+
+          chip.append(initial, playerName);
+          chips.append(chip);
+        });
+
+        button.append(ribbon, chips);
       }
     } else {
       button.disabled = Boolean(ownAnswer);
@@ -557,8 +734,7 @@ async function submitAnswer(baseOptionIndex) {
       if (current) return current;
       return {
         choice: Number(baseOptionIndex),
-        at: serverNow(),
-        correct: Number(baseOptionIndex) === Number(question.answer)
+        at: serverNow()
       };
     });
 
@@ -567,7 +743,7 @@ async function submitAnswer(baseOptionIndex) {
       renderGame();
     }
   } catch (error) {
-    showToast(`The answer could not be saved: ${friendlyError(error)}`);
+    showToast(`Your answer could not be saved: ${friendlyError(error)}`);
   }
 }
 
@@ -591,14 +767,20 @@ function renderLeaderboard(container) {
     rank.className = "rank";
     rank.textContent = `${index + 1}.`;
 
+    const token = document.createElement("span");
+    token.className = "player-token compact-token";
+    token.style.setProperty("--player-color", playerColor(player));
+    token.textContent = playerInitials(player.name);
+
     const name = document.createElement("span");
+    name.className = "leader-player-name";
     name.textContent = player.name || "Unnamed";
 
     const points = document.createElement("span");
     points.className = "points";
     points.textContent = `${player.score || 0} pts`;
 
-    row.append(rank, name, points);
+    row.append(rank, token, name, points);
     container.append(row);
   });
 }
@@ -608,11 +790,11 @@ function renderRoundBreak() {
   const finishedRound = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
   const totalRounds = Number(roomState.settings?.roundCount || 1);
   els.breakEyebrow.textContent = `Round ${finishedRound} of ${totalRounds} complete`;
-  els.breakTitle.textContent = "Standings";
+  els.breakTitle.textContent = "Current Standings";
   renderLeaderboard(els.breakLeaderboard);
   els.breakMessage.textContent = isHost()
-    ? "The next round will begin automatically."
-    : "The host will begin the next round shortly.";
+    ? "The next round begins automatically."
+    : "The host will open the next round in a moment.";
 }
 
 function renderFinal() {
@@ -621,13 +803,13 @@ function renderFinal() {
   const winners = players.filter(player => (player.score || 0) === topScore);
   els.winnerTitle.textContent = winners.length > 1
     ? `Tie: ${winners.map(player => player.name).join(" & ")}`
-    : `${winners[0]?.name || "Nobody"} wins`;
+    : `${winners[0]?.name || "Nobody"} Wins`;
 
   renderLeaderboard(els.finalLeaderboard);
   els.playAgainBtn.classList.toggle("hidden", !isHost());
   els.finalHint.textContent = isHost()
-    ? "You can bring the same group back to the lobby for another game."
-    : "The host can prepare a new game.";
+    ? "Bring the same group back to the lobby for another game."
+    : "The host can prepare another game.";
 }
 
 function updateTimerDisplay() {
@@ -639,15 +821,22 @@ function updateTimerDisplay() {
 
   els.timerBar.style.width = `${ratio * 100}%`;
   els.timerText.textContent = String(Math.ceil(remaining / 1000));
+  els.timerText.classList.toggle("urgent", remaining <= 5000);
 }
 
 async function startGame() {
   if (!isHost() || !roomState) return;
   const rounds = Number(roomState.settings?.roundCount || 3);
-  const totalQuestions = Math.min(QUESTIONS.length, rounds * QUESTIONS_PER_ROUND);
-  const plan = makeQuestionPlan(totalQuestions);
+  const category = cleanCategory(roomState.settings?.category);
+  const totalQuestions = rounds * QUESTIONS_PER_ROUND;
+  const plan = makeQuestionPlan(totalQuestions, category);
   const gameId = randomGameId();
   const now = serverNow();
+
+  if (plan.length !== totalQuestions) {
+    showToast("There are not enough questions in this category.");
+    return;
+  }
 
   els.startGameBtn.disabled = true;
   try {
@@ -664,6 +853,7 @@ async function startGame() {
         id: gameId,
         plan,
         cursor: 0,
+        category,
         questionStartedAt: now
       };
       return current;
@@ -681,11 +871,15 @@ async function settleQuestionIfNeeded() {
   if (!game) return;
 
   const cursor = Number(game.cursor || 0);
-  const answers = roomState.answers?.[game.id]?.[cursor] || {};
-  const players = connectedPlayers();
-  const allAnswered = players.length > 0 && players.every(player => answers[player.id]);
   const timeEnded = serverNow() - Number(game.questionStartedAt || 0) >= QUESTION_SECONDS * 1000;
-  if (!allAnswered && !timeEnded) return;
+
+  // Every question always lasts the full 20 seconds, even when all players answer early.
+  if (!timeEnded) return;
+
+  const planItem = game.plan?.[cursor];
+  const question = questionById(planItem?.id);
+  if (!question) return;
+  const correctChoice = Number(question.answer);
 
   hostBusy = true;
   try {
@@ -698,7 +892,7 @@ async function settleQuestionIfNeeded() {
       Object.entries(current.players || {}).forEach(([playerId, player]) => {
         const answer = currentAnswers[playerId];
         let award = 0;
-        if (answer?.correct) {
+        if (answer && Number(answer.choice) === correctChoice) {
           const elapsed = Math.max(0, Number(answer.at || now) - Number(current.game.questionStartedAt || now));
           const speedRatio = Math.max(0, 1 - elapsed / (QUESTION_SECONDS * 1000));
           award = 100 + Math.round(50 * speedRatio);
@@ -831,6 +1025,10 @@ async function leaveRoom(removePlayer = true) {
   const url = new URL(location.href);
   url.searchParams.delete("room");
   history.replaceState({}, "", url);
+  invitationCode = "";
+  els.inviteNotice.classList.add("hidden");
+  els.joinRoomBtn.textContent = "Join Room";
+  els.roomCodeInput.value = "";
   showView("home");
   els.homeStatus.textContent = "Online connection ready.";
 
@@ -862,10 +1060,12 @@ async function leaveRoom(removePlayer = true) {
 async function shareRoom() {
   if (!roomCode) return;
   const shareUrl = new URL(location.href);
+  shareUrl.search = "";
+  shareUrl.hash = "";
   shareUrl.searchParams.set("room", roomCode);
   const data = {
     title: "Cabinet Quiz",
-    text: `Join my quiz room ${roomCode}.`,
+    text: `Join my Cabinet Quiz room ${roomCode}. The link opens the room directly.`,
     url: shareUrl.toString()
   };
 
@@ -888,8 +1088,24 @@ async function shareRoom() {
   }
 }
 
+async function updateLobbySettings() {
+  if (!isHost() || !roomCode) return;
+  const rounds = Number(els.lobbyRounds.value);
+  const category = cleanCategory(els.lobbyCategory.value);
+  try {
+    await update(ref(db, `quizRooms/${roomCode}/settings`), {
+      roundCount: rounds,
+      questionsPerRound: QUESTIONS_PER_ROUND,
+      questionSeconds: QUESTION_SECONDS,
+      category
+    });
+  } catch (error) {
+    showToast(`The game settings could not be changed: ${friendlyError(error)}`);
+  }
+}
+
 els.createRoomBtn.addEventListener("click", createRoom);
-els.joinRoomBtn.addEventListener("click", joinRoom);
+els.joinRoomBtn.addEventListener("click", () => joinRoom());
 els.roomCodeInput.addEventListener("input", () => {
   els.roomCodeInput.value = cleanRoomCode(els.roomCodeInput.value);
 });
@@ -900,7 +1116,7 @@ els.playerName.addEventListener("change", () => {
 });
 els.playerName.addEventListener("keydown", event => {
   if (event.key === "Enter") {
-    if (cleanRoomCode(els.roomCodeInput.value).length === 6) joinRoom();
+    if (invitationCode || cleanRoomCode(els.roomCodeInput.value).length === 6) joinRoom(invitationCode || null);
     else createRoom();
   }
 });
@@ -910,20 +1126,8 @@ els.leaveFinalBtn.addEventListener("click", () => leaveRoom(true));
 els.shareRoomBtn.addEventListener("click", shareRoom);
 els.startGameBtn.addEventListener("click", startGame);
 els.playAgainBtn.addEventListener("click", returnToLobby);
-
-els.lobbyRounds.addEventListener("change", async () => {
-  if (!isHost() || !roomCode) return;
-  const rounds = Number(els.lobbyRounds.value);
-  try {
-    await update(ref(db, `quizRooms/${roomCode}/settings`), {
-      roundCount: rounds,
-      questionsPerRound: QUESTIONS_PER_ROUND,
-      questionSeconds: QUESTION_SECONDS
-    });
-  } catch (error) {
-    showToast(`The number of rounds could not be changed: ${friendlyError(error)}`);
-  }
-});
+els.lobbyRounds.addEventListener("change", updateLobbySettings);
+els.lobbyCategory.addEventListener("change", updateLobbySettings);
 
 window.addEventListener("online", () => showToast("Internet connection restored."));
 window.addEventListener("offline", () => showToast("Offline — answers cannot be synchronized right now."));

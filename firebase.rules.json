@@ -21,20 +21,20 @@
           ".validate": "newData.isString() && (newData.val() === 'lobby' || newData.val() === 'question' || newData.val() === 'reveal' || newData.val() === 'roundBreak' || newData.val() === 'finished')"
         },
         "settings": {
-          ".validate": "newData.hasChildren(['roundCount', 'questionsPerRound', 'questionSeconds']) && newData.child('roundCount').isNumber() && newData.child('roundCount').val() >= 1 && newData.child('roundCount').val() <= 10 && newData.child('questionsPerRound').val() === 5 && newData.child('questionSeconds').val() === 20"
+          ".validate": "newData.hasChildren(['roundCount', 'questionsPerRound', 'questionSeconds']) && newData.child('roundCount').isNumber() && newData.child('roundCount').val() >= 1 && newData.child('roundCount').val() <= 10 && newData.child('questionsPerRound').val() === 5 && newData.child('questionSeconds').val() === 20 && (!newData.child('category').exists() || (newData.child('category').isString() && (newData.child('category').val() === 'General Knowledge' || newData.child('category').val() === 'Geography' || newData.child('category').val() === 'History' || newData.child('category').val() === 'Science & Nature' || newData.child('category').val() === 'Arts & Culture' || newData.child('category').val() === 'Sports & Games')))"
         },
         "players": {
           "$uid": {
             ".write": "auth != null && auth.uid === $uid",
-            ".validate": "!newData.exists() || (newData.hasChildren(['name', 'connected', 'joinedAt', 'score']) && newData.child('name').isString() && newData.child('name').val().length >= 1 && newData.child('name').val().length <= 20 && newData.child('connected').isBoolean() && newData.child('joinedAt').isNumber() && newData.child('score').isNumber() && newData.child('score').val() >= 0)"
+            ".validate": "!newData.exists() || (newData.hasChildren(['name', 'connected', 'joinedAt', 'score', 'lastAward']) && newData.child('name').isString() && newData.child('name').val().length >= 1 && newData.child('name').val().length <= 20 && newData.child('connected').isBoolean() && newData.child('joinedAt').isNumber() && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('lastAward').isNumber() && newData.child('lastAward').val() >= 0 && (!newData.child('colorIndex').exists() || (newData.child('colorIndex').isNumber() && newData.child('colorIndex').val() >= 0 && newData.child('colorIndex').val() <= 7)) && (root.child('quizRooms').child($room).child('hostUid').val() === auth.uid || (!data.exists() && newData.child('score').val() === 0 && newData.child('lastAward').val() === 0) || (data.exists() && newData.child('score').val() === data.child('score').val() && newData.child('lastAward').val() === data.child('lastAward').val())))"
           }
         },
         "answers": {
           "$gameId": {
             "$questionIndex": {
               "$uid": {
-                ".write": "auth != null && auth.uid === $uid && !data.exists()",
-                ".validate": "newData.hasChildren(['choice', 'at', 'correct']) && newData.child('choice').isNumber() && newData.child('choice').val() >= 0 && newData.child('choice').val() <= 3 && newData.child('at').isNumber() && newData.child('correct').isBoolean()"
+                ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('quizRooms').child($room).child('phase').val() === 'question'",
+                ".validate": "newData.hasChildren(['choice', 'at']) && newData.child('choice').isNumber() && newData.child('choice').val() >= 0 && newData.child('choice').val() <= 3 && newData.child('at').isNumber()"
               }
             }
           }

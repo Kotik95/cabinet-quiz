@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#2d2418">
+  <meta name="theme-color" content="#241b13">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Cabinet Quiz">
-  <meta name="description" content="A mobile general knowledge quiz for friends, playable online through a room link.">
+  <meta name="description" content="A polished live multiplayer quiz with 500 questions and six game modes.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css?v=3-en">
+  <link rel="stylesheet" href="styles.css?v=4">
   <title>Cabinet Quiz</title>
 </head>
 <body>
   <div class="paper-noise" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-one" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-two" aria-hidden="true"></div>
 
   <main class="app-shell">
     <section id="homeView" class="view home-view">
@@ -22,10 +24,24 @@
         <div class="ornament" aria-hidden="true">❦</div>
         <p class="eyebrow">The Mobile Knowledge Cabinet</p>
         <h1>Cabinet Quiz</h1>
-        <p class="subtitle">Five questions per round. Play solo or share a room link with friends.</p>
+        <p class="subtitle">A refined live quiz for friends — 500 questions, six modes, and a full twenty seconds for every answer.</p>
+        <div class="hero-stats" aria-label="Game highlights">
+          <span><strong>500</strong> questions</span>
+          <span><strong>6</strong> modes</span>
+          <span><strong>Live</strong> rooms</span>
+        </div>
       </div>
 
-      <div class="card name-card">
+      <div id="inviteNotice" class="invite-notice hidden" role="status">
+        <span class="invite-seal" aria-hidden="true">✦</span>
+        <div>
+          <span class="small-label">Private invitation</span>
+          <strong>Room <span id="inviteRoomCode">------</span> is ready</strong>
+          <p>Enter your name and you will join without typing a room code.</p>
+        </div>
+      </div>
+
+      <div class="card name-card featured-card">
         <label for="playerName">Your player name</label>
         <input id="playerName" maxlength="20" autocomplete="nickname" placeholder="For example, Alex">
       </div>
@@ -33,25 +49,51 @@
       <div class="home-grid">
         <article class="card action-card">
           <span class="seal" aria-hidden="true">I</span>
-          <h2>Create a New Room</h2>
-          <p>Choose the number of rounds and start the game.</p>
-          <label for="createRounds">Number of rounds</label>
-          <select id="createRounds">
-            <option value="1">1 round · 5 questions</option>
-            <option value="2">2 rounds · 10 questions</option>
-            <option value="3" selected>3 rounds · 15 questions</option>
-            <option value="5">5 rounds · 25 questions</option>
-            <option value="10">10 rounds · 50 questions</option>
-          </select>
+          <div class="card-heading-copy">
+            <p class="card-kicker">Host a game</p>
+            <h2>Create a New Room</h2>
+            <p>Choose a mode and the number of rounds, then share one direct invitation link.</p>
+          </div>
+
+          <div class="field-stack">
+            <div>
+              <label for="createCategory">Quiz mode</label>
+              <select id="createCategory">
+                <option value="General Knowledge" selected>General Knowledge · mixed</option>
+                <option value="Geography">Geography</option>
+                <option value="History">History</option>
+                <option value="Science & Nature">Science & Nature</option>
+                <option value="Arts & Culture">Arts & Culture</option>
+                <option value="Sports & Games">Sports & Games</option>
+              </select>
+            </div>
+            <div>
+              <label for="createRounds">Number of rounds</label>
+              <select id="createRounds">
+                <option value="1">1 round · 5 questions</option>
+                <option value="2">2 rounds · 10 questions</option>
+                <option value="3" selected>3 rounds · 15 questions</option>
+                <option value="5">5 rounds · 25 questions</option>
+                <option value="10">10 rounds · 50 questions</option>
+              </select>
+            </div>
+          </div>
           <button id="createRoomBtn" class="primary-btn">Create Room</button>
         </article>
 
-        <article class="card action-card">
+        <article class="card action-card join-card">
           <span class="seal" aria-hidden="true">II</span>
-          <h2>Join an Existing Room</h2>
-          <p>Enter the room code or open the shared link.</p>
-          <label for="roomCodeInput">Room code</label>
-          <input id="roomCodeInput" maxlength="6" inputmode="text" autocapitalize="characters" placeholder="ABC123">
+          <div class="card-heading-copy">
+            <p class="card-kicker">Join friends</p>
+            <h2>Enter a Room</h2>
+            <p>Use the six-character code. A shared link fills it in automatically and joins returning players directly.</p>
+          </div>
+          <div class="field-stack join-fields">
+            <div>
+              <label for="roomCodeInput">Room code</label>
+              <input id="roomCodeInput" class="room-input" maxlength="6" inputmode="text" autocapitalize="characters" placeholder="ABC123">
+            </div>
+          </div>
           <button id="joinRoomBtn" class="secondary-btn">Join Room</button>
         </article>
       </div>
@@ -59,8 +101,8 @@
       <p id="homeStatus" class="status" role="status">Preparing connection…</p>
 
       <details class="how-to card compact-card">
-        <summary>How to Play</summary>
-        <p>Everyone sees the same question. A correct answer earns 100 points plus up to 50 speed-bonus points. Each round ends after five questions.</p>
+        <summary>How scoring and reveals work</summary>
+        <p>Every question remains open for the full 20 seconds. A correct answer earns 100 points plus up to 50 speed-bonus points. During the reveal, the correct answer turns green and each player’s colored marker shows exactly what they chose.</p>
       </details>
     </section>
 
@@ -68,38 +110,60 @@
       <header class="top-header">
         <button id="leaveLobbyBtn" class="icon-btn" aria-label="Leave room">‹</button>
         <div>
-          <p class="eyebrow">Lobby</p>
+          <p class="eyebrow">Private Salon</p>
           <h1>The Players Are Gathering</h1>
         </div>
       </header>
 
-      <div class="room-banner card">
+      <div class="room-banner card room-banner-card">
         <div>
           <span class="small-label">Room code</span>
           <strong id="roomCodeDisplay" class="room-code">------</strong>
+          <span class="room-link-note">The shared link opens this room directly.</span>
         </div>
-        <button id="shareRoomBtn" class="primary-btn small-btn">Share Link</button>
+        <button id="shareRoomBtn" class="primary-btn small-btn">Share Invitation</button>
       </div>
 
       <div class="lobby-grid">
         <section class="card">
           <div class="section-heading">
-            <h2>Players</h2>
+            <div>
+              <p class="card-kicker">Color key</p>
+              <h2>Players</h2>
+            </div>
             <span id="playerCountBadge" class="badge">0</span>
           </div>
+          <p class="fine-print player-color-note">Each player keeps one color throughout the game. Those colors appear beside their revealed answers.</p>
           <div id="playersList" class="players-list"></div>
         </section>
 
-        <section class="card">
-          <h2>Game</h2>
-          <label for="lobbyRounds">Number of rounds</label>
-          <select id="lobbyRounds">
-            <option value="1">1 round · 5 questions</option>
-            <option value="2">2 rounds · 10 questions</option>
-            <option value="3">3 rounds · 15 questions</option>
-            <option value="5">5 rounds · 25 questions</option>
-            <option value="10">10 rounds · 50 questions</option>
-          </select>
+        <section class="card settings-card">
+          <p class="card-kicker">Host controls</p>
+          <h2>Game Settings</h2>
+          <div class="field-stack">
+            <div>
+              <label for="lobbyCategory">Quiz mode</label>
+              <select id="lobbyCategory">
+                <option value="General Knowledge">General Knowledge · mixed</option>
+                <option value="Geography">Geography</option>
+                <option value="History">History</option>
+                <option value="Science & Nature">Science & Nature</option>
+                <option value="Arts & Culture">Arts & Culture</option>
+                <option value="Sports & Games">Sports & Games</option>
+              </select>
+              <p id="lobbyCategorySummary" class="mode-summary"></p>
+            </div>
+            <div>
+              <label for="lobbyRounds">Number of rounds</label>
+              <select id="lobbyRounds">
+                <option value="1">1 round · 5 questions</option>
+                <option value="2">2 rounds · 10 questions</option>
+                <option value="3">3 rounds · 15 questions</option>
+                <option value="5">5 rounds · 25 questions</option>
+                <option value="10">10 rounds · 50 questions</option>
+              </select>
+            </div>
+          </div>
           <p class="fine-print">20 seconds per question · up to 8 players recommended</p>
           <button id="startGameBtn" class="primary-btn">Start Game</button>
           <p id="hostHint" class="fine-print"></p>
@@ -148,7 +212,7 @@
       <div class="result-wrap">
         <div class="ornament" aria-hidden="true">❦</div>
         <p id="breakEyebrow" class="eyebrow">Round complete</p>
-        <h1 id="breakTitle">Standings</h1>
+        <h1 id="breakTitle">Current Standings</h1>
         <div id="breakLeaderboard" class="leaderboard card"></div>
         <p id="breakMessage" class="status"></p>
       </div>
@@ -157,7 +221,7 @@
     <section id="finalView" class="view hidden">
       <div class="result-wrap">
         <div class="ornament" aria-hidden="true">♛</div>
-        <p class="eyebrow">The game is over</p>
+        <p class="eyebrow">The cabinet is closed</p>
         <h1 id="winnerTitle">Winner</h1>
         <div id="finalLeaderboard" class="leaderboard card"></div>
         <div class="final-actions">
@@ -171,6 +235,6 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="app.js?v=3-en"></script>
+  <script type="module" src="app.js?v=4"></script>
 </body>
 </html>
