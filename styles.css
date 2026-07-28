@@ -1599,3 +1599,47 @@ button { cursor: pointer; position: relative; z-index: 2; }
     font-size: .9rem;
   }
 }
+
+
+/* Version 13 — ensure full cat logo fits with no clipped paws, ears, or tail */
+.cat-crest {
+  width: min(88vw, 420px);
+  max-width: 420px;
+  margin: 0 auto 2px;
+  padding: 8px 16px 4px;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,.30));
+}
+
+.cat-crest img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: none;
+  object-fit: contain;
+  object-position: center center;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .cat-crest {
+    width: min(92vw, 372px);
+    max-width: 372px;
+    padding: 8px 14px 2px;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-height: 760px) and (max-width: 640px) {
+  .cat-crest {
+    width: min(90vw, 348px);
+    padding-inline: 12px;
+  }
+}
