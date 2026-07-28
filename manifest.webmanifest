@@ -1,6 +1,6 @@
 {
-  "name": "Cabinet Quiz – The Mobile Knowledge Cabinet",
-  "short_name": "Cabinet Quiz",
+  "name": "Sir James’s Quizbox – The Mobile Knowledge Cabinet",
+  "short_name": "Sir James’s Quizbox",
   "description": "A polished live multiplayer quiz with 500 questions and six game modes.",
   "start_url": "./",
   "scope": "./",

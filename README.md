@@ -1,4 +1,4 @@
-# Cabinet Quiz — Version 4
+# Sir James’s Quizbox — Version 4
 
 A mobile-first live multiplayer quiz designed for iPhone and GitHub Pages.
 

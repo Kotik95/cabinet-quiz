@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#241b13">
+  <meta name="theme-color" content="#071526">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Cabinet Quiz">
+  <meta name="apple-mobile-web-app-title" content="Sir James’s Quizbox">
   <meta name="description" content="A polished live multiplayer quiz with 500 questions and six game modes.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css?v=4">
-  <title>Cabinet Quiz</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+  <title>Sir James’s Quizbox</title>
 </head>
 <body>
   <div class="paper-noise" aria-hidden="true"></div>
@@ -22,9 +22,9 @@
     <section id="homeView" class="view home-view">
       <div class="masthead">
         <div class="ornament" aria-hidden="true">❦</div>
-        <p class="eyebrow">The Mobile Knowledge Cabinet</p>
-        <h1>Cabinet Quiz</h1>
-        <p class="subtitle">A refined live quiz for friends — 500 questions, six modes, and a full twenty seconds for every answer.</p>
+        <p class="eyebrow">A Distinguished Test of Knowledge</p>
+        <h1>Sir James’s Quizbox</h1>
+        <p class="subtitle">An elegant live quiz for friends — 500 questions, six modes, and twenty seconds for every answer.</p>
         <div class="hero-stats" aria-label="Game highlights">
           <span><strong>500</strong> questions</span>
           <span><strong>6</strong> modes</span>
@@ -121,7 +121,7 @@
           <strong id="roomCodeDisplay" class="room-code">------</strong>
           <span class="room-link-note">The shared link opens this room directly.</span>
         </div>
-        <button id="shareRoomBtn" class="primary-btn small-btn">Share Invitation</button>
+        <div class="share-actions"><button id="shareRoomBtn" class="primary-btn small-btn">Share Invitation</button><button id="showQrBtn" class="secondary-btn small-btn">Show QR Code</button></div>
       </div>
 
       <div class="lobby-grid">
@@ -221,7 +221,7 @@
     <section id="finalView" class="view hidden">
       <div class="result-wrap">
         <div class="ornament" aria-hidden="true">♛</div>
-        <p class="eyebrow">The cabinet is closed</p>
+        <p class="eyebrow">The quizbox is closed</p>
         <h1 id="winnerTitle">Winner</h1>
         <div id="finalLeaderboard" class="leaderboard card"></div>
         <div class="final-actions">
@@ -235,6 +235,19 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="app.js?v=4"></script>
+  <div id="qrModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+    <div class="modal-backdrop" data-close-qr></div>
+    <section class="modal-card card">
+      <button id="closeQrBtn" class="icon-btn modal-close" aria-label="Close QR code">×</button>
+      <p class="eyebrow">Quick invitation</p>
+      <h2 id="qrTitle">Scan to Join</h2>
+      <div id="qrCode" class="qr-code" aria-label="QR code for the room invitation"></div>
+      <strong id="qrRoomCode" class="room-code">------</strong>
+      <p class="fine-print">Open the camera, scan the code, enter your name, and join the room.</p>
+      <button id="copyInviteBtn" class="primary-btn">Copy Invitation Link</button>
+    </section>
+  </div>
+
+  <script type="module" src="app.js?v=5"></script>
 </body>
 </html>

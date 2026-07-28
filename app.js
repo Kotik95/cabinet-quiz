@@ -1,4 +1,4 @@
-import { QUESTIONS } from "./questions.js?v=4";
+import { QUESTIONS } from "./questions.js?v=5";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import {
   getAuth,
@@ -16,7 +16,7 @@ import {
   runTransaction
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
-// Firebase web app configuration for Cabinet Quiz.
+// Firebase web app configuration for Sir James’s Quizbox.
 // Access is protected through Firebase Authentication and Realtime Database Rules.
 const firebaseConfig = {
   apiKey: "AIzaSyCcEBcQmDNE3nQqtyympT0GGwiyh9hc-R4",
@@ -112,7 +112,13 @@ const els = {
   leaveFinalBtn: document.getElementById("leaveFinalBtn"),
   finalHint: document.getElementById("finalHint"),
 
-  toast: document.getElementById("toast")
+  toast: document.getElementById("toast"),
+  showQrBtn: document.getElementById("showQrBtn"),
+  qrModal: document.getElementById("qrModal"),
+  qrCode: document.getElementById("qrCode"),
+  qrRoomCode: document.getElementById("qrRoomCode"),
+  closeQrBtn: document.getElementById("closeQrBtn"),
+  copyInviteBtn: document.getElementById("copyInviteBtn")
 };
 
 let uid = null;
@@ -128,6 +134,7 @@ let hostBusy = false;
 let lastRenderedQuestionKey = "";
 let toastTimer = null;
 let inviteAutoJoinAttempted = false;
+let lastInviteUrl = "";
 
 const rememberedName = localStorage.getItem("cabinetQuizName") || "";
 els.playerName.value = rememberedName;
@@ -139,7 +146,7 @@ if (invitationCode) {
   els.inviteNotice.classList.remove("hidden");
   els.joinRoomBtn.textContent = `Join Room ${invitationCode}`;
   els.homeStatus.textContent = rememberedName
-    ? `Invitation detected. Joining room ${invitationCode}…`
+    ? `Invitation detected. Tap Join Room to enter ${invitationCode}.`
     : `You have been invited to room ${invitationCode}. Enter your name to join.`;
 }
 
@@ -151,12 +158,6 @@ onAuthStateChanged(auth, user => {
   if (!user) return;
   uid = user.uid;
   authReadyResolve(user);
-
-  if (invitationCode && rememberedName && !inviteAutoJoinAttempted) {
-    inviteAutoJoinAttempted = true;
-    queueMicrotask(() => joinRoom(invitationCode, true));
-    return;
-  }
 
   els.homeStatus.textContent = invitationCode
     ? `Ready to join room ${invitationCode}.`
@@ -357,7 +358,7 @@ async function createRoom() {
         return {
           createdAt: now,
           lastActivity: now,
-          version: 4,
+          version: 5,
           hostUid: uid,
           phase: "lobby",
           settings: {
@@ -1057,29 +1058,77 @@ async function leaveRoom(removePlayer = true) {
   }
 }
 
+function invitationUrl() {
+  if (!roomCode) return "";
+  const shareUrl = invitationUrl();
+  return shareUrl.toString();
+}
+
+async function copyInvitation() {
+  const url = invitationUrl();
+  if (!url) return;
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast("Invitation link copied.");
+  } catch {
+    const input = document.createElement("textarea");
+    input.value = url;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.append(input);
+    input.select();
+    document.execCommand("copy");
+    input.remove();
+    showToast("Invitation link copied.");
+  }
+}
+
+function qrImageUrl(value) {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=18&data=${encodeURIComponent(value)}`;
+}
+
+function showQrCode() {
+  const url = invitationUrl();
+  if (!url) return;
+  lastInviteUrl = url;
+  els.qrCode.innerHTML = "";
+  const image = document.createElement("img");
+  image.src = qrImageUrl(url);
+  image.alt = `QR code to join room ${roomCode}`;
+  image.width = 300;
+  image.height = 300;
+  els.qrCode.append(image);
+  els.qrRoomCode.textContent = roomCode;
+  els.qrModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+}
+
+function closeQrCode() {
+  els.qrModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+}
+
 async function shareRoom() {
   if (!roomCode) return;
-  const shareUrl = new URL(location.href);
-  shareUrl.search = "";
-  shareUrl.hash = "";
-  shareUrl.searchParams.set("room", roomCode);
+  const shareUrl = invitationUrl();
   const data = {
-    title: "Cabinet Quiz",
-    text: `Join my Cabinet Quiz room ${roomCode}. The link opens the room directly.`,
-    url: shareUrl.toString()
+    title: "Sir James’s Quizbox",
+    text: `Join my Sir James’s Quizbox room ${roomCode}. The link opens the room directly.`,
+    url: shareUrl
   };
 
   try {
     if (navigator.share) {
       await navigator.share(data);
     } else {
-      await navigator.clipboard.writeText(shareUrl.toString());
+      await navigator.clipboard.writeText(shareUrl);
       showToast("Invitation link copied.");
     }
   } catch (error) {
     if (error?.name !== "AbortError") {
       try {
-        await navigator.clipboard.writeText(shareUrl.toString());
+        await navigator.clipboard.writeText(shareUrl);
         showToast("Invitation link copied.");
       } catch {
         showToast(`Room code: ${roomCode}`);
@@ -1124,6 +1173,10 @@ els.leaveLobbyBtn.addEventListener("click", () => leaveRoom(true));
 els.leaveGameBtn.addEventListener("click", () => leaveRoom(true));
 els.leaveFinalBtn.addEventListener("click", () => leaveRoom(true));
 els.shareRoomBtn.addEventListener("click", shareRoom);
+els.showQrBtn.addEventListener("click", showQrCode);
+els.closeQrBtn.addEventListener("click", closeQrCode);
+els.copyInviteBtn.addEventListener("click", copyInvitation);
+els.qrModal.addEventListener("click", event => { if (event.target.matches("[data-close-qr]")) closeQrCode(); });
 els.startGameBtn.addEventListener("click", startGame);
 els.playAgainBtn.addEventListener("click", returnToLobby);
 els.lobbyRounds.addEventListener("change", updateLobbySettings);
@@ -1139,10 +1192,19 @@ setInterval(() => {
   advanceAfterRoundBreakIfNeeded();
 }, 180);
 
+// Service workers are intentionally disabled for this live multiplayer build.
+// Removing old workers prevents iPhone Safari from loading stale JavaScript that can block taps.
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {
-      // The game also works without a service worker.
-    });
+  window.addEventListener("load", async () => {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(registration => registration.unregister()));
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.filter(key => key.startsWith("cabinet-quiz")).map(key => caches.delete(key)));
+      }
+    } catch {
+      // The website remains fully usable when cleanup is unavailable.
+    }
   });
 }

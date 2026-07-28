@@ -1207,3 +1207,67 @@ button:disabled {
     transition-duration: .01ms !important;
   }
 }
+
+/* Version 5 — Sir James’s Quizbox: navy, antique gold, ivory */
+:root {
+  --ink: #0b1726;
+  --paper: #f7f1e3;
+  --paper-deep: #eadfca;
+  --navy: #071526;
+  --navy-soft: #102a45;
+  --gold: #b8934f;
+  --gold-light: #ddc783;
+  --ivory: #fffaf0;
+}
+
+html { background: var(--navy); }
+body {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(184,147,79,.16), transparent 32rem),
+    radial-gradient(circle at 85% 25%, rgba(35,74,111,.24), transparent 34rem),
+    linear-gradient(155deg, #06111f, #0b2138 55%, #071526);
+  color: var(--ivory);
+}
+
+.paper-noise { opacity: .055; }
+.masthead h1, .top-header h1, .result-wrap h1 { color: var(--ivory); text-shadow: 0 2px 20px rgba(0,0,0,.35); }
+.eyebrow, .card-kicker, .small-label { color: var(--gold-light); }
+.subtitle, .status, .fine-print, .room-link-note, .mode-summary { color: rgba(255,250,240,.76); }
+.card {
+  background: linear-gradient(145deg, rgba(255,250,240,.98), rgba(240,229,207,.96));
+  color: var(--ink);
+  border-color: rgba(184,147,79,.7);
+  box-shadow: 0 18px 50px rgba(0,0,0,.26), inset 0 1px rgba(255,255,255,.9);
+}
+.card .fine-print, .card .room-link-note, .card .mode-summary, .card .status { color: #596371; }
+.card .card-kicker, .card .small-label { color: #806128; }
+.primary-btn {
+  background: linear-gradient(180deg, #d6bd76, #ac843c);
+  color: #101820;
+  border-color: #ecd99d;
+  box-shadow: 0 9px 24px rgba(8,18,30,.25), inset 0 1px rgba(255,255,255,.55);
+}
+.secondary-btn {
+  background: linear-gradient(180deg, #173754, #0b2238);
+  color: var(--ivory);
+  border-color: rgba(221,199,131,.8);
+}
+button, input, select { touch-action: manipulation; -webkit-tap-highlight-color: rgba(221,199,131,.24); }
+button { cursor: pointer; position: relative; z-index: 2; }
+.answer-btn { min-height: 76px; touch-action: manipulation; }
+.answer-btn:not(:disabled) { pointer-events: auto; }
+.share-actions { display: flex; gap: .7rem; flex-wrap: wrap; justify-content: flex-end; }
+.modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1rem; }
+.modal.hidden { display: none; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(1,8,16,.82); backdrop-filter: blur(7px); }
+.modal-card { position: relative; width: min(94vw, 430px); text-align: center; padding: 2rem 1.2rem 1.3rem; z-index: 1; }
+.modal-close { position: absolute; top: .7rem; right: .7rem; color: var(--ink); border-color: rgba(11,23,38,.25); }
+.qr-code { width: min(76vw, 310px); aspect-ratio: 1; margin: 1rem auto; padding: .65rem; background: #fff; border: 2px solid var(--gold); border-radius: 18px; box-shadow: 0 12px 30px rgba(0,0,0,.18); }
+.qr-code img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.modal-open { overflow: hidden; }
+@media (max-width: 640px) {
+  .share-actions { width: 100%; }
+  .share-actions button { flex: 1 1 145px; }
+  .room-banner-card { align-items: stretch; }
+  .primary-btn, .secondary-btn, .answer-btn { min-height: 52px; }
+}
