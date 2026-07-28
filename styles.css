@@ -1408,3 +1408,95 @@ button { cursor: pointer; position: relative; z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
   .question-intro-card { animation: none; }
 }
+
+
+/* Version 10 — refined reclining cat crest and reliable blurred question transition */
+.timer-bar { transition: none !important; }
+
+.game-view {
+  position: relative;
+}
+
+.question-transition {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: grid;
+  place-items: center;
+  padding: 24px 14px max(110px, env(safe-area-inset-bottom) + 82px);
+  pointer-events: none;
+  opacity: 1;
+}
+
+.question-transition.hidden {
+  display: none;
+}
+
+.game-view.transition-active .timer-track,
+.game-view.transition-active .question-card,
+.game-view.transition-active .score-strip {
+  filter: blur(9px);
+  opacity: .38;
+  transform: scale(.988);
+  transition: filter .22s ease, opacity .22s ease, transform .22s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.game-view .timer-track,
+.game-view .question-card,
+.game-view .score-strip {
+  transition: filter .22s ease, opacity .22s ease, transform .22s ease;
+}
+
+.transition-card {
+  width: min(88vw, 540px);
+  padding: 24px 22px;
+  border: 1px solid rgba(231,200,117,.4);
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(14,29,46,.92), rgba(7,21,38,.94));
+  box-shadow: 0 24px 48px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.06);
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.transition-card h2 {
+  margin: 8px 0 6px;
+  color: #fff5da;
+  font-size: clamp(1.55rem, 5.6vw, 2.5rem);
+  line-height: 1.06;
+  letter-spacing: -.02em;
+}
+
+.transition-meta {
+  margin: 0;
+  color: rgba(255,246,220,.76);
+  font-size: .84rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.cat-crest {
+  width: clamp(148px, 30vw, 218px);
+  margin: 0 auto 16px;
+  filter: drop-shadow(0 14px 34px rgba(0,0,0,.34)) drop-shadow(0 1px 0 rgba(255,239,181,.3));
+}
+
+.cat-crest svg {
+  overflow: visible;
+}
+
+@media (max-width: 640px) {
+  .question-transition {
+    padding: 12px 10px max(104px, env(safe-area-inset-bottom) + 74px);
+  }
+
+  .transition-card {
+    padding: 20px 18px;
+  }
+
+  .transition-card h2 {
+    font-size: clamp(1.35rem, 6vw, 2rem);
+  }
+}

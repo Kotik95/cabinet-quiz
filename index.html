@@ -10,7 +10,7 @@
   <meta name="description" content="A polished live multiplayer quiz with 500 questions and six game modes.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
   <title>Sir James’s Quizbox</title>
 </head>
 <body>
@@ -22,45 +22,51 @@
     <section id="homeView" class="view home-view">
       <div class="masthead">
         <div class="cat-crest" aria-hidden="true">
-          <svg viewBox="0 0 320 300" role="img" aria-label="Golden British Shorthair crest with emerald collar">
+          <svg viewBox="0 0 360 220" role="img" aria-label="Golden British Shorthair with an emerald collar">
             <defs>
-              <linearGradient id="heritageGold" x1="42" y1="22" x2="270" y2="278" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stop-color="#fff3ba"/>
-                <stop offset="0.24" stop-color="#e8c36f"/>
-                <stop offset="0.52" stop-color="#b87920"/>
-                <stop offset="0.74" stop-color="#e0b85a"/>
-                <stop offset="1" stop-color="#7f4c0c"/>
+              <linearGradient id="catGold" x1="30" y1="24" x2="274" y2="196" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#fff3bf"/>
+                <stop offset="0.2" stop-color="#f4d98b"/>
+                <stop offset="0.48" stop-color="#d5a845"/>
+                <stop offset="0.74" stop-color="#a86f18"/>
+                <stop offset="1" stop-color="#f0ce74"/>
               </linearGradient>
-              <linearGradient id="collarGold" x1="73" y1="212" x2="248" y2="241" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#8d570e"/>
-                <stop offset="0.48" stop-color="#f1d281"/>
-                <stop offset="1" stop-color="#8b540d"/>
+              <linearGradient id="catGoldDeep" x1="76" y1="44" x2="252" y2="188" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#fbe7a6" stop-opacity=".96"/>
+                <stop offset="0.45" stop-color="#d6a33d" stop-opacity=".9"/>
+                <stop offset="1" stop-color="#8f5f12" stop-opacity=".96"/>
               </linearGradient>
-              <radialGradient id="emerald" cx="38%" cy="28%" r="72%">
-                <stop stop-color="#b8ffd9"/>
-                <stop offset="0.18" stop-color="#35be78"/>
-                <stop offset="0.55" stop-color="#087246"/>
-                <stop offset="1" stop-color="#023a29"/>
+              <linearGradient id="collarGold2" x1="138" y1="118" x2="195" y2="150" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#8a5610"/>
+                <stop offset=".5" stop-color="#efcb77"/>
+                <stop offset="1" stop-color="#8a5610"/>
+              </linearGradient>
+              <radialGradient id="emeraldGem2" cx="35%" cy="25%" r="72%">
+                <stop offset="0" stop-color="#d9ffe9"/>
+                <stop offset="0.25" stop-color="#54cf8f"/>
+                <stop offset="0.58" stop-color="#0d8a56"/>
+                <stop offset="1" stop-color="#064a31"/>
               </radialGradient>
-              <filter id="crestShadow" x="-30%" y="-30%" width="160%" height="170%">
-                <feDropShadow dx="0" dy="14" stdDeviation="11" flood-color="#000" flood-opacity=".42"/>
-                <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#e5bd60" flood-opacity=".22"/>
+              <filter id="catCrestShadow2" x="-20%" y="-25%" width="145%" height="170%">
+                <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#000000" flood-opacity=".34"/>
+                <feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#ffd27a" flood-opacity=".25"/>
               </filter>
             </defs>
-            <g filter="url(#crestShadow)">
-              <!-- Broad, dignified British Shorthair head and chest. -->
-              <path fill="url(#heritageGold)" d="M160 24c-29 0-54 8-73 23L47 29c-9-4-18 4-15 14l16 63c-8 17-12 37-12 58 0 54 27 99 70 119h108c43-20 70-65 70-119 0-21-4-41-12-58l16-63c3-10-6-18-15-14l-40 18c-19-15-44-23-73-23Zm-73 58c18-17 43-27 73-27s55 10 73 27c17 17 26 41 26 70 0 34-10 60-31 79-18 17-41 25-68 25s-50-8-68-25c-21-19-31-45-31-79 0-29 9-53 26-70Z"/>
-              <!-- Heavy cheeks and compact muzzle create the characteristic British Shorthair expression. -->
-              <path fill="url(#heritageGold)" d="M73 151c0-32 15-57 41-72 13-8 28-12 46-12s33 4 46 12c26 15 41 40 41 72 0 26-9 48-28 65-16 15-36 22-59 22s-43-7-59-22c-19-17-28-39-28-65Z"/>
-              <path fill="#5a3508" opacity=".72" d="M101 130c13-10 29-11 44-3-9-14-22-21-38-19-14 1-25 9-31 21 8-3 16-2 25 1Zm118 0c-13-10-29-11-44-3 9-14 22-21 38-19 14 1 25 9 31 21-8-3-16-2-25 1Z"/>
-              <path fill="#3b2409" opacity=".86" d="M145 157c4-5 9-8 15-8s11 3 15 8c-3 8-8 12-15 12s-12-4-15-12Z"/>
-              <path fill="none" stroke="#5a3508" stroke-width="5" stroke-linecap="round" d="M160 169v11m0 0c-10 0-18 4-24 11m24-11c10 0 18 4 24 11" opacity=".76"/>
-              <path fill="none" stroke="#70450e" stroke-width="3" stroke-linecap="round" d="M103 165 55 156m50 22-51 3m163-16 48-9m-50 22 51 3" opacity=".52"/>
-              <!-- Tailored collar with a restrained emerald jewel. -->
-              <path fill="url(#collarGold)" d="M77 216c23 14 51 21 83 21s60-7 83-21l-5 26c-21 13-47 19-78 19s-57-6-78-19l-5-26Z"/>
-              <path fill="#173626" stroke="#e9c86f" stroke-width="4" d="M160 230 178 244 171 270 160 280 149 270 142 244Z"/>
-              <path fill="url(#emerald)" d="M160 235 172 245 167 265 160 272 153 265 148 245Z"/>
-              <path fill="none" stroke="#ddffec" stroke-width="2" stroke-linecap="round" d="M156 243 164 240" opacity=".75"/>
+            <g filter="url(#catCrestShadow2)">
+              <path fill="url(#catGold)" d="M38 161c-6 0-9 4-9 9s4 9 9 9h53c8 0 14-3 17-9 4-6 6-16 8-28 4 8 9 16 15 23 12 13 28 19 49 19h67c19 0 33-4 42-12 9-8 14-18 15-31 14 6 28 9 42 9h8c6 0 9-4 9-8 0-5-3-9-9-10l-19-3c-10-1-19-5-28-13-3-3-6-6-9-9 0-35-11-62-33-81-20-18-46-27-76-27-17 0-32 3-47 9-8-8-20-12-36-12-6 0-11 4-11 10v28c-9 8-16 17-21 28-5 9-8 19-10 30-6 2-11 6-16 11-7 8-13 19-18 34-5 12-9 24-13 35-3 7-7 10-14 10H38Z"/>
+              <path fill="url(#catGoldDeep)" d="M116 82c0-18 6-34 18-46l-1-20c0-3 3-5 6-3 9 5 17 10 24 16 12-4 25-6 39-6 26 0 48 8 66 24 20 17 29 40 29 69 0 16-4 28-13 37-9 10-23 15-42 15h-64c-17 0-30-5-39-15-9-10-16-24-22-42-8 3-14 5-17 4-10-2-15-13-13-33Z" opacity=".98"/>
+              <path fill="#6d4310" opacity=".55" d="M168 77c0-6 4-11 10-11 7 0 11 5 11 11 0 6-4 10-11 10-6 0-10-4-10-10Zm53 2c0-6 4-10 10-10s10 4 10 10-4 10-10 10-10-4-10-10Z"/>
+              <path fill="#52310a" d="M197 93c4-4 8-6 13-6s9 2 13 6c-2 7-7 10-13 10-7 0-11-3-13-10Z"/>
+              <path fill="none" stroke="#6f4510" stroke-width="4.2" stroke-linecap="round" d="M210 103v9m0 0c-8 0-15 3-20 9m20-9c8 0 15 3 20 9" opacity=".8"/>
+              <path fill="none" stroke="#a97224" stroke-width="2.7" stroke-linecap="round" d="M160 102 118 95m41 15-45 2m106-10 43-7m-41 15 44 2" opacity=".5"/>
+              <path fill="#e4c27a" opacity=".42" d="M132 65c11-13 27-21 46-23-16 4-29 12-39 24-10 12-14 28-12 46-5-18-3-34 5-47Zm112 3c-12-14-27-22-46-24 16 4 29 12 39 24 10 12 14 28 12 46 5-18 3-33-5-46Z"/>
+              <!-- paws hanging elegantly over the ledge, matching the reference pose -->
+              <path fill="url(#catGold)" d="M74 151c14 0 23 5 27 14 2 5 2 11 0 18-5 19-10 30-14 34-3 3-8 4-13 3-5-1-8-4-9-9-1-5 0-12 3-22 2-5 2-10 2-15 0-4-1-9-3-15-1-4 1-8 7-8Z"/>
+              <path fill="url(#catGoldDeep)" d="M116 145c13 0 21 4 25 12 3 7 3 16 1 26-3 16-7 28-12 35-4 5-9 7-15 6-5-1-8-4-9-10-1-6 0-15 3-28 1-5 1-11 0-17-1-4 0-8 7-12Z"/>
+              <path fill="url(#collarGold2)" d="M155 126c17 8 36 12 57 12 20 0 38-4 53-11l-4 15c-14 8-31 12-51 12-22 0-42-5-58-14l3-14Z"/>
+              <path fill="#123124" stroke="#e3c46f" stroke-width="4" d="M211 135 223 143 218 159 211 165 204 159 199 143Z"/>
+              <path fill="url(#emeraldGem2)" d="M211 138 220 145 216 157 211 162 206 157 202 145Z"/>
+              <path fill="none" stroke="#dcffee" stroke-width="2" stroke-linecap="round" d="M208 143 214 141" opacity=".78"/>
             </g>
           </svg>
         </div>
@@ -248,6 +254,14 @@
           <strong id="leaderName">–</strong>
         </div>
       </section>
+
+      <div id="questionTransition" class="question-transition hidden" aria-live="polite" aria-atomic="true">
+        <div class="transition-card">
+          <p id="transitionEyebrow" class="eyebrow">Stand by</p>
+          <h2 id="transitionMessage">Another question is on the way.</h2>
+          <p id="transitionMeta" class="transition-meta">Round 1 · Question 2</p>
+        </div>
+      </div>
     </section>
 
 
@@ -301,6 +315,6 @@
     </section>
   </div>
 
-  <script type="module" src="app.js?v=9"></script>
+  <script type="module" src="app.js?v=10"></script>
 </body>
 </html>

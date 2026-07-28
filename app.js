@@ -35,9 +35,9 @@ const db = getDatabase(app);
 const QUESTIONS_PER_ROUND = 5;
 const QUESTION_SECONDS = 20;
 const REVEAL_MS = 6500;
-const APP_VERSION = "6.0.0";
+const APP_VERSION = "10.0.0";
 const ROUND_BREAK_MS = 5200;
-const QUESTION_INTRO_MS = 900;
+const QUESTION_INTRO_MS = 1700;
 const MAX_PLAYERS_RECOMMENDED = 8;
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const GENERAL_CATEGORY = "General Knowledge";
@@ -107,6 +107,10 @@ const els = {
   introEyebrow: document.getElementById("introEyebrow"),
   introMessage: document.getElementById("introMessage"),
   introMeta: document.getElementById("introMeta"),
+  questionTransition: document.getElementById("questionTransition"),
+  transitionEyebrow: document.getElementById("transitionEyebrow"),
+  transitionMessage: document.getElementById("transitionMessage"),
+  transitionMeta: document.getElementById("transitionMeta"),
 
   breakEyebrow: document.getElementById("breakEyebrow"),
   breakTitle: document.getElementById("breakTitle"),
@@ -520,12 +524,9 @@ function renderRoom() {
   if (phase === "lobby") {
     showView("lobby");
     renderLobby();
-  } else if (phase === "question" || phase === "reveal") {
+  } else if (phase === "question" || phase === "reveal" || phase === "questionIntro") {
     showView("game");
     renderGame();
-  } else if (phase === "questionIntro") {
-    showView("intro");
-    renderQuestionIntro();
   } else if (phase === "roundBreak") {
     showView("break");
     renderRoundBreak();
@@ -629,7 +630,7 @@ function renderGame() {
     els.answerStatus.textContent = ownAnswer
       ? "Answer locked. The reveal begins as soon as everyone is in — or when time runs out."
       : "Choose one answer. You have up to 20 seconds.";
-  } else {
+  } else if (roomState.phase === "reveal") {
     const ownAward = Number(roomState.players?.[uid]?.lastAward || 0);
     const ownCorrect = ownAnswer && Number(ownAnswer.choice) === Number(question.answer);
     if (!ownAnswer) {
@@ -639,7 +640,11 @@ function renderGame() {
     } else {
       els.answerStatus.textContent = `Not this time. ${question.explanation}`;
     }
+  } else {
+    els.answerStatus.textContent = "A new question is stepping onto the floor.";
   }
+
+  renderQuestionTransition();
 }
 
 function renderAnswerButtons(question, planItem, cursor) {
@@ -721,8 +726,11 @@ function renderAnswerButtons(question, planItem, cursor) {
         button.append(ribbon, chips);
       }
     } else {
-      button.disabled = Boolean(ownAnswer);
-      button.addEventListener("click", () => submitAnswer(baseOptionIndex));
+      const canAnswerNow = roomState.phase === "question" && !ownAnswer;
+      button.disabled = !canAnswerNow;
+      if (canAnswerNow) {
+        button.addEventListener("click", () => submitAnswer(baseOptionIndex));
+      }
     }
 
     els.answersGrid.append(button);
@@ -801,26 +809,38 @@ function renderLeaderboard(container) {
 }
 
 const INTRO_MESSAGES = [
-  "Next up — keep your dignity close.",
-  "A brief pause. Your reputation remains at risk.",
-  "Fresh question. Same formidable company.",
-  "Sir James has selected another little ordeal.",
-  "Reset the wits. Here comes the next one.",
-  "No speeches, please. The next question awaits."
+  "A fresh challenge is on its way.",
+  "Sharpen the wits. The next one is arriving.",
+  "A brief pause — then back to business.",
+  "Hold that confidence. Another question is en route.",
+  "Sir James has selected a new little ordeal.",
+  "Take a breath. The next test is nearly here."
 ];
 
-function renderQuestionIntro() {
-  const game = roomState?.game;
-  if (!game?.plan?.length) return;
+function renderQuestionTransition() {
+  if (!roomState || roomState.phase !== "questionIntro" || !roomState.game?.plan?.length) {
+    els.questionTransition.classList.add("hidden");
+    views.game.classList.remove("transition-active");
+    return;
+  }
+
+  const game = roomState.game;
   const cursor = Number(game.cursor || 0);
   const planItem = game.plan[cursor];
   const question = questionById(planItem?.id);
   const roundNumber = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
   const questionInRound = (cursor % QUESTIONS_PER_ROUND) + 1;
-  const messageIndex = Math.abs((cursor * 7) + String(game.id || "").length) % INTRO_MESSAGES.length;
-  els.introEyebrow.textContent = `Round ${roundNumber} · Question ${questionInRound}`;
-  els.introMessage.textContent = INTRO_MESSAGES[messageIndex];
-  els.introMeta.textContent = question ? question.category : "Next question";
+  const messageIndex = Math.abs((cursor * 11) + String(game.id || "").length) % INTRO_MESSAGES.length;
+
+  els.transitionEyebrow.textContent = `Round ${roundNumber} · Question ${questionInRound}`;
+  els.transitionMessage.textContent = INTRO_MESSAGES[messageIndex];
+  els.transitionMeta.textContent = question ? question.category : "Next question";
+  els.questionTransition.classList.remove("hidden");
+  views.game.classList.add("transition-active");
+}
+
+function renderQuestionIntro() {
+  renderQuestionTransition();
 }
 
 function renderRoundBreak() {
