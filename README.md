@@ -22,3 +22,10 @@ A mobile-first live multiplayer quiz designed for iPhone and GitHub Pages.
 4. Publish the included `firebase.rules.json` in Firebase Realtime Database → Rules.
 
 The Firebase rules must be updated because Version 4 adds category settings, player colors, and a safer answer format.
+
+
+## Version 6 fixes
+- Fixed invitation URL generation for Share, Copy Link, and QR Code.
+- Added a gold British Shorthair crest.
+- Updated Firebase rules so authenticated players can save their own answers.
+- Publish `firebase.rules.json` in Firebase Realtime Database Rules after updating the files.

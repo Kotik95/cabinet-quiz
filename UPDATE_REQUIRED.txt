@@ -1,0 +1,8 @@
+SIR JAMES’S QUIZBOX — VERSION 6
+
+1. Replace all files in your existing Quiz folder with this package.
+2. Commit and push the files with GitHub Desktop.
+3. IMPORTANT: Open Firebase Console > Realtime Database > Rules.
+4. Replace the rules with the full contents of firebase.rules.json and click Publish.
+
+The Firebase Rules update is required to fix “permission denied” when players submit answers.

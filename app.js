@@ -35,6 +35,7 @@ const db = getDatabase(app);
 const QUESTIONS_PER_ROUND = 5;
 const QUESTION_SECONDS = 20;
 const REVEAL_MS = 6500;
+const APP_VERSION = "6.0.0";
 const ROUND_BREAK_MS = 5200;
 const MAX_PLAYERS_RECOMMENDED = 8;
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -1060,27 +1061,54 @@ async function leaveRoom(removePlayer = true) {
 
 function invitationUrl() {
   if (!roomCode) return "";
-  const shareUrl = invitationUrl();
+  const shareUrl = new URL(window.location.href);
+  shareUrl.search = "";
+  shareUrl.hash = "";
+  shareUrl.searchParams.set("room", roomCode);
   return shareUrl.toString();
 }
 
 async function copyInvitation() {
   const url = invitationUrl();
-  if (!url) return;
+  if (!url) {
+    showToast("Create or join a room first.");
+    return;
+  }
+
   try {
-    await navigator.clipboard.writeText(url);
-    showToast("Invitation link copied.");
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(url);
+      showToast("Invitation link copied.");
+      return;
+    }
   } catch {
-    const input = document.createElement("textarea");
-    input.value = url;
-    input.setAttribute("readonly", "");
-    input.style.position = "fixed";
-    input.style.opacity = "0";
-    document.body.append(input);
-    input.select();
-    document.execCommand("copy");
-    input.remove();
+    // Continue with the iOS-compatible fallback below.
+  }
+
+  const input = document.createElement("textarea");
+  input.value = url;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.top = "0";
+  input.style.left = "-9999px";
+  input.style.fontSize = "16px";
+  document.body.append(input);
+  input.focus();
+  input.select();
+  input.setSelectionRange(0, input.value.length);
+
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } catch {
+    copied = false;
+  }
+  input.remove();
+
+  if (copied) {
     showToast("Invitation link copied.");
+  } else {
+    window.prompt("Copy this invitation link:", url);
   }
 }
 
@@ -1090,15 +1118,35 @@ function qrImageUrl(value) {
 
 function showQrCode() {
   const url = invitationUrl();
-  if (!url) return;
+  if (!url) {
+    showToast("Create or join a room first.");
+    return;
+  }
   lastInviteUrl = url;
   els.qrCode.innerHTML = "";
+
+  const loading = document.createElement("p");
+  loading.className = "qr-loading";
+  loading.textContent = "Preparing QR code…";
+  els.qrCode.append(loading);
+
   const image = document.createElement("img");
   image.src = qrImageUrl(url);
   image.alt = `QR code to join room ${roomCode}`;
   image.width = 300;
   image.height = 300;
-  els.qrCode.append(image);
+  image.onload = () => {
+    els.qrCode.innerHTML = "";
+    els.qrCode.append(image);
+  };
+  image.onerror = () => {
+    els.qrCode.innerHTML = "";
+    const errorText = document.createElement("p");
+    errorText.className = "qr-error";
+    errorText.textContent = "The QR image could not be loaded. Use Copy Invitation Link instead.";
+    els.qrCode.append(errorText);
+  };
+
   els.qrRoomCode.textContent = roomCode;
   els.qrModal.classList.remove("hidden");
   document.body.classList.add("modal-open");
@@ -1122,17 +1170,11 @@ async function shareRoom() {
     if (navigator.share) {
       await navigator.share(data);
     } else {
-      await navigator.clipboard.writeText(shareUrl);
-      showToast("Invitation link copied.");
+      await copyInvitation();
     }
   } catch (error) {
     if (error?.name !== "AbortError") {
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        showToast("Invitation link copied.");
-      } catch {
-        showToast(`Room code: ${roomCode}`);
-      }
+      await copyInvitation();
     }
   }
 }

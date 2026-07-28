@@ -1271,3 +1271,39 @@ button { cursor: pointer; position: relative; z-index: 2; }
   .room-banner-card { align-items: stretch; }
   .primary-btn, .secondary-btn, .answer-btn { min-height: 52px; }
 }
+
+/* Version 6 — British Shorthair crest and interaction fixes */
+.cat-crest {
+  width: clamp(112px, 24vw, 168px);
+  margin: 0 auto 10px;
+  color: var(--gold-light);
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.32));
+}
+.cat-crest svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.cat-crest path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cat-crest .cat-eye {
+  stroke-width: 10;
+}
+.qr-loading,
+.qr-error {
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+  margin: 0;
+  padding: 1rem;
+  color: #0b1726;
+  text-align: center;
+  font-weight: 800;
+}
+.qr-error { color: #7c2530; }

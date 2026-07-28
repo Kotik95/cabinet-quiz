@@ -10,7 +10,7 @@
   <meta name="description" content="A polished live multiplayer quiz with 500 questions and six game modes.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
   <title>Sir James’s Quizbox</title>
 </head>
 <body>
@@ -21,7 +21,15 @@
   <main class="app-shell">
     <section id="homeView" class="view home-view">
       <div class="masthead">
-        <div class="ornament" aria-hidden="true">❦</div>
+        <div class="cat-crest" aria-hidden="true">
+          <svg viewBox="0 0 220 170" role="img" aria-label="Golden outline of a British Shorthair cat">
+            <path d="M52 68 39 31 73 49c11-7 24-11 37-11s26 4 37 11l34-18-13 37c12 13 18 29 18 47 0 31-34 49-76 49s-76-18-76-49c0-18 6-34 18-47Z"/>
+            <path d="M67 88c8-11 19-16 31-16M153 88c-8-11-19-16-31-16"/>
+            <path d="M83 104h1M136 104h1" class="cat-eye"/>
+            <path d="M101 119c5 5 13 5 18 0M110 116v12M92 132c10 8 26 8 36 0"/>
+            <path d="M67 119 30 114M68 128 29 132M153 119l37-5M152 128l39 4"/>
+          </svg>
+        </div>
         <p class="eyebrow">A Distinguished Test of Knowledge</p>
         <h1>Sir James’s Quizbox</h1>
         <p class="subtitle">An elegant live quiz for friends — 500 questions, six modes, and twenty seconds for every answer.</p>
@@ -248,6 +256,6 @@
     </section>
   </div>
 
-  <script type="module" src="app.js?v=5"></script>
+  <script type="module" src="app.js?v=6"></script>
 </body>
 </html>
