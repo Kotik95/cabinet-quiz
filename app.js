@@ -37,6 +37,7 @@ const QUESTION_SECONDS = 20;
 const REVEAL_MS = 6500;
 const APP_VERSION = "6.0.0";
 const ROUND_BREAK_MS = 5200;
+const QUESTION_INTRO_MS = 1150;
 const MAX_PLAYERS_RECOMMENDED = 8;
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const GENERAL_CATEGORY = "General Knowledge";
@@ -63,6 +64,7 @@ const views = {
   home: document.getElementById("homeView"),
   lobby: document.getElementById("lobbyView"),
   game: document.getElementById("gameView"),
+  intro: document.getElementById("questionIntroView"),
   break: document.getElementById("breakView"),
   final: document.getElementById("finalView")
 };
@@ -101,6 +103,10 @@ const els = {
   answerStatus: document.getElementById("answerStatus"),
   myScore: document.getElementById("myScore"),
   leaderName: document.getElementById("leaderName"),
+
+  introEyebrow: document.getElementById("introEyebrow"),
+  introMessage: document.getElementById("introMessage"),
+  introMeta: document.getElementById("introMeta"),
 
   breakEyebrow: document.getElementById("breakEyebrow"),
   breakTitle: document.getElementById("breakTitle"),
@@ -513,6 +519,9 @@ function renderRoom() {
   } else if (phase === "question" || phase === "reveal") {
     showView("game");
     renderGame();
+  } else if (phase === "questionIntro") {
+    showView("intro");
+    renderQuestionIntro();
   } else if (phase === "roundBreak") {
     showView("break");
     renderRoundBreak();
@@ -614,8 +623,8 @@ function renderGame() {
 
   if (roomState.phase === "question") {
     els.answerStatus.textContent = ownAnswer
-      ? "Answer locked. The reveal begins when the timer reaches zero."
-      : "Choose one answer. Every player gets the full 20 seconds.";
+      ? "Answer locked. The reveal begins as soon as everyone is in — or when time runs out."
+      : "Choose one answer. You have up to 20 seconds.";
   } else {
     const ownAward = Number(roomState.players?.[uid]?.lastAward || 0);
     const ownCorrect = ownAnswer && Number(ownAnswer.choice) === Number(question.answer);
@@ -785,6 +794,29 @@ function renderLeaderboard(container) {
     row.append(rank, token, name, points);
     container.append(row);
   });
+}
+
+const INTRO_MESSAGES = [
+  "A fresh challenge is on its way.",
+  "Pens down. Wits up.",
+  "One breath — then back into the fray.",
+  "Sir James has another one for you.",
+  "No pressure. Only reputation.",
+  "The next question approaches with impeccable timing."
+];
+
+function renderQuestionIntro() {
+  const game = roomState?.game;
+  if (!game?.plan?.length) return;
+  const cursor = Number(game.cursor || 0);
+  const planItem = game.plan[cursor];
+  const question = questionById(planItem?.id);
+  const roundNumber = Math.floor(cursor / QUESTIONS_PER_ROUND) + 1;
+  const questionInRound = (cursor % QUESTIONS_PER_ROUND) + 1;
+  const messageIndex = Math.abs((cursor * 7) + String(game.id || "").length) % INTRO_MESSAGES.length;
+  els.introEyebrow.textContent = `Round ${roundNumber} · Question ${questionInRound}`;
+  els.introMessage.textContent = INTRO_MESSAGES[messageIndex];
+  els.introMeta.textContent = question ? question.category : "Next question";
 }
 
 function renderRoundBreak() {
@@ -959,11 +991,35 @@ async function advanceAfterRevealIfNeeded() {
         current.phase = "roundBreak";
         current.game.roundBreakStartedAt = now;
       } else {
-        current.phase = "question";
+        current.phase = "questionIntro";
         current.game.cursor = nextCursor;
-        current.game.questionStartedAt = now;
+        current.game.introStartedAt = now;
         current.game.revealStartedAt = null;
       }
+      current.lastActivity = now;
+      return current;
+    });
+  } finally {
+    hostBusy = false;
+  }
+}
+
+async function advanceAfterQuestionIntroIfNeeded() {
+  if (!isHost() || hostBusy || roomState?.phase !== "questionIntro") return;
+  const game = roomState.game;
+  if (!game) return;
+  if (serverNow() - Number(game.introStartedAt || 0) < QUESTION_INTRO_MS) return;
+
+  hostBusy = true;
+  try {
+    const cursor = Number(game.cursor || 0);
+    const now = serverNow();
+    await runTransaction(roomRef(), current => {
+      if (!current || current.hostUid !== uid || current.phase !== "questionIntro") return;
+      if (Number(current.game?.cursor || 0) !== cursor || current.game?.id !== game.id) return;
+      current.phase = "question";
+      current.game.questionStartedAt = now;
+      current.game.introStartedAt = null;
       current.lastActivity = now;
       return current;
     });
@@ -1254,6 +1310,7 @@ timerAnimationFrame = requestAnimationFrame(animateTimer);
 setInterval(() => {
   settleQuestionIfNeeded();
   advanceAfterRevealIfNeeded();
+  advanceAfterQuestionIntroIfNeeded();
   advanceAfterRoundBreakIfNeeded();
 }, 120);
 

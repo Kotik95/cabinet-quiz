@@ -10,7 +10,7 @@
   <meta name="description" content="A polished live multiplayer quiz with 500 questions and six game modes.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
   <title>Sir James’s Quizbox</title>
 </head>
 <body>
@@ -22,16 +22,24 @@
     <section id="homeView" class="view home-view">
       <div class="masthead">
         <div class="cat-crest" aria-hidden="true">
-          <svg viewBox="0 0 240 210" role="img" aria-label="Golden British Shorthair cat silhouette">
+          <svg viewBox="0 0 260 250" role="img" aria-label="Elegant golden British Shorthair silhouette">
             <defs>
-              <linearGradient id="catGold" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#fff0b0"/>
-                <stop offset="0.38" stop-color="#d8aa43"/>
-                <stop offset="0.72" stop-color="#a66d18"/>
-                <stop offset="1" stop-color="#f2d37b"/>
+              <linearGradient id="catGold" x1="0.08" y1="0" x2="0.92" y2="1">
+                <stop offset="0" stop-color="#fff1b7"/>
+                <stop offset="0.28" stop-color="#e2ba62"/>
+                <stop offset="0.58" stop-color="#b67b24"/>
+                <stop offset="0.82" stop-color="#d6a646"/>
+                <stop offset="1" stop-color="#8e5a12"/>
               </linearGradient>
+              <radialGradient id="catSheen" cx="38%" cy="18%" r="78%">
+                <stop offset="0" stop-color="#fff7d0" stop-opacity=".68"/>
+                <stop offset=".44" stop-color="#fff0b0" stop-opacity=".12"/>
+                <stop offset="1" stop-color="#6f430b" stop-opacity=".22"/>
+              </radialGradient>
             </defs>
-            <path class="cat-silhouette" fill="url(#catGold)" d="M42 82 25 28l51 25c13-8 28-12 44-12s31 4 44 12l51-25-17 54c10 15 15 33 15 52 0 30-17 51-42 64-14 7-31 11-51 11s-37-4-51-11c-25-13-42-34-42-64 0-19 5-37 15-52Zm46 27c-8 0-15 5-17 12 7-4 15-5 23-2 6 2 11 7 14 13-1-13-8-23-20-23Zm64 0c-12 0-19 10-20 23 3-6 8-11 14-13 8-3 16-2 23 2-2-7-9-12-17-12Zm-41 38c4 5 14 5 18 0-2-5-5-8-9-8s-7 3-9 8Zm-23 18c8 12 19 18 32 18s24-6 32-18c-11 7-21 10-32 10s-21-3-32-10Z"/>
+            <path class="cat-silhouette" fill="url(#catGold)" d="M130 18c-20 0-37 6-51 17L45 19c-7-3-14 3-12 11l12 48c-9 15-14 34-14 55 0 37 18 69 47 85-5 8-8 17-8 27h120c0-10-3-19-8-27 29-16 47-48 47-85 0-21-5-40-14-55l12-48c2-8-5-14-12-11l-34 16c-14-11-31-17-51-17Zm-52 51c14-13 31-20 52-20s38 7 52 20c13 13 20 31 20 52 0 25-9 45-27 60-13 11-28 16-45 16s-32-5-45-16c-18-15-27-35-27-60 0-21 7-39 20-52Z"/>
+            <path class="cat-silhouette" fill="url(#catGold)" d="M86 205c-15 9-25 23-27 40h142c-2-17-12-31-27-40-13 8-28 12-44 12s-31-4-44-12Z"/>
+            <path class="cat-silhouette cat-detail" fill="url(#catSheen)" d="M62 78 45 28l38 19c-9 8-16 18-21 31Zm136 0 17-50-38 19c9 8 16 18 21 31ZM90 101c10-8 22-10 35-4-7-11-18-17-31-16-11 1-21 7-26 17 7-2 14-1 22 3Zm80 0c-10-8-22-10-35-4 7-11 18-17 31-16 11 1 21 7 26 17-7-2-14-1-22 3Zm-64 55c7 8 15 12 24 12s17-4 24-12c-8 4-16 6-24 6s-16-2-24-6Z"/>
           </svg>
         </div>
         <p class="eyebrow">A Distinguished Test of Knowledge</p>
@@ -114,7 +122,7 @@
 
       <details class="how-to card compact-card">
         <summary>How scoring and reveals work</summary>
-        <p>Every question remains open for the full 20 seconds. A correct answer earns 100 points plus up to 50 speed-bonus points. During the reveal, the correct answer turns green and each player’s colored marker shows exactly what they chose.</p>
+        <p>Every question stays open for up to 20 seconds and reveals early once everyone has answered. A correct answer earns 100 points plus up to 50 speed-bonus points. During the reveal, the correct answer turns green and each player’s colored marker shows exactly what they chose.</p>
       </details>
     </section>
 
@@ -220,6 +228,17 @@
       </section>
     </section>
 
+
+    <section id="questionIntroView" class="view hidden question-intro-view" aria-live="polite">
+      <div class="question-intro-card">
+        <div class="intro-flourish" aria-hidden="true">✦</div>
+        <p id="introEyebrow" class="eyebrow">Next question</p>
+        <h1 id="introMessage">A fresh challenge is on its way.</h1>
+        <p id="introMeta" class="intro-meta">Question 2 · Geography</p>
+        <div class="intro-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </section>
+
     <section id="breakView" class="view hidden">
       <div class="result-wrap">
         <div class="ornament" aria-hidden="true">❦</div>
@@ -260,6 +279,6 @@
     </section>
   </div>
 
-  <script type="module" src="app.js?v=7"></script>
+  <script type="module" src="app.js?v=8"></script>
 </body>
 </html>
